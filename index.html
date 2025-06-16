@@ -1,276 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-
-
-
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projet CIR2</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha256-oE03O+I6Pzff4fiMqwEGHbdfcW7a3GRRxlL+U49L5sA=" crossorigin="anonymous"></script>
-    <script src="js/bouton.js" defer></script>
-    <script src="js/ajax.js" defer></script>
-    <script src="js/auth2.js" defer></script>
-    <script src="js/graphique.js" defer></script>
-    <script src="js/donnee_plonger.js" defer></script>
-    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-    <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigation AIS – Accueil</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
+<body class="d-flex flex-column min-vh-100">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="index.html">AIS&nbsp;App</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navAis">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navAis">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"><a class="nav-link" href="add_ship.html">Ajouter un navire</a></li>
+      <li class="nav-item"><a class="nav-link" href="dashboard.html">Tableau & Carte</a></li>
+    </ul>
+  </div>
+</nav>
 
+<header class="jumbotron text-center mt-3">
+  <img src="img/ship.jpg" class="img-fluid mb-3" style="max-height:300px" alt="Illustration navire">
+  <h1 class="display-4">Analyse AIS des navires</h1>
+  <p class="lead">Projet Big&nbsp;Data – 3A Ingénieur (IA & Web)</p>
+  <a href="dashboard.html" class="btn btn-primary btn-lg">Commencer &raquo;</a>
+</header>
 
-
-<body>
-        <div class="header text-white text-center p-3 shadow-sm">
-            <h5 class="toAccueil lienAccueil">Projet CIR3</h5>
-            <p class="toAccueil lienAccueil">Gauthier Gloanec - Armand Beharel</p>
-            <div class="login-icon position-absolute" style="top: 10px; right: 10px;">
-                
-                    <img src="img/account.png" alt="Account" class="toAccount account-icon">
-                
-            </div>
-        </div>
-
-
-
-        <section id="accueil" class="container"> 
-        <div class="content text-justify mt-2">
-            <h5>Bienvenue sur Notre Site de Calcul des Temps de Plongée et des Paliers de Décompression</br></h5>
-            <p>Plonger dans les profondeurs de l'océan est une aventure incroyable, mais la sécurité est primordiale. Notre site vous propose un outil indispensable pour calculer vos temps de plongée et gérer vos paliers de décompression.</br>
-                La plongée sous-marine vous offre l'opportunité de découvrir des récifs colorés, des épaves historiques et une faune marine exotique. Pour éviter les risques liés à l'absorption d'azote, il est essentiel de respecter les paliers de décompression lors de la remontée.</br>
-                
-            </p><h5>Notre Outil de Calcul</h5><p>
-                Temps de plongée précis : Entrez la profondeur et la durée de votre plongée.</br>
-                Planification des paliers : Obtenez les arrêts et leur durée nécessaires pour une remontée sécurisée.</br>
-                Personnalisation : Adaptez les calculs selon vos besoins et votre niveau de certification.</br>
-                Conseils personnalisés : Améliorez votre sécurité et votre expérience de plongée.</br>
-                
-                </p>
-        </div>
-
-        <div class="text-center mt-4 w-100">
-            <button type="button" class="toGraph btn btn-primary btn-lg w-50">Start</button>
-        </div>
-
-        <div class="content text-justify mt-2">
-            <h5>Rejoignez Notre Communauté</h5></br>
-            <p>
-                Inscrivez-vous pour utiliser notre outil et accéder à des ressources sur la sécurité et les meilleures pratiques en plongée. Explorez les profondeurs en toute confiance avec notre assistance et nos conseils.</br>
-                
-                Plongez, explorez, et découvrez le monde sous-marin en toute sécurité avec notre site !
-            </p>
-        </div>
-        </section>
-
-
-
-
-
-
-        <section id="connection" class="container hidden" >
-            <!-- Errors -->
-            <section id="errors" class="container alert alert-danger" style="display: none">
-            </section>
-            
-            <p id="connect-p" class="txt text-center display-2"><strong>Connection</strong></p>
-            <button id="deco" class="btn btn-danger" onclick="supprimerCookie()">Déconnexion</button>
-            <div id="auth2-add">
-            <form id="connection_form">
-                <div class="row-md-auto">                
-                    <div class="input-group mb-3">
-                        <input type="text" id="email-con" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon2">
-                        <span class="input-group-text" id="basic-addon2">@isen-ouest.yncrea.fr</span> 
-                    </div>                  
-                </div>
-                <div class="row-md-auto">
-                    <div class="input-group mb-3">
-                        <input id="password-con" type="password" class="form-control" placeholder="Mot de passe" aria-label="Email" aria-describedby="basic-addon2">
-                    </div>                
-                </div>
-                <div class="row justify-content-center">
-                    <button type="submit" id="connect_submit" class="btn-primary btn-lg w-50">Connection</button>
-                </div>
-                
-                    
-            </form>
-            </div>
-        </section>
-
-
-
-
-
-
-        <section id="Graph" class="container hidden">
-            <div class="container text-center">
-                <div class="container text-center">
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <div class="p-3">
-                                Temps : <input type="text" id="temps" class="input-group" placeholder="En minutes">
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="p-3">
-                                Profondeur : <input type="text" id="profondeur" class="input-group" placeholder="En mètres">
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="p-3">
-                                <div class="col card">Tableau</div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="p-3">
-                                <div class="col card">Graphique
-                                    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button type="button" id="Submit_graph" class="btn-secondary w-50">Submit</button>
-            <button type="button" class="toParametre btn-secondary w-50">Parametre</button>
-            <button type="button" class="toTabBDD btn-secondary w-50">Recherche Table</button>
-        </section>
-        
-
-
-
-
-        <section id="parametre" class="container hidden" >
-            <div class="espace"></div>
-            <form id="param_form">
-                <div class="row-md-auto">                
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Vitesse descente</span> 
-                        <input type="number" class="form-control" id="vitesseM-param" placeholder="en metres par minute" aria-label="Vitesse_descente" aria-describedby="basic-addon2">
-                    </div>                  
-                </div>
-                <div class="row-md-auto">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Vitesse remonté</span> 
-                        <input type="number" class="form-control" id="vitesseD-param" placeholder="en metres par minute" aria-label="Vitesse_remonte" aria-describedby="basic-addon2">
-                    </div>                
-                </div>
-                <div class="row-md-auto">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Consomation</span> 
-                        <input type="number" class="form-control" id="conso-param" placeholder="en litres par minute" aria-label="Consomation" aria-describedby="basic-addon2">
-                    </div>                
-                </div>
-                <div class="row-md-auto">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Pression bouteille</span> 
-                        <input type="number" class="form-control" id="pression-param" placeholder="en bar" aria-label="Pression_bouteille" aria-describedby="basic-addon2">
-                    </div>                
-                </div>
-                <div class="row-md-auto">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Capacité bouteille</span> 
-                        <input type="number" class="form-control" id="Capacité-param" placeholder="en litres" aria-label="Capacite_bouteille" aria-describedby="basic-addon2">
-                    </div>                
-                </div>
-
-                </div>
-                <div class="row justify-content-center">
-                    <button type="button" class="toAjout btn btn-secondary btn-lg">Ajout de donnée</button><div class="espace2"></div><button type="submit" id="param_submit" class="btn-primary btn-lg w-50">Submit</button><div class="espace2"></div><button type="button" class="toTabBDD btn btn-secondary btn-lg">Recherche de table</button>
-                </div>
-                
-                    
-            </form>
-
-
-        </section>
-
-
-
-
-
-
-
-
-        <section id="Ajout" class="container hidden">
-            <div class="espace"></div>
-            <div id="plonger-add">
-            <form id="plonger_form">
-                <div class="row-md-auto">                
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Profondeur</span> 
-                        <input type="number" class="form-control" id="profondeur-aj" placeholder="en m" aria-label="profondeur" aria-describedby="basic-addon2">
-                    </div>                  
-                </div>
-                <div class="row-md-auto">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Durée</span> 
-                        <input type="number" class="form-control" id="duree-aj" placeholder="en min" aria-label="duree" aria-describedby="basic-addon2">
-                    </div>                
-                </div>
-                <div class="row-md-auto">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Palier 3m</span> 
-                        <input type="number" class="form-control" id="3-aj" placeholder="en min" aria-label="p1" aria-describedby="basic-addon2">
-                    </div>                
-                </div>
-                <div class="row-md-auto">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Palier 6m</span> 
-                        <input type="number" class="form-control" id="6-aj" placeholder="en min" aria-label="p2" aria-describedby="basic-addon2">
-                    </div>                
-                </div>
-                <div class="row-md-auto">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Palier 9m</span> 
-                        <input type="number" class="form-control" id="9-aj" placeholder="en min" aria-label="p3" aria-describedby="basic-addon2">
-                    </div>                
-                </div>
-                <div class="row-md-auto">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Palier 12m</span> 
-                        <input type="number" class="form-control" id="12-aj" placeholder="en min" aria-label="p4" aria-describedby="basic-addon2">
-                    </div>                
-                </div>
-                <div class="row-md-auto">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Palier 15m</span> 
-                        <input type="number" class="form-control" id="15-aj" placeholder="en min" aria-label="p5" aria-describedby="basic-addon2">
-                    </div>
-
-                </div>
-                <div class="row justify-content-center">
-                    <button type="submit" id="plonger_submit" class="btn-primary btn-lg w-50">Submit</button><div class="espace"></div><button type="button" class="toParametre btn btn-secondary btn-lg">Parametre</button>
-                </div>
-                
-                    
-            </form>
-            </div>
-        </section>
-
-
-
-        <section id="TabBDD" class="container hidden">
-            <form id="tab_form">
-                <div class="row-md-auto">                
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon2">Profondeur</span> 
-                        <input type="number" class="form-control" id="profondeur-tab" placeholder="en metres par minute" aria-label="Vitesse_descente" aria-describedby="basic-addon2">
-                        <div class="espace2"></div>
-                        <span class="input-group-text" id="basic-addon2">Temps</span> 
-                        <input type="number" class="form-control" id="temps-tab" placeholder="en metres par minute" aria-label="Vitesse_remonte" aria-describedby="basic-addon2">
-                    </div>                
-                </div>
-                
-
-                </div>
-                <div class="row justify-content-center">
-                   <button type="submit" id="tab_submit" class="btn-primary btn-lg w-50">Start</button>
-                </div>
-                
-                    
-            </form>
-        </section>
-
+<footer class="mt-auto bg-light text-center p-3 small">© 2025</footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
