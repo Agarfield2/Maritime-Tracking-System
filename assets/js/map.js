@@ -60,8 +60,16 @@ function renderShips(){
     document.querySelectorAll('#shipsTable tr').forEach(r=>r.classList.remove('table-primary'));
     tr.classList.add('table-primary');
     loadPositions(selectedShipId);
-    const bt=document.getElementById('btnType'); if(bt) bt.disabled=false;
-    const br=document.getElementById('btnRoute'); if(br) br.disabled=false;
+    const bt=document.getElementById('btnType');
+    const br=document.getElementById('btnRoute');
+    if(bt){
+      bt.classList.remove('disabled');
+      bt.href=`predict.html?mode=type&id=${selectedShipId}`;
+    }
+    if(br){
+      br.classList.remove('disabled');
+      br.href=`predict.html?mode=route&id=${selectedShipId}`;
+    }
   }));
   buildPagination(totalPages);
 }
