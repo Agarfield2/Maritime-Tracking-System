@@ -36,8 +36,10 @@
   </header>
 
   <main class="container-fluid py-4 flex-grow-1">
+    <!-- Flex wrapper to align table and map side-by-side -->
 
- <div class="col-md-4 position-relative">
+     <div class="d-flex flex-row flex-wrap w-100">
+      <div class="col-md-4 position-relative">
   <input type="text" id="shipSearch" class="form-control form-control-sm mb-2" autocomplete="off" placeholder="Rechercher nom ou MMSI...">
   <div id="searchSuggestions" class="list-group position-absolute w-100" style="z-index:1000"></div>
   <table class="table table-sm" id="shipsTable"></table>
@@ -49,8 +51,8 @@
  </div>
  <div class="col-md-8">
    <div id="map" style="height:600px"></div>
- </div>
-</div>
+       </div><!-- /.col-md-8 map wrapper -->
+    </div><!-- /.flex wrapper -->
   </main>
 
   <footer class="mt-auto bg-dark text-white shadow" style="border-radius: 20px; margin: 40px 20px 20px 20px;">
