@@ -19,9 +19,9 @@ except ImportError as e:
 ID = int(sys.argv[1])
 DB_CONF = {
     "host": os.getenv("AIS_DB_HOST", "localhost"),
-    "user": os.getenv("AIS_DB_USER", "root"),
-    "password": os.getenv("AIS_DB_PASS", ""),
-    "database": os.getenv("AIS_DB_NAME", "navires"),
+    "user": os.getenv("AIS_DB_USER", "bateau"),
+    "password": os.getenv("AIS_DB_PASS", "123456mdp"),
+    "database": os.getenv("AIS_DB_NAME", "marine_db"),
 }
 
 try:
@@ -30,7 +30,7 @@ except mc.Error as err:
     print(json.dumps({"error": str(err)}))
     sys.exit(1)
 
-sql = "SELECT BaseDateTime, LAT, LON, SOG, COG FROM position p JOIN possede po ON p.id_position=po.id_position WHERE po.id_bateau=%s ORDER BY BaseDateTime DESC LIMIT 2"
+sql = "SELECT BaseDateTime, LAT, LON, SOG, COG FROM position_AIS p JOIN possede po ON p.id_position=po.id_position WHERE po.id_bateau=%s ORDER BY BaseDateTime DESC LIMIT 2"
 track = pd.read_sql(sql, conn, params=[ID])
 
 if len(track) < 2:

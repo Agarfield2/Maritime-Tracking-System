@@ -19,9 +19,9 @@ except ImportError as e:
 ID = int(sys.argv[1])
 DB_CONF = {
     "host": os.getenv("AIS_DB_HOST", "localhost"),
-    "user": os.getenv("AIS_DB_USER", "root"),
-    "password": os.getenv("AIS_DB_PASS", ""),
-    "database": os.getenv("AIS_DB_NAME", "navires"),
+    "user": os.getenv("AIS_DB_USER", "bateau"),
+    "password": os.getenv("AIS_DB_PASS", "123456mdp"),
+    "database": os.getenv("AIS_DB_NAME", "marine_db"),
 }
 
 try:

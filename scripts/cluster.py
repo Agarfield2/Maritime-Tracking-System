@@ -18,9 +18,9 @@ except ImportError as e:
 
 DB_CONF = {
     "host": os.getenv("AIS_DB_HOST", "localhost"),
-    "user": os.getenv("AIS_DB_USER", "root"),
-    "password": os.getenv("AIS_DB_PASS", ""),
-    "database": os.getenv("AIS_DB_NAME", "navires"),
+    "user": os.getenv("AIS_DB_USER", "bateau"),
+    "password": os.getenv("AIS_DB_PASS", "123456mdp"),
+    "database": os.getenv("AIS_DB_NAME", "marine_db"),
 }
 
 try:
@@ -33,7 +33,7 @@ query = (
     "SELECT b.id_bateau, AVG(p.LAT) AS lat, AVG(p.LON) AS lon "
     "FROM bateau b "
     "JOIN possede po ON b.id_bateau = po.id_bateau "
-    "JOIN position p ON p.id_position = po.id_position "
+    "JOIN position_AIS p ON p.id_position = po.id_position "
     "GROUP BY b.id_bateau"
 )
 
