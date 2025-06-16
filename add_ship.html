@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajouter un navire</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body class="container py-4">
+<h1 class="mb-4">Ajout d'un navire</h1>
+<form id="shipForm">
+ <div class="form-row">
+   <div class="form-group col-md-4"><label>MMSI</label><input name="MMSI" class="form-control" required></div>
+   <div class="form-group col-md-4"><label>IMO</label><input name="IMO" class="form-control"></div>
+   <div class="form-group col-md-4"><label>CallSign</label><input name="CallSign" class="form-control"></div>
+ </div>
+ <div class="form-row">
+   <div class="form-group col-md-6"><label>Nom</label><input name="VesselName" class="form-control"></div>
+   <div class="form-group col-md-2"><label>Type</label><input type="number" name="VesselType" class="form-control"></div>
+   <div class="form-group col-md-2"><label>Longueur (m)</label><input type="number" step="0.1" name="Length" class="form-control"></div>
+   <div class="form-group col-md-2"><label>Largeur (m)</label><input type="number" step="0.1" name="Width" class="form-control"></div>
+ </div>
+ <div class="form-row">
+   <div class="form-group col-md-2"><label>Draft</label><input type="number" step="0.1" name="Draft" class="form-control"></div>
+   <div class="form-group col-md-4"><label>Cargo</label><input name="Cargo" class="form-control"></div>
+   <div class="form-group col-md-2"><label>Classe Tx</label><input name="TransceiverClass" class="form-control"></div>
+ </div>
+ <button class="btn btn-primary">Enregistrer</button>
+ <a href="home.html" class="btn btn-secondary ml-2">Retour</a>
+</form>
+<script src="assets/js/ships.js"></script>
+</body>
+</html>
