@@ -11,20 +11,20 @@
 <h1 class="mb-4">Ajout d'un navire</h1>
 <form id="shipForm">
  <div class="form-row">
-   <div class="form-group col-md-4"><label>MMSI</label><input name="MMSI" class="form-control" required></div>
-   <div class="form-group col-md-4"><label>IMO</label><input name="IMO" class="form-control"></div>
-   <div class="form-group col-md-4"><label>CallSign</label><input name="CallSign" class="form-control"></div>
+   <div class="form-group col-md-4"><label>MMSI</label><input name="MMSI" class="form-control" placeholder="123456789" required></div>
+   <div class="form-group col-md-4"><label>IMO</label><input name="IMO" class="form-control" placeholder="9876543"></div>
+   <div class="form-group col-md-4"><label>CallSign</label><input name="CallSign" class="form-control" placeholder="FXYZ"></div>
  </div>
  <div class="form-row">
-   <div class="form-group col-md-6"><label>Nom</label><input name="VesselName" class="form-control"></div>
-   <div class="form-group col-md-2"><label>Type</label><input type="number" name="VesselType" class="form-control"></div>
-   <div class="form-group col-md-2"><label>Longueur (m)</label><input type="number" step="0.1" name="Length" class="form-control"></div>
-   <div class="form-group col-md-2"><label>Largeur (m)</label><input type="number" step="0.1" name="Width" class="form-control"></div>
+   <div class="form-group col-md-6"><label>Nom</label><input name="VesselName" class="form-control" placeholder="Nom du navire"></div>
+   <div class="form-group col-md-2"><label>VesselType</label><input type="number" name="VesselType" class="form-control" placeholder="Code IMO"></div>
+   <div class="form-group col-md-2"><label>Longueur (m)</label><input type="number" step="0.1" name="Length" class="form-control" placeholder="300"></div>
+   <div class="form-group col-md-2"><label>Largeur (m)</label><input type="number" step="0.1" name="Width" class="form-control" placeholder="48"></div>
  </div>
  <div class="form-row">
-   <div class="form-group col-md-2"><label>Draft</label><input type="number" step="0.1" name="Draft" class="form-control"></div>
-   <div class="form-group col-md-4"><label>Cargo</label><input name="Cargo" class="form-control"></div>
-   <div class="form-group col-md-2"><label>TransceiverClass</label><input name="TransceiverClass" class="form-control"></div>
+   <div class="form-group col-md-2"><label>Draft</label><input type="number" step="0.1" name="Draft" class="form-control" placeholder="12.5"></div>
+   <div class="form-group col-md-4"><label>Cargo</label><input name="Cargo" class="form-control" placeholder="Type de cargaison"></div>
+   <div class="form-group col-md-2"><label>TransceiverClass</label><input name="TransceiverClass" class="form-control" placeholder="A ou B"></div>
  </div>
  <button class="btn btn-primary">Enregistrer</button>
  <a href="index.html" class="btn btn-secondary ml-2">Retour</a>
@@ -34,19 +34,19 @@
 <form id="posForm">
   <div class="form-group">
     <label for="shipName">Navire (VesselName)</label>
-    <input list="ships" id="shipName" class="form-control" required />
+    <input list="ships" id="shipName" class="form-control" placeholder="Choisir un navire" required />
     <datalist id="ships"></datalist>
   </div>
   <div class="form-row">
-    <div class="form-group col-md-6"><label>Horodatage</label><input type="datetime-local" id="dt" class="form-control" required></div>
-    <div class="form-group col-md-3"><label>LAT</label><input type="number" step="0.00001" id="lat" class="form-control" required></div>
-    <div class="form-group col-md-3"><label>LON</label><input type="number" step="0.00001" id="lon" class="form-control" required></div>
+    <div class="form-group col-md-6"><label>Horodatage</label><input type="datetime-local" id="dt" class="form-control" placeholder="YYYY-MM-DDThh:mm" required></div>
+    <div class="form-group col-md-3"><label>LAT</label><input type="number" step="0.00001" id="lat" class="form-control" placeholder="Latitude" required></div>
+    <div class="form-group col-md-3"><label>LON</label><input type="number" step="0.00001" id="lon" class="form-control" placeholder="Longitude" required></div>
   </div>
   <div class="form-row">
-    <div class="form-group col-md-2"><label>SOG</label><input type="number" step="0.1" id="sog" class="form-control" required></div>
-    <div class="form-group col-md-2"><label>COG</label><input type="number" step="0.1" id="cog" class="form-control" required></div>
-    <div class="form-group col-md-2"><label>Heading</label><input type="number" step="0.1" id="heading" class="form-control" required></div>
-    <div class="form-group col-md-2"><label>Status (0-15)</label><input type="number" id="status" class="form-control" value="0"></div>
+    <div class="form-group col-md-2"><label>SOG</label><input type="number" step="0.1" id="sog" class="form-control" placeholder="Vitesse (kn)" required></div>
+    <div class="form-group col-md-2"><label>COG</label><input type="number" step="0.1" id="cog" class="form-control" placeholder="Cap (°)" required></div>
+    <div class="form-group col-md-2"><label>Heading</label><input type="number" step="0.1" id="heading" class="form-control" placeholder="Heading (°)" required></div>
+    <div class="form-group col-md-2"><label>Status (0-15)</label><input type="number" id="status" class="form-control" placeholder="0" value="0"></div>
   </div>
   <button class="btn btn-success">Enregistrer la position</button>
 </form>
