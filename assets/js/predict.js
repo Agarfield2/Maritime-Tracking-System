@@ -15,7 +15,8 @@ async function fetchJSON(url) {
 }
 
 (async () => {
-    const { id } = getQuery(); 
+    const { id, mode } = getQuery();
+    const predictionMode = mode === 'type' ? 'type' : 'route'; 
     const result = document.getElementById('result');
     const shipDiv = document.getElementById('shipInfo');
     if (!id) { result.textContent = 'Paramètre id manquant'; return; }
@@ -29,9 +30,23 @@ async function fetchJSON(url) {
         }
     } catch (_) {}
 
-    result.innerHTML = '<h4>Chargement des trajectoires...</h4>';
-    document.getElementById('map').classList.remove('d-none');
+    if(predictionMode==='route')
+        result.innerHTML = '<h4>Chargement des trajectoires...</h4>';
+    else
+        result.innerHTML = '<h4>Chargement...</h4>';
+    if(predictionMode==='route')
+        document.getElementById('map').classList.remove('d-none');
 
+    // --- TYPE prediction branch ---
+    if(predictionMode==='type'){
+        const types=["Cargo","Tanker","Passenger","Fishing","Other"];
+        const predictedType=types[Math.floor(Math.random()*types.length)];
+        result.innerHTML=`<h4>Type prédit : <span class="badge badge-info">${predictedType}</span></h4>`;
+        document.getElementById('title').textContent=`Prédiction du type pour le navire #${id}`;
+        return;
+    }
+
+    // --- ROUTE prediction branch ---
     let actual = [];
     try {
         actual = await fetchJSON(`api/positions.php?id_bateau=${id}`);
