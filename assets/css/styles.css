@@ -1,3 +1,95 @@
 body { font-family: Arial, Helvetica, sans-serif; }
 #shipsTable tbody tr { cursor:pointer; }
 .table-primary { background-color: #bee5eb !important; }
+
+/* --- HEADER & FOOTER --- */
+header.jumbotron {
+  border-radius: 24px;
+  margin: 20px 20px 0 20px;
+  background: none;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  position: relative;
+  overflow: hidden;
+}
+.header-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  z-index: 0;
+  pointer-events: none;
+}
+header.jumbotron {
+  background: pink;
+}
+header.jumbotron > .container,
+header.jumbotron > *:not(.header-bg-img) {
+  position: relative;
+  z-index: 1;
+  background: none;
+}
+.project-description {
+  text-align: left;
+  margin: auto;
+  max-width: 700px;
+  padding: 20px 24px;
+  margin-bottom: 18px;
+  box-shadow: none;
+}
+footer.shadow {
+  border-radius: 20px;
+  margin: 40px 20px 20px 20px;
+  background: #222;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+
+/* --- NAVBAR --- */
+.navbar.shadow {
+  border-radius: 20px;
+  margin: 20px 20px 0 20px;
+  background: linear-gradient(90deg, #232526 0%, #414345 100%);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+}
+.navbar .navbar-brand img {
+  transition: transform 0.2s;
+}
+.navbar .navbar-brand img:hover {
+  transform: scale(1.08) rotate(-3deg);
+}
+.navbar .navbar-brand span {
+  font-size: 1.35rem;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+.navbar-nav .nav-link {
+  color: #e0eafc !important;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  margin: 0 4px;
+  transition: background 0.2s, color 0.2s;
+}
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+  background: linear-gradient(90deg, #bee5eb 0%, #cfdef3 100%);
+  color: #222 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* --- Responsive Navbar --- */
+@media (max-width: 991.98px) {
+  .navbar.shadow {
+    border-radius: 0 0 20px 20px;
+    margin: 0;
+  }
+  header.jumbotron {
+    border-radius: 0 0 24px 24px;
+    margin: 0;
+  }
+  footer.shadow {
+    border-radius: 20px 20px 0 0;
+    margin: 20px 0 0 0;
+  }
+}

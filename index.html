@@ -10,8 +10,11 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="index.html">AIS&nbsp;App</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow" style="border-radius: 20px; margin: 20px 20px 0 20px;">
+    <a class="navbar-brand d-flex align-items-center" href="index.html" style="gap:10px;">
+  <img src="assets/img/cargo.png" alt="Logo AIS" style="height:40px;width:auto;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);background:#fff;padding:2px;">
+  <span style="font-weight:bold;letter-spacing:1px;">AIS&nbsp;App</span>
+</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAis">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -26,11 +29,36 @@
   </nav>
 
   <!-- Hero / Jumbotron -->
-  <header class="jumbotron text-center mb-0">
+  <header class="jumbotron text-center mb-0 shadow" style="border-radius: 24px; margin: 20px 20px 0 20px; background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); position: relative; overflow: hidden;">
+    <img src="assets/img/image.jpg" alt="Fond décoratif" class="header-bg-img">
     <div class="container">
       <h1 class="display-4">Analyse et Modélisation de Navigation AIS</h1>
-      <p class="lead">Projet Big&nbsp;Data &amp; Intelligence Artificielle – 3<sup>e</sup> année Ingénieur</p>
-      <p>Visualisez, enrichissez et prédisez les comportements de navires grâce à notre plateforme web intégrant MySQL, PHP, Mapbox, Plotly et des scripts Python d'IA.</p>
+<p class="lead">Projet Big&nbsp;Data &amp; Intelligence Artificielle – 3<sup>e</sup> année Ingénieur</p>
+<div class="project-description text-left mx-auto" style="max-width: 700px; background: rgba(255,255,255,0.95); border-radius: 16px; padding: 20px 24px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+  <h2 style="font-size:1.3rem; font-weight:bold; margin-bottom:10px;">🌊 Objectif du projet</h2>
+  <p style="margin-bottom:10px;">L'application a pour but de :</p>
+  <ul style="margin-bottom:18px;">
+    <li>Visualiser en temps réel et de manière interactive les données de navigation issues d'une base de données,</li>
+    <li>Ajouter de nouveaux points de données relatifs à des navires,</li>
+    <li>Prédire les clusters comportementaux des bateaux,</li>
+    <li>Estimer le type ou la trajectoire probable d’un navire à l’aide d’algorithmes d’IA.</li>
+  </ul>
+  <h3 style="font-size:1.15rem; font-weight:bold; margin-bottom:8px;">⚙️ Fonctionnalités principales</h3>
+  <ul style="margin-bottom:18px;">
+    <li><b>Accueil</b> : présentation du projet et navigation simple.</li>
+    <li><b>Ajout de données</b> : formulaire d’entrée pour enrichir la base de données.</li>
+    <li><b>Visualisation</b> : tableau de données et carte interactive avec Plotly/Mapbox.</li>
+    <li><b>Prédictions IA</b> : affichage dynamique des résultats de classification via des scripts Python intégrés.</li>
+  </ul>
+  <h3 style="font-size:1.15rem; font-weight:bold; margin-bottom:8px;">🛠 Technologies utilisées</h3>
+  <ul style="margin-bottom:18px;">
+    <li><b>Front-end</b> : HTML, CSS, JavaScript (+ Plotly & Mapbox)</li>
+    <li><b>Back-end</b> : PHP, MySQL, AJAX</li>
+    <li><b>IA/Big Data</b> : Scripts Python pour les prédictions (clustering, classification)</li>
+  </ul>
+  <h3 style="font-size:1.15rem; font-weight:bold; margin-bottom:8px;">🚀 Une interface intuitive et évolutive</h3>
+  <p>Notre site est conçu pour être ergonomique, lisible et évolutif, avec une architecture claire, facilitant les mises à jour et l’ajout futur de nouvelles fonctionnalités.</p>
+</div>
       <a href="dashboard.html" class="btn btn-primary btn-lg mr-2">Tableau &raquo;</a>
       <a href="clusters.html" class="btn btn-info btn-lg mr-2">Clusters &raquo;</a>
       <a href="predict.html" class="btn btn-success btn-lg">Prédictions &raquo;</a>
@@ -70,7 +98,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="mt-auto bg-dark text-white text-center p-3 small">
+  <footer class="mt-auto bg-dark text-white text-center p-3 small shadow" style="border-radius: 20px; margin: 40px 20px 20px 20px;">
     © 2025 – AIS Navigation Project
   </footer>
 
