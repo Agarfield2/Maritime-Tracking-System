@@ -24,11 +24,62 @@
  <div class="form-row">
    <div class="form-group col-md-2"><label>Draft</label><input type="number" step="0.1" name="Draft" class="form-control"></div>
    <div class="form-group col-md-4"><label>Cargo</label><input name="Cargo" class="form-control"></div>
-   <div class="form-group col-md-2"><label>Classe Tx</label><input name="TransceiverClass" class="form-control"></div>
+   <div class="form-group col-md-2"><label>TransceiverClass</label><input name="TransceiverClass" class="form-control"></div>
  </div>
  <button class="btn btn-primary">Enregistrer</button>
  <a href="index.html" class="btn btn-secondary ml-2">Retour</a>
 </form>
+<hr class="my-5">
+<h2 class="mb-3">Ajouter une position AIS</h2>
+<form id="posForm">
+  <div class="form-group">
+    <label for="shipName">Navire (VesselName)</label>
+    <input list="ships" id="shipName" class="form-control" required />
+    <datalist id="ships"></datalist>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6"><label>Horodatage</label><input type="datetime-local" id="dt" class="form-control" required></div>
+    <div class="form-group col-md-3"><label>LAT</label><input type="number" step="0.00001" id="lat" class="form-control" required></div>
+    <div class="form-group col-md-3"><label>LON</label><input type="number" step="0.00001" id="lon" class="form-control" required></div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-2"><label>SOG</label><input type="number" step="0.1" id="sog" class="form-control" required></div>
+    <div class="form-group col-md-2"><label>COG</label><input type="number" step="0.1" id="cog" class="form-control" required></div>
+    <div class="form-group col-md-2"><label>Heading</label><input type="number" step="0.1" id="heading" class="form-control" required></div>
+    <div class="form-group col-md-2"><label>Status (0-15)</label><input type="number" id="status" class="form-control" value="0"></div>
+  </div>
+  <button class="btn btn-success">Enregistrer la position</button>
+</form>
+<div id="msg" class="mt-3"></div>
 <script src="assets/js/ships.js"></script>
+<script>
+// Autocomplétion des navires pour le formulaire position
+fetch('api/ship_names.php').then(r=>r.json()).then(list=>{
+  const dl=document.getElementById('ships');
+  list.forEach(s=>{const opt=document.createElement('option');opt.value=s.name;opt.dataset.id=s.id;dl.appendChild(opt);});
+});
+// Soumission formulaire position
+const posForm=document.getElementById('posForm');
+posForm.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const name=document.getElementById('shipName').value.trim();
+  const opt=[...document.querySelectorAll('#ships option')].find(o=>o.value===name);
+  if(!opt){alert('Navire inconnu');return;}
+  const payload={
+    id_bateau: opt.dataset.id,
+    BaseDateTime: document.getElementById('dt').value,
+    LAT: parseFloat(document.getElementById('lat').value),
+    LON: parseFloat(document.getElementById('lon').value),
+    SOG: parseFloat(document.getElementById('sog').value),
+    COG: parseFloat(document.getElementById('cog').value),
+    Heading: parseFloat(document.getElementById('heading').value),
+    Status: parseInt(document.getElementById('status').value)||0
+  };
+  const res=await fetch('api/add_position.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  const json=await res.json();
+  if(res.ok){document.getElementById('msg').innerHTML='<div class="alert alert-success">Position ajoutée (id '+json.id_position+')</div>';posForm.reset();}
+  else{document.getElementById('msg').innerHTML='<div class="alert alert-danger">Erreur: '+json.error+'</div>';}
+});
+</script>
 </body>
 </html>
