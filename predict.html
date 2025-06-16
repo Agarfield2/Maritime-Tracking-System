@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prédiction navire</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css' rel='stylesheet' />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>#map{height:60vh}</style>
+</head>
+<body class="container py-3">
+  <h1 id="title" class="mb-4"></h1>
+  <div id="shipInfo" class="alert alert-secondary small mb-2"></div>
+  <div id="result" class="mb-4"></div>
+  <div id="map" class="mb-4 d-none"></div>
+  <a href="dashboard.html" class="btn btn-secondary">Retour au tableau</a>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js'></script>
+  <script src="assets/js/predict.js"></script>
+</body>
+</html>
