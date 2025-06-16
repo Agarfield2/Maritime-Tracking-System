@@ -2,9 +2,9 @@
 // Database connection using PDO
 
 $host = 'localhost';       // <-- adapte si ton MySQL n\'est pas local
-$db   = 'navires';         // nom de la base définie via ton script SQL
-$user = 'root';            // utilisateur MySQL
-$pass = '';                // mot de passe MySQL
+$db   = 'marine_db';         // nom de la base définie via ton script SQL
+$user = 'bateau';            // utilisateur MySQL
+$pass = '123456mdp';                // mot de passe MySQL
 $charset = 'utf8mb4';
 
 $options = [

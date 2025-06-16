@@ -13,7 +13,7 @@ if ($method !== 'GET') {
 // possibilité de filtrer par id_bateau passé en query ?id_bateau=xx
 $id_bateau = isset($_GET['id_bateau']) ? (int) $_GET['id_bateau'] : null;
 
-$sql = 'SELECT p.* FROM position p JOIN possede po ON p.id_position = po.id_position';
+$sql = 'SELECT p.* FROM position_AIS p JOIN possede po ON p.id_position = po.id_position';
 $params = [];
 if ($id_bateau) {
     $sql .= ' WHERE po.id_bateau = ?';

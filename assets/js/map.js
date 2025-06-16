@@ -1,6 +1,6 @@
 // map.js: dashboard interactions (table + Mapbox)
 
-mapboxgl.accessToken = 'YOUR_MAPBOX_TOKEN'; // <-- Remplace par ton token
+mapboxgl.accessToken = 'pk.eyJ1IjoiYWdhcmZpZWxkIiwiYSI6ImNtYnl4aXplMzAzY2Yya3NmcDRmNWV5OHcifQ.sPwU0gRwpupXyXkDIVvoRQ';
 
 let selectedShipId = null;
 
