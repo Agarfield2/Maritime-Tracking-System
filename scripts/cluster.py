@@ -48,4 +48,4 @@ k = min(4, len(boats))
 km = KMeans(n_clusters=k, random_state=0).fit(boats[["lat", "lon"]])
 boats["cluster"] = km.labels_
 
-print(boats[["id_bateau", "cluster"]].to_json(orient="records"))
+print(boats[["id_bateau", "lat", "lon", "cluster"]].to_json(orient="records"))

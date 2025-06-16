@@ -65,21 +65,18 @@ async function loadPositions(id) {
 
 // Boutons prédictions
 
-document.getElementById('btnCluster').addEventListener('click', async () => {
-  const data = await fetchJSON('api/predict_cluster.php');
-  console.log('clusters', data);
-  alert('Clusters calculés (console)');
+document.getElementById('btnCluster').addEventListener('click', () => {
+  window.location.href = 'clusters.html';
 });
 
-document.getElementById('btnType').addEventListener('click', async () => {
-  const data = await fetchJSON('api/predict_type.php?id_bateau=' + selectedShipId);
-  alert('Type prédit: ' + JSON.stringify(data));
+document.getElementById('btnType').addEventListener('click', () => {
+  if (!selectedShipId) return;
+  window.location.href = 'predict.html?mode=type&id=' + selectedShipId;
 });
 
-document.getElementById('btnRoute').addEventListener('click', async () => {
-  const data = await fetchJSON('api/predict_route.php?id_bateau=' + selectedShipId);
-  alert('Trajectoire prédite (voir console)');
-  console.log(data);
+document.getElementById('btnRoute').addEventListener('click', () => {
+  if (!selectedShipId) return;
+  window.location.href = 'predict.html?mode=route&id=' + selectedShipId;
 });
 
 loadShips();
