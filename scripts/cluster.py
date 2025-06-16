@@ -18,7 +18,7 @@ import site
 # Ajout du site-packages utilisateur « arman » pour Apache
 site.addsitedir(r"C:\\Users\\arman\\AppData\\Roaming\\Python\\Python312\\site-packages")
 try:
-    import joblib
+    import joblib 
 except ModuleNotFoundError:
     import site, os as _os, sys as _sys
     user_home = _os.path.expanduser('~')

@@ -15,7 +15,7 @@ async function fetchJSON(url) {
 }
 
 (async () => {
-    const { id } = getQuery();
+    const { id } = getQuery(); 
     const result = document.getElementById('result');
     const shipDiv = document.getElementById('shipInfo');
     if (!id) { result.textContent = 'Paramètre id manquant'; return; }
