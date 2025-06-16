@@ -3,7 +3,9 @@ require_once __DIR__ . '/db.php';
 header('Content-Type: application/json');
 
 // On appelle le script Python qui renvoie un JSON des clusters
-$cmd = 'python "' . __DIR__ . '/../scripts/cluster.py"';
+$python = 'C:\\Users\\arman\\AppData\\Local\\Programs\\Python\\Python312\\python.exe'; // chemin vers python avec mysql-connector
+$script = __DIR__ . '/../scripts/cluster.py';
+$cmd = '"' . $python . '" "' . $script . '" 2>&1';
 exec($cmd, $output, $code);
 
 if ($code !== 0) {
@@ -12,6 +14,7 @@ if ($code !== 0) {
     exit;
 }
 
-// Le script renvoie son résultat en une ligne JSON
-echo $output[0] ?? '[]';
+// Concatène toutes les lignes de sortie du script (JSON potentiel très long)
+$json = implode("", $output);
+echo $json !== '' ? $json : '[]';
 ?>
