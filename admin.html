@@ -14,6 +14,30 @@
   </style>
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow" style="border-radius: 20px; margin: 20px 20px 0 20px;">
+    <a class="navbar-brand d-flex align-items-center" href="index.html" style="gap:10px;">
+      <img src="assets/img/cargo.png" alt="Logo AIS" style="height:40px;width:auto;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);background:#fff;padding:2px;">
+      <span style="font-weight:bold;letter-spacing:1px;">AIS&nbsp;App</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAis">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarAis">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="add_ship.html">Ajouter un navire</a></li>
+        <li class="nav-item"><a class="nav-link" href="dashboard.html">Tableau &amp; Carte</a></li>
+        <li class="nav-item"><a class="nav-link" href="clusters.html">Clusters</a></li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="login.html" title="Connexion admin">
+            <img src="assets/img/connexion.png" alt="Connexion" style="height:32px;width:auto;vertical-align:middle;">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
   <div class="admin-container">
     <h2 class="mb-4">Tableau d'administration des données</h2>
     <h3 class="mb-4">Ajouter un navire</h3>
@@ -94,182 +118,10 @@
     </nav>
     <a href="index.html" class="btn btn-secondary ml-2">Retour à l'accueil</a>
   </div>
-  <script>
-    let allBateaux = [];
-    let filteredBateaux = [];
-
-    async function chargerBateaux() {
-      const res = await fetch('api/boats.php');
-      allBateaux = await res.json();
-      filteredBateaux = allBateaux;
-      afficherBateaux();
-    }
-
-    let currentPage = 1;
-    const rowsPerPage = 10;
-
-    function afficherBateaux() {
-      const total = filteredBateaux.length;
-      const start = (currentPage-1)*rowsPerPage;
-      const end = start + rowsPerPage;
-      let html = '';
-      filteredBateaux.slice(start, end).forEach(b => {
-        html += `<tr>
-          <td>${b.MMSI}</td>
-          <td>${b.IMO||''}</td>
-          <td>${b.CallSign||''}</td>
-          <td>${b.VesselName||''}</td>
-          <td>${b.VesselType||''}</td>
-          <td>${b.Length||''}</td>
-          <td>${b.Width||''}</td>
-          <td>${b.Draft||''}</td>
-          <td>${b.Cargo||''}</td>
-          <td>${b.TransceiverClass||''}</td>
-          <td>
-            <button class='btn btn-sm btn-warning' onclick='editBateau(${b.MMSI})'>Modifier</button>
-            <button class='btn btn-sm btn-danger' onclick='deleteBateau(${b.MMSI})'>Supprimer</button>
-          </td>
-        </tr>`;
-      });
-      document.querySelector('#table-bateaux tbody').innerHTML = html;
-      afficherPagination();
-    }
-    function afficherPagination() {
-      const totalPages = Math.ceil(filteredBateaux.length/rowsPerPage) || 1;
-      let html = '';
-      for (let i=1; i<=totalPages; i++) {
-        html += `<li class="page-item${i===currentPage?' active':''}"><a class="page-link" href="#" onclick="gotoPage(${i});return false;">${i}</a></li>`;
-      }
-      document.getElementById('pagination').innerHTML = html;
-    }
-    window.gotoPage = function(page) {
-      currentPage = page;
-      afficherBateaux();
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
-    }
-    chargerBateaux();
-
-    // Barre de recherche et suggestions
-    const searchInput = document.getElementById('searchInput');
-    const searchSuggestions = document.getElementById('searchSuggestions');
-    searchInput.addEventListener('input', function() {
-      const q = this.value.toLowerCase();
-      if (!q) {
-        filteredBateaux = allBateaux;
-        afficherBateaux();
-        searchSuggestions.innerHTML = '';
-        return;
-      }
-      filteredBateaux = allBateaux.filter(b =>
-        (b.MMSI && b.MMSI.toString().includes(q)) ||
-        (b.VesselName && b.VesselName.toLowerCase().includes(q))
-      );
-      afficherBateaux();
-      // Suggestions auto-complétion
-      let suggestions = filteredBateaux.slice(0, 6).map(b =>
-        `<button type='button' class='list-group-item list-group-item-action' data-mmsi='${b.MMSI}'>${b.MMSI} - ${b.VesselName||''}</button>`
-      ).join('');
-      searchSuggestions.innerHTML = suggestions;
-    });
-    searchSuggestions.addEventListener('mousedown', function(e) {
-      if (e.target && e.target.matches('button[data-mmsi]')) {
-        const mmsi = e.target.getAttribute('data-mmsi');
-        const bateau = allBateaux.find(b => b.MMSI == mmsi);
-        if (bateau) {
-          searchInput.value = bateau.MMSI + (bateau.VesselName ? ' - ' + bateau.VesselName : '');
-          filteredBateaux = [bateau];
-          afficherBateaux();
-          searchSuggestions.innerHTML = '';
-        }
-      }
-    });
-    document.addEventListener('click', function(e) {
-      if (!searchSuggestions.contains(e.target) && e.target !== searchInput) {
-        searchSuggestions.innerHTML = '';
-      }
-    });
-
-    document.getElementById('addForm').onsubmit = async function(e) {
-      e.preventDefault();
-      const form = e.target;
-      const data = {};
-      for (let el of form.elements) if (el.name) data[el.name] = el.value;
-      const res = await fetch('api/boats.php', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(data)
-      });
-      form.reset();
-      chargerBateaux();
-    };
-
-    window.deleteBateau = async function(mmsi) {
-      console.log('[deleteBateau] MMSI envoyé:', mmsi);
-      if (!mmsi || mmsi === '' || mmsi === null || mmsi === undefined) {
-        alert('Erreur : MMSI invalide, impossible de supprimer ce navire.');
-        return;
-      }
-      if (!confirm('Supprimer ce navire ?')) return;
-      try {
-        const res = await fetch('api/boats.php', {
-          method: 'DELETE',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({MMSI: mmsi})
-        });
-        const json = await res.json();
-        if (!res.ok || !json.success) {
-          alert('Erreur lors de la suppression : ' + (json.error || 'Erreur inconnue'));
-          console.error('[deleteBateau] Erreur serveur:', json);
-        } else {
-          chargerBateaux();
-        }
-      } catch (e) {
-        alert('Erreur réseau lors de la suppression.');
-        console.error('[deleteBateau] Exception fetch:', e);
-      }
-    };
-
-    window.editBateau = function(mmsi) {
-      const bateau = allBateaux.find(b => b.MMSI == mmsi);
-      if (!bateau) return;
-      document.getElementById('edit-MMSI').value = bateau.MMSI;
-      document.getElementById('edit-MMSI-view').value = bateau.MMSI;
-      document.getElementById('edit-IMO').value = bateau.IMO||'';
-      document.getElementById('edit-CallSign').value = bateau.CallSign||'';
-      document.getElementById('edit-VesselName').value = bateau.VesselName||'';
-      document.getElementById('edit-VesselType').value = bateau.VesselType||'';
-      document.getElementById('edit-Length').value = bateau.Length||'';
-      document.getElementById('edit-Width').value = bateau.Width||'';
-      document.getElementById('edit-Draft').value = bateau.Draft||'';
-      document.getElementById('edit-Cargo').value = bateau.Cargo||'';
-      document.getElementById('edit-TransceiverClass').value = bateau.TransceiverClass||'';
-      $('#editModal').modal('show');
-    };
-
-    document.getElementById('editForm').onsubmit = async function(e) {
-      e.preventDefault();
-      const data = {
-        MMSI: document.getElementById('edit-MMSI').value,
-        IMO: document.getElementById('edit-IMO').value,
-        CallSign: document.getElementById('edit-CallSign').value,
-        VesselName: document.getElementById('edit-VesselName').value,
-        VesselType: document.getElementById('edit-VesselType').value,
-        Length: document.getElementById('edit-Length').value,
-        Width: document.getElementById('edit-Width').value,
-        Draft: document.getElementById('edit-Draft').value,
-        Cargo: document.getElementById('edit-Cargo').value,
-        TransceiverClass: document.getElementById('edit-TransceiverClass').value
-      };
-      await fetch('api/boats.php', {
-        method: 'PUT',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(data)
-      });
-      $('#editModal').modal('hide');
-      chargerBateaux();
-    };
-  </script>
+  <!-- Scripts JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+  <script src="assets/js/admin.js"></script>
 </body>
 </html>

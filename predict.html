@@ -10,6 +10,30 @@
   <style>#map{height:60vh}</style>
 </head>
 <body class="container py-3">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow" style="border-radius: 20px; margin: 20px 20px 0 20px;">
+    <a class="navbar-brand d-flex align-items-center" href="index.html" style="gap:10px;">
+      <img src="assets/img/cargo.png" alt="Logo AIS" style="height:40px;width:auto;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);background:#fff;padding:2px;">
+      <span style="font-weight:bold;letter-spacing:1px;">AIS&nbsp;App</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAis">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarAis">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="add_ship.html">Ajouter un navire</a></li>
+        <li class="nav-item"><a class="nav-link" href="dashboard.html">Tableau &amp; Carte</a></li>
+        <li class="nav-item"><a class="nav-link" href="clusters.html">Clusters</a></li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="login.html" title="Connexion admin">
+            <img src="assets/img/connexion.png" alt="Connexion" style="height:32px;width:auto;vertical-align:middle;">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
   <h1 id="title" class="mb-4"></h1>
   <div id="shipInfo" class="alert alert-secondary small mb-2"></div>
   <div id="result" class="mb-4"></div>
