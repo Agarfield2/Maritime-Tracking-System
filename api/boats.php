@@ -90,13 +90,36 @@ switch ($method) {
             // Démarrer une transaction
             $pdo->beginTransaction();
             
-            // 1. D'abord supprimer les références dans la table possede
-            $stmt = $pdo->prepare('DELETE FROM possede WHERE id_bateau = (SELECT id_bateau FROM bateau WHERE MMSI = ?)');
+            // 1. D'abord, récupérer l'id_bateau pour les suppressions
+            $stmt = $pdo->prepare('SELECT id_bateau FROM bateau WHERE MMSI = ?');
             $stmt->execute([$mmsi]);
+            $bateau = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            // 2. Ensuite supprimer le bateau
-            $stmt = $pdo->prepare('DELETE FROM bateau WHERE MMSI = ?');
-            $stmt->execute([$mmsi]);
+            if ($bateau) {
+                $id_bateau = $bateau['id_bateau'];
+                
+                // 2. Supprimer les positions liées via la table possede
+                $stmt = $pdo->prepare('SELECT id_position FROM possede WHERE id_bateau = ?');
+                $stmt->execute([$id_bateau]);
+                $positions = $stmt->fetchAll(PDO::FETCH_COLUMN);
+                
+                if (!empty($positions)) {
+                    // Supprimer les entrées dans position_AIS
+                    $placeholders = rtrim(str_repeat('?,', count($positions)), ',');
+                    $stmt = $pdo->prepare("DELETE FROM position_AIS WHERE id_position IN ($placeholders)");
+                    $stmt->execute($positions);
+                }
+                
+                // 3. Supprimer les références dans la table possede
+                $stmt = $pdo->prepare('DELETE FROM possede WHERE id_bateau = ?');
+                $stmt->execute([$id_bateau]);
+                
+                // 4. Enfin, supprimer le bateau
+                $stmt = $pdo->prepare('DELETE FROM bateau WHERE id_bateau = ?');
+                $stmt->execute([$id_bateau]);
+            } else {
+                throw new Exception('Bateau non trouvé');
+            }
             
             // Valider la transaction
             $pdo->commit();
