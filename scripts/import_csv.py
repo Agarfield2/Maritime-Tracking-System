@@ -22,9 +22,9 @@ import mysql.connector as mc
 
 DB_CONF = {
     "host": os.getenv("AIS_DB_HOST", "localhost"),
-    "user": os.getenv("AIS_DB_USER", "bateau"),
-    "password": os.getenv("AIS_DB_PASS", "123456mdp"),
-    "database": os.getenv("AIS_DB_NAME", "marine_db"),
+    "user": os.getenv("AIS_DB_USER", "etu0101"),
+    "password": os.getenv("AIS_DB_PASS", "iiutaglt"),
+    "database": os.getenv("AIS_DB_NAME", "etu0101"),
     "charset": "utf8mb4",
 }
 

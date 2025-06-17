@@ -12,38 +12,17 @@ Exemple d'utilisation :
     python predict_cluster.py --sog 12.5 --cog 45 --heading 90 --model_path clustering_results/kmeans_model.joblib
 """
 
-import os
-import argparse
-import site
-# Ajout du site-packages utilisateur « arman » pour Apache
-site.addsitedir(r"C:\\Users\\arman\\AppData\\Roaming\\Python\\Python312\\site-packages")
-try:
-    import joblib 
-except ModuleNotFoundError:
-    import site, os as _os, sys as _sys
-    user_home = _os.path.expanduser('~')
-    for _pth in [
-        rf"{user_home}\AppData\Roaming\Python\Python312\site-packages",
-        rf"{user_home}\AppData\Local\Programs\Python\Python312\Lib\site-packages",
-    ]:
-        if _os.path.isdir(_pth) and _pth not in _sys.path:
-            site.addsitedir(_pth)
-    import joblib
+import joblib
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
-
-# ----- Compatibilité MySQL connector dans environnement Apache -----
-try:
-    import mysql.connector as mc
-except ModuleNotFoundError:
-    import site, os as _os
-    site.addsitedir(_os.path.expanduser('~') + r'/AppData/Local/Programs/Python/Python312/Lib/site-packages')
-    import mysql.connector as mc
-
-import random, json, sys
-
+import mysql.connector as mc
+import random
+import json
+import sys
+import argparse
+import os
 
 DEBUG = bool(os.getenv('CLUSTER_DEBUG'))
 
@@ -95,7 +74,7 @@ def fetch_positions(limit=SAMPLE_SIZE):
         "FROM position_AIS p "
         "JOIN possede po ON p.id_position = po.id_position "
         "JOIN bateau b ON po.id_bateau = b.id_bateau "
-        "ORDER BY RAND() LIMIT %s"
+        "ORDER BY RAND() DESC LIMIT %s"
     )
     conn = mc.connect(**DB_CONF)
     cur = conn.cursor(dictionary=True)
@@ -110,7 +89,7 @@ def assign_clusters_bulk(rows):
     if not rows:
         return []
     # Essaye de charger modèle/scaler/pca via fonctions existantes
-    model_path = find_model_path()
+    model_path = os.path.join(SCRIPT_DIR, "clustering_results/kmeans_clustering_model.joblib")
     if DEBUG:
         sys.stderr.write(f"[cluster.py] Using model path: {model_path}\n")
     model = None
