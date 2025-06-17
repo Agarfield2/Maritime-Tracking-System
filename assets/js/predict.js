@@ -427,11 +427,11 @@ async function fetchJSON(url) {
         lon: last.LON + 0.2 * (i + 1)
     }));
 
-    result.innerHTML = '<h4>Trajectoire réelle (noir) vs prédite (bleu)</h4>';
+    result.innerHTML = '<h4>Trajectoire réelle</h4>';
 
     // Affichage Mapbox
     const center = [actual[0].LON, actual[0].LAT];
-    const map = new mapboxgl.Map({
+    const map = window._predMap = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
         center: center,
@@ -443,11 +443,11 @@ async function fetchJSON(url) {
         map.addSource('actual', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'LineString', coordinates: actualCoords } } });
         map.addLayer({ id: 'actual', type: 'line', source: 'actual', paint: { 'line-color': '#000', 'line-width': 3, 'line-dasharray': [2, 2] } });
 
-        const predCoords = predicted.map(p => [p.lon, p.lat]);
-        map.addSource('pred', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'LineString', coordinates: predCoords } } });
-        map.addLayer({ id: 'pred', type: 'line', source: 'pred', paint: { 'line-color': '#007bff', 'line-width': 4 } });
+        // const predCoords = predicted.map(p => [p.lon, p.lat]); // disabled default predicted path
+        // map.addSource('pred', { /* disabled */ });
+        // map.addLayer({ /* disabled */ });
 
-        const all = [...actualCoords, ...predCoords];
+        const all = actualCoords;
         const bounds = all.reduce((b, c) => b.extend(c), new mapboxgl.LngLatBounds(all[0], all[0]));
         map.fitBounds(bounds, { padding: 40 });
     });
