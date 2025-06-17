@@ -40,17 +40,21 @@
     </div>
   </nav>
 
-  <header class="jumbotron text-center mb-0 shadow bg-white" style="border-radius: 24px; margin: 20px 20px 0 20px; padding: 1.5rem 0;">
+  <header class="jumbotron text-center mb-0 shadow" style="border-radius: 24px; margin: 20px 20px 0 20px; background: none; position: relative; overflow: hidden;">
     <div class="container">
-      <h1 class="mb-2" style="font-size: 2rem; font-weight: 500;">Prédiction des clusters</h1>
-      <p class="mb-0" style="font-size: 1.1rem; color: #6c757d;">Visualisez la répartition des clusters de navires sur la carte interactive.</p>
+      <h1 class="display-4">Prédiction des clusters</h1>
+      <p class="lead">Visualisez la répartition des clusters de navires sur la carte interactive.</p>
     </div>
   </header>
 
   <main class="container-fluid py-4 flex-grow-1">
+    <div id="loading" class="text-center" style="display: none;">
+      <div class="loading-spinner"></div>
+      <p>Calcul des clusters en cours...</p>
+      <small class="text-muted">Cette opération peut prendre quelques secondes</small>
+    </div>
     <div id="map"></div>
-    <div id="legend" class="d-flex flex-wrap align-items-center mt-2"></div>
-    <a href="dashboard.html" class="btn btn-secondary mt-3">Retour au tableau</a>
+    <div id="legend" class="d-flex flex-wrap align-items-center mt-3"></div>
   </main>
 
   <footer class="mt-auto bg-dark text-white shadow" style="border-radius: 20px; margin: 40px 20px 20px 20px;">

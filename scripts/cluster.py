@@ -26,13 +26,13 @@ import os
 
 DEBUG = bool(os.getenv('CLUSTER_DEBUG'))
 
-SAMPLE_SIZE = int(os.getenv('CLUSTER_SAMPLE', '5000'))
+SAMPLE_SIZE = int(os.getenv('CLUSTER_SAMPLE', '3000'))
 # Configuration DB (identique aux autres scripts)
 DB_CONF = {
     "host": os.getenv("AIS_DB_HOST", "localhost"),
-    "user": os.getenv("AIS_DB_USER", "bateau"),
-    "password": os.getenv("AIS_DB_PASS", "123456mdp"),
-    "database": os.getenv("AIS_DB_NAME", "marine_db"),
+    "user": os.getenv("AIS_DB_USER", "etu0101"),
+    "password": os.getenv("AIS_DB_PASS", "iiutaglt"),
+    "database": os.getenv("AIS_DB_NAME", "etu0101"),
     "charset": "utf8mb4",
 }
 
@@ -67,14 +67,23 @@ def find_model_path():
 
 
 def fetch_positions(limit=SAMPLE_SIZE):
-    """Récupère les dernières positions pour clustering."""
+    """
+    Récupère un échantillon aléatoire de positions pour le clustering.
+    
+    Args:
+        limit (int): Nombre maximal de positions à retourner (défaut: SAMPLE_SIZE)
+        
+    Returns:
+        list: Liste de dictionnaires contenant les données des positions
+    """
     query = (
         "SELECT p.LAT AS lat, p.LON AS lon, p.SOG, p.COG, p.Heading AS heading, UNIX_TIMESTAMP(p.BaseDateTime) AS ts, "
         "b.MMSI, b.VesselName AS name, b.Length, b.Width, b.Draft "
         "FROM position_AIS p "
         "JOIN possede po ON p.id_position = po.id_position "
         "JOIN bateau b ON po.id_bateau = b.id_bateau "
-        "ORDER BY RAND() DESC LIMIT %s"
+        "WHERE p.SOG IS NOT NULL AND p.COG IS NOT NULL AND p.Heading IS NOT NULL "
+        "ORDER BY RAND() LIMIT %s"
     )
     conn = mc.connect(**DB_CONF)
     cur = conn.cursor(dictionary=True)
