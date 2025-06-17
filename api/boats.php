@@ -85,11 +85,28 @@ switch ($method) {
             echo json_encode(['error' => 'MMSI requis pour suppression']);
             exit;
         }
-        $stmt = $pdo->prepare('DELETE FROM bateau WHERE MMSI = ?');
+        
         try {
+            // Démarrer une transaction
+            $pdo->beginTransaction();
+            
+            // 1. D'abord supprimer les références dans la table possede
+            $stmt = $pdo->prepare('DELETE FROM possede WHERE id_bateau = (SELECT id_bateau FROM bateau WHERE MMSI = ?)');
             $stmt->execute([$mmsi]);
+            
+            // 2. Ensuite supprimer le bateau
+            $stmt = $pdo->prepare('DELETE FROM bateau WHERE MMSI = ?');
+            $stmt->execute([$mmsi]);
+            
+            // Valider la transaction
+            $pdo->commit();
+            
             echo json_encode(['success' => true]);
         } catch (PDOException $e) {
+            // En cas d'erreur, annuler les modifications
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
             http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
         }
