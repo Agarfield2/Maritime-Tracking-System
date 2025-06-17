@@ -44,6 +44,7 @@ except ModuleNotFoundError:
 
 import random, json, sys
 
+
 DEBUG = bool(os.getenv('CLUSTER_DEBUG'))
 
 SAMPLE_SIZE = int(os.getenv('CLUSTER_SAMPLE', '5000'))
@@ -94,7 +95,7 @@ def fetch_positions(limit=SAMPLE_SIZE):
         "FROM position_AIS p "
         "JOIN possede po ON p.id_position = po.id_position "
         "JOIN bateau b ON po.id_bateau = b.id_bateau "
-        "ORDER BY p.BaseDateTime DESC LIMIT %s"
+        "ORDER BY RAND() LIMIT %s"
     )
     conn = mc.connect(**DB_CONF)
     cur = conn.cursor(dictionary=True)
