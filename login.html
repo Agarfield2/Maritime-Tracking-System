@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion Admin</title>
+  <link rel="icon" href="assets/img/cargo.png" type="image/png">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    body {background: linear-gradient(135deg,#e0eafc 0%,#cfdef3 100%);}
+    .login-container {max-width: 400px; margin: 80px auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 16px rgba(0,0,0,0.08); padding: 32px 28px;}
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="assets/img/connexion.png" alt="Connexion" class="login-logo">
+    <h2 class="text-center mb-4">Connexion Admin</h2>
+    <div id="error-msg"></div>
+    <form id="loginForm" autocomplete="off">
+      <div class="form-group">
+        <label for="login">Identifiant</label>
+        <input type="text" class="form-control" id="login" name="login" placeholder="admin" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Connexion</button>
+    </form>
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        document.getElementById('error-msg').innerHTML = '';
+        const login = document.getElementById('login').value;
+        const password = document.getElementById('password').value;
+        const res = await fetch('api/login.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({login, password})
+        });
+        const data = await res.json();
+        if (data.success) {
+          window.location.href = 'admin.html';
+        } else {
+          document.getElementById('error-msg').innerHTML = `<div class='alert alert-danger text-center'>${data.error}</div>`;
+        }
+      });
+    </script>
+    <div class="text-center mt-3">
+      <a href="index.html" class="text-secondary">&larr; Retour à l'accueil</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -46,6 +46,18 @@ footer.shadow {
   box-shadow: 0 2px 12px rgba(0,0,0,0.10);
 }
 
+/* --- LOGIN LOGO --- */
+.login-logo {
+  display: block;
+  margin: 0 auto 18px auto;
+  height: 40px;
+  width: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background: #fff;
+  padding: 2px;
+}
+
 /* --- NAVBAR --- */
 .navbar.shadow {
   border-radius: 20px;
