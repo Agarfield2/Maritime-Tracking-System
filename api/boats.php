@@ -90,35 +90,36 @@ switch ($method) {
             // Démarrer une transaction
             $pdo->beginTransaction();
             
-            // 1. D'abord, récupérer l'id_bateau pour les suppressions
-            $stmt = $pdo->prepare('SELECT id_bateau FROM bateau WHERE MMSI = ?');
-            $stmt->execute([$mmsi]);
-            $bateau = $stmt->fetch(PDO::FETCH_ASSOC);
+            // 1. Désactiver temporairement les vérifications de clés étrangères
+            $pdo->exec('SET FOREIGN_KEY_CHECKS=0');
             
-            if ($bateau) {
-                $id_bateau = $bateau['id_bateau'];
+            try {
+                // 2. Récupérer l'id_bateau pour les suppressions
+                $stmt = $pdo->prepare('SELECT id_bateau FROM bateau WHERE MMSI = ?');
+                $stmt->execute([$mmsi]);
+                $bateau = $stmt->fetch(PDO::FETCH_ASSOC);
                 
-                // 2. Supprimer les positions liées via la table possede
-                $stmt = $pdo->prepare('SELECT id_position FROM possede WHERE id_bateau = ?');
-                $stmt->execute([$id_bateau]);
-                $positions = $stmt->fetchAll(PDO::FETCH_COLUMN);
-                
-                if (!empty($positions)) {
-                    // Supprimer les entrées dans position_AIS
-                    $placeholders = rtrim(str_repeat('?,', count($positions)), ',');
-                    $stmt = $pdo->prepare("DELETE FROM position_AIS WHERE id_position IN ($placeholders)");
-                    $stmt->execute($positions);
+                if ($bateau) {
+                    $id_bateau = $bateau['id_bateau'];
+                    
+                    // 3. D'abord, supprimer les références dans la table possede
+                    $stmt = $pdo->prepare('DELETE FROM possede WHERE id_bateau = ?');
+                    $stmt->execute([$id_bateau]);
+                    
+                    // 4. Ensuite, supprimer le bateau
+                    $stmt = $pdo->prepare('DELETE FROM bateau WHERE id_bateau = ?');
+                    $stmt->execute([$id_bateau]);
+                    
+                    // 5. Maintenant, nettoyer les positions orphelines dans position_AIS
+                    // qui ne sont plus référencées dans la table possede
+                    $stmt = $pdo->prepare('DELETE p FROM position_AIS p LEFT JOIN possede po ON p.id_position = po.id_position WHERE po.id_position IS NULL');
+                    $stmt->execute();
+                } else {
+                    throw new Exception('Bateau non trouvé');
                 }
-                
-                // 3. Supprimer les références dans la table possede
-                $stmt = $pdo->prepare('DELETE FROM possede WHERE id_bateau = ?');
-                $stmt->execute([$id_bateau]);
-                
-                // 4. Enfin, supprimer le bateau
-                $stmt = $pdo->prepare('DELETE FROM bateau WHERE id_bateau = ?');
-                $stmt->execute([$id_bateau]);
-            } else {
-                throw new Exception('Bateau non trouvé');
+            } finally {
+                // 6. Réactiver les vérifications de clés étrangères
+                $pdo->exec('SET FOREIGN_KEY_CHECKS=1');
             }
             
             // Valider la transaction
