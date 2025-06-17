@@ -5,19 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin – Gestion des données</title>
   <script>
-    // Fonction de déconnexion
-    function logout() {
-      // Rediriger vers la page de connexion
-      window.location.href = 'login.html?logout=1';
-      return false;
-    }
-    
-    // Vérifier si l'utilisateur est sur la page de connexion
-    if (window.location.pathname.includes('login.html')) {
-      // Si l'utilisateur est sur la page de connexion et qu'il est déjà connecté,
-      // le rediriger vers la page admin
-      window.location.href = 'admin.html';
-    }
+    // Le contrôle d'accès est géré côté serveur
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialisation de la page admin
+      console.log('Page admin chargée');
+    });
   </script>
   <link rel="icon" href="assets/img/cargo.png" type="image/png">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
@@ -46,9 +38,9 @@
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#" onclick="logout(); return false;" title="Déconnexion">
-            <img src="assets/img/connexion.png" alt="Déconnexion" style="height:32px;width:auto;vertical-align:middle;">
-            <span style="margin-left: 5px;">Déconnexion</span>
+          <a class="nav-link d-flex align-items-center" href="login.html" title="Connexion admin">
+            <img src="assets/img/login.png" alt="Connexion" style="height:32px;width:auto;vertical-align:middle;">
+            <span style="margin-left: 5px;">Connexion</span>
           </a>
         </li>
       </ul>

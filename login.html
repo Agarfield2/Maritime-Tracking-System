@@ -67,22 +67,24 @@
         const password = document.getElementById('password').value;
         
         try {
-          const res = await fetch('api/login.php', {
+          // Envoyer les identifiants au serveur pour vérification
+          const response = await fetch('api/login.php', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({login, password})
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ login, password })
           });
           
-          const data = await res.json();
+          const data = await response.json();
           
           if (data.success) {
-            // Rediriger vers admin.html
+            // Rediriger vers la page admin si l'authentification a réussi
             window.location.href = 'admin.html';
           } else {
-            document.getElementById('error-msg').innerHTML = `
-              <div class='alert alert-danger text-center'>
-                ${data.error || 'Erreur de connexion. Veuillez réessayer.'}
-              </div>`;
+            // Afficher un message d'erreur
+            document.getElementById('error-msg').innerHTML = 
+              `<div class="alert alert-danger">${data.error || 'Identifiant ou mot de passe incorrect'}</div>`;
           }
         } catch (error) {
           console.error('Erreur lors de la connexion:', error);
