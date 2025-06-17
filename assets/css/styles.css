@@ -88,8 +88,88 @@ footer.shadow {
     border-radius: 0 0 24px 24px;
     margin: 0;
   }
-  footer.shadow {
+    footer.shadow {
     border-radius: 20px 20px 0 0;
     margin: 20px 0 0 0;
   }
+}
+
+/* --- Indicateur de chargement et messages --- */
+.loading-spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.loading-container p {
+  margin-top: 10px;
+  color: #555;
+  font-weight: 500;
+}
+
+.alert {
+  border-radius: 12px;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.alert-info {
+  background-color: #e7f5ff;
+  border-color: #d0ebff;
+  color: #1864ab;
+}
+
+.alert-success {
+  background-color: #ebfbee;
+  border-color: #d3f9d8;
+  color: #0b7285;
+}
+
+.alert-danger {
+  background-color: #fff5f5;
+  border-color: #ffc9c9;
+  color: #c92a2a;
+}
+
+/* Boutons de prédiction */
+#horizonBtns {
+  margin: 20px 0;
+  text-align: center;
+}
+
+#horizonBtns .btn {
+  margin: 0 5px 10px;
+  min-width: 80px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+#horizonBtns .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Carte */
+#map {
+  width: 100%;
+  height: 500px;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  margin-top: 20px;
 }
