@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="assets/css/styles.css" />
   <style>#map{height:60vh}</style>
 </head>
-<body class="container py-3">
+<body class="d-flex flex-column min-vh-100">
+  <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow" style="border-radius: 20px; margin: 20px 20px 0 20px;">
     <a class="navbar-brand d-flex align-items-center" href="index.html" style="gap:10px;">
       <img src="assets/img/cargo.png" alt="Logo AIS" style="height:40px;width:auto;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);background:#fff;padding:2px;">
@@ -34,13 +35,39 @@
       </ul>
     </div>
   </nav>
-  <h1 id="title" class="mb-4"></h1>
-  <div id="shipInfo" class="alert alert-secondary small mb-2"></div>
-  <div id="result" class="mb-4"></div>
-  <div id="map" class="mb-4 d-none"></div>
-  <a href="dashboard.html" class="btn btn-secondary">Retour au tableau</a>
+  
+  <main class="container py-4 flex-grow-1">
+    <h1 id="title" class="mb-4"></h1>
+    <div id="shipInfo" class="alert alert-secondary small mb-2"></div>
+    <div id="result" class="mb-4"></div>
+    <div id="map" class="mb-4 d-none"></div>
+    <a href="dashboard.html" class="btn btn-secondary">Retour au tableau</a>
+  </main>
 
+  <!-- Footer -->
+  <footer class="mt-auto bg-dark text-white shadow" style="border-radius: 20px; margin: 20px 20px 20px 20px;">
+    <div class="container py-3">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <div class="mb-2 mb-md-0">
+          <a href="conditions.html" class="text-white-50 mx-2">Conditions d'utilisation</a>
+          <a href="confidentialite.html" class="text-white-50 mx-2">Confidentialité</a>
+          <a href="mentions.html" class="text-white-50 mx-2">Mentions légales</a>
+          <a href="contact.html" class="text-white-50 mx-2">Contact</a>
+        </div>
+        <div class="text-white-50 small">
+          <span class="mr-2">Version 1.0</span>|
+          <span class="ml-2">16/06/2025</span>
+        </div>
+      </div>
+      <div class="text-center mt-2 small">
+        <span class="text-white-50">&copy; 2025 AIS Navigator – Projet académique ISEN Ouest | Données AIS à usage pédagogique</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js'></script>
   <script src="assets/js/predict.js"></script>
 </body>
