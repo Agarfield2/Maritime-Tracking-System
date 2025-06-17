@@ -30,7 +30,7 @@
     <form id="loginForm" autocomplete="off">
       <div class="form-group">
         <label for="login">Identifiant</label>
-        <input type="text" class="form-control" id="login" name="login" placeholder="admin" required>
+        <input type="text" class="form-control" id="login" name="login" placeholder="identifiant" required>
       </div>
       <div class="form-group">
         <label for="password">Mot de passe</label>
@@ -39,21 +39,57 @@
       <button type="submit" class="btn btn-primary btn-block">Connexion</button>
     </form>
     <script>
+      // Fonction pour extraire les paramètres de l'URL
+      function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        const results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+      }
+
+      // Afficher un message si déconnexion réussie
+      document.addEventListener('DOMContentLoaded', function() {
+        const logout = getUrlParameter('logout');
+        if (logout === '1') {
+          document.getElementById('error-msg').innerHTML = `
+            <div class='alert alert-success text-center'>
+              Vous avez été déconnecté avec succès.
+            </div>`;
+        }
+      });
+
+      // Gestion de la soumission du formulaire
       document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         document.getElementById('error-msg').innerHTML = '';
+        
         const login = document.getElementById('login').value;
         const password = document.getElementById('password').value;
-        const res = await fetch('api/login.php', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({login, password})
-        });
-        const data = await res.json();
-        if (data.success) {
-          window.location.href = 'admin.html';
-        } else {
-          document.getElementById('error-msg').innerHTML = `<div class='alert alert-danger text-center'>${data.error}</div>`;
+        
+        try {
+          const res = await fetch('api/login.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({login, password})
+          });
+          
+          const data = await res.json();
+          
+          if (data.success) {
+            // Rediriger vers admin.html
+            window.location.href = 'admin.html';
+          } else {
+            document.getElementById('error-msg').innerHTML = `
+              <div class='alert alert-danger text-center'>
+                ${data.error || 'Erreur de connexion. Veuillez réessayer.'}
+              </div>`;
+          }
+        } catch (error) {
+          console.error('Erreur lors de la connexion:', error);
+          document.getElementById('error-msg').innerHTML = `
+            <div class='alert alert-danger text-center'>
+              Une erreur est survenue. Veuillez réessayer plus tard.
+            </div>`;
         }
       });
     </script>
