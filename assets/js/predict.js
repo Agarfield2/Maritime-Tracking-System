@@ -10,8 +10,18 @@ function getQuery() {
 
 async function fetchJSON(url) {
     const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return res.json();
+    let data = null;
+    try {
+        data = await res.json();
+    } catch (_) {
+        // not JSON
+    }
+    if (!res.ok) {
+        const msg = data && data.error ? data.error : `HTTP ${res.status}`;
+        const details = data && data.details ? JSON.stringify(data.details) : '';
+        throw new Error(msg + (details ? ' – ' + details : ''));
+    }
+    return data;
 }
 
 (async () => {
@@ -39,9 +49,34 @@ async function fetchJSON(url) {
 
     // --- TYPE prediction branch ---
     if(predictionMode==='type'){
-        const types=["Cargo","Tanker","Passenger","Fishing","Other"];
-        const predictedType=types[Math.floor(Math.random()*types.length)];
-        result.innerHTML=`<h4>Type prédit : <span class="badge badge-info">${predictedType}</span></h4>`;
+        try{
+            // Récupère les dernières positions pour extraire les caractéristiques nécessaires
+            const positions = await fetchJSON(`api/positions.php?id_bateau=${id}`);
+            if(!Array.isArray(positions) || positions.length===0){
+                throw new Error('Aucune donnée de position disponible');
+            }
+            const last = positions[positions.length-1];
+            const urlParams = new URLSearchParams({
+                SOG: last.SOG,
+                COG: last.COG,
+                Heading: last.Heading ?? last.heading ?? 0,
+                Length: last.Length,
+                Width: last.Width,
+                Draft: last.Draft
+            });
+            const typeResp = await fetchJSON(`api/predict_type.php?${urlParams.toString()}`);
+            let predictedType = typeResp.type ?? 'Inconnu';
+            // Map AIS codes 60,70,80 → Passager, Cargo, Tanker
+            const aisMap = { '60':'Passager', '70':'Cargo', '80':'Tanker' };
+            if(typeof predictedType === 'number' || /^[0-9]+$/.test(predictedType)){
+                predictedType = aisMap[String(predictedType)] || predictedType;
+            }
+            result.innerHTML = `<h4>Type prédit : <span class="badge badge-info">${predictedType}</span></h4>`;
+        }catch(err){
+            console.error(err);
+            result.innerHTML='<p class="text-danger">Erreur lors de la prédiction du type</p>';
+            return;
+        }
         document.getElementById('title').textContent=`Prédiction du type pour le navire #${id}`;
         return;
     }

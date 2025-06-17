@@ -1,40 +1,46 @@
-#!/usr/bin/env python3
-"""Prédit le type IMO du navire donné.
-Appel: python type.py <id_bateau>
-Sortie JSON: {"id_bateau":int, "predicted_type": str}
-Approche simple: règle heuristique basée sur length / cargo.
-"""
-import json, os, sys, random
+import os
+import argparse
+import pandas as pd
+from joblib import load
 
-if len(sys.argv) < 2:
-    print(json.dumps({"error": "id_bateau manquant"}))
-    sys.exit(1)
+# Chemins des modèles
+MODEL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), 'models'))
+PREPROCESSOR_PATH = os.path.join(MODEL_DIR, 'preprocessor.joblib')
+CLASSIFIER_PATH = os.path.join(MODEL_DIR, 'classifier.joblib')
 
-try:
-    import mysql.connector as mc
-except ImportError:
-    mc = None
+# Colonnes attendues
+FEATURES = ['SOG', 'COG', 'Heading', 'Length', 'Width', 'Draft']
 
-ID = int(sys.argv[1])
-DB_CONF = {
-    "host": os.getenv("AIS_DB_HOST", "localhost"),
-    "user": os.getenv("AIS_DB_USER", "bateau"),
-    "password": os.getenv("AIS_DB_PASS", "123456mdp"),
-    "database": os.getenv("AIS_DB_NAME", "marine_db"),
-}
+def parse_args():
+    parser = argparse.ArgumentParser(description="Prédiction du type de navire à partir de ses caractéristiques.")
 
-boat = None
-if mc:
-    try:
-        conn = mc.connect(**DB_CONF)
-        cur = conn.cursor(dictionary=True)
-        cur.execute("SELECT * FROM bateau WHERE id_bateau=%s", (ID,))
-        boat = cur.fetchone()
-    except Exception:
-        boat = None
+    for feature in FEATURES:
+        parser.add_argument(f'--{feature}', type=float, required=True, help=f"Valeur de {feature}")
 
-# Génération de prédictions aléatoires pour comparaison quel que soit l'état de la DB
-methods = ["Logistic Regression", "Decision Tree", "Random Forest", "SVM"]
-types = ["Cargo", "Tanker", "Passenger", "Fishing", "Other"]
-predictions = {m: random.choice(types) for m in methods}
-print(json.dumps({"id_bateau": ID, "predictions": predictions}))
+    return parser.parse_args()
+
+def main():
+    args = parse_args()
+
+    # Récupération des données dans le bon ordre
+    input_data = {feature: getattr(args, feature) for feature in FEATURES}
+
+    # Création du DataFrame
+    X = pd.DataFrame([input_data])
+
+    # Chargement des modèles
+    preprocessor = load(PREPROCESSOR_PATH)
+    clf = load(CLASSIFIER_PATH)
+
+    # Prétraitement et prédiction
+    X_prep = preprocessor.transform(X)
+    prediction = clf.predict(X_prep)
+
+    print(f"\nCaractéristiques du navire :")
+    for k, v in input_data.items():
+        print(f"  {k} : {v}")
+
+    print(f"\n Type de navire prédit : {prediction[0]}")
+
+if __name__ == '__main__':
+    main()
