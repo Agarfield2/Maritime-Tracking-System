@@ -27,12 +27,6 @@
     <!-- Le contenu du header sera chargé dynamiquement -->
   </div>
 
-
-  <!-- Template Header -->
-  <div id="template-header">
-    <!-- Le contenu du header sera chargé dynamiquement -->
-  </div>
-
   <!-- Navigation -->
   
 
@@ -51,9 +45,9 @@
    </div>
    <div class="form-group col-md-4">
      <label>IMO <span class="text-danger">*</span></label>
-     <input name="IMO" class="form-control" placeholder="9876543" required
-            pattern="\d{7}" title="Le numéro IMO doit contenir 7 chiffres">
-     <small class="form-text text-muted">7 chiffres requis</small>
+     <input name="IMO" class="form-control" placeholder="IMO9060247" required
+            pattern="IMO\d{7}" title="Le numéro IMO doit commencer par 'IMO' suivi de 7 chiffres">
+     <small class="form-text text-muted">Format requis : IMO1234567</small>
    </div>
    <div class="form-group col-md-4">
      <label>CallSign <span class="text-danger">*</span></label>
@@ -72,16 +66,16 @@
    <div class="form-group col-md-2">
      <label>Type de navire <span class="text-danger">*</span></label>
      <input list="vesselTypes" name="VesselType" class="form-control" 
-            placeholder="Code IMO" required
-            pattern="\d{1,3}" 
-            title="Code numérique IMO (ex: 30, 35, 80, etc.)">
+             placeholder="Code type (ex : 70)" required
+             pattern="\d{1,3}" 
+             title="Code numérique du type de navire (ex : 60, 70, 80)">
      <datalist id="vesselTypes">
        <!-- Catégories principales -->
        <option value="60">60 - Navire à passagers</option>
        <option value="70">70 - Cargo</option>
        <option value="80">80 - Pétrolier</option>
      </datalist>
-     <small class="form-text text-muted">Code IMO (ex: 30, 35, 80...)</small>
+     <small class="form-text text-muted">Code numérique du type de navire (ex: 60, 70, 80)</small>
    </div>
    <div class="form-group col-md-2">
      <label>Longueur (m) <span class="text-danger">*</span></label>
@@ -119,7 +113,6 @@
  </div>
  <button type="submit" class="btn btn-primary">Enregistrer</button>
  <button type="reset" class="btn btn-outline-secondary ml-2" onclick="resetFormValidation(this.form)">Réinitialiser</button>
- <a href="index.html" class="btn btn-link text-secondary ml-2">Annuler</a>
 </form>
 <hr class="my-5">
 <h2 class="mb-3">Ajouter une position AIS</h2>
@@ -222,7 +215,8 @@ function resetFormValidation(form) {
 }
 
 // Gestionnaire de formulaire d'ajout de navire
-document.getElementById('shipForm').addEventListener('submit', async function(e) {
+let shipSubmitting=false;
+document.getElementById('shipForm').addEventListener('submit', async function(e){
     e.preventDefault();
     
     // Vérification de la validité du formulaire
@@ -241,6 +235,7 @@ document.getElementById('shipForm').addEventListener('submit', async function(e)
     try {
         const formData = new FormData(this);
         const data = Object.fromEntries(formData.entries());
+
         
         const response = await fetch('api/boats.php', {
             method: 'POST',
@@ -263,6 +258,7 @@ document.getElementById('shipForm').addEventListener('submit', async function(e)
     } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
+        shipSubmitting=false;
     }
 });
 
