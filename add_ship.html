@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,482 +8,427 @@
   <link rel="icon" href="assets/img/cargo.png" type="image/png">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/css/styles.css" />
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
   <link rel="stylesheet" href="assets/css/common.css">
 </head>
-<body class="d-flex flex-column min-vh-100">
 
+<body class="d-flex flex-column min-vh-100">
   <!-- Template Header -->
   <div id="template-header">
     <!-- Le contenu du header sera chargé dynamiquement -->
   </div>
-
-  <!-- Navigation -->
-  
-
-  <!-- Hero / Jumbotron -->
-  
-
   <main class="container py-4 flex-grow-1">
-<h2 class="mb-4">Formulaire d'ajout d'un navire</h2>
-<form id="shipForm">
- <div class="form-row">
-   <div class="form-group col-md-4">
-     <label>MMSI <span class="text-danger">*</span></label>
-     <input name="MMSI" class="form-control" placeholder="123456789" required 
-            pattern="\d{9}" title="Le MMSI doit contenir exactement 9 chiffres">
-     <small class="form-text text-muted">9 chiffres requis</small>
-   </div>
-   <div class="form-group col-md-4">
-     <label>IMO <span class="text-danger">*</span></label>
-     <input name="IMO" class="form-control" placeholder="IMO9060247" required
-            pattern="IMO\d{7}" title="Le numéro IMO doit commencer par 'IMO' suivi de 7 chiffres">
-     <small class="form-text text-muted">Format requis : IMO1234567</small>
-   </div>
-   <div class="form-group col-md-4">
-     <label>CallSign <span class="text-danger">*</span></label>
-     <input name="CallSign" class="form-control" placeholder="FXYZ" required
-            pattern="[A-Z0-9]{3,7}" title="3 à 7 caractères alphanumériques en majuscules">
-     <small class="form-text text-muted">3 à 7 caractères alphanumériques</small>
-   </div>
- </div>
- <div class="form-row">
-   <div class="form-group col-md-6">
-     <label>Nom <span class="text-danger">*</span></label>
-     <input name="VesselName" class="form-control" placeholder="Nom du navire" required
-            pattern=".{3,100}" title="Entre 3 et 100 caractères">
-     <small class="form-text text-muted">3 à 100 caractères</small>
-   </div>
-   <div class="form-group col-md-2">
-     <label>Type de navire <span class="text-danger">*</span></label>
-     <input list="vesselTypes" name="VesselType" class="form-control" 
-             placeholder="Code type (ex : 70)" required
-             pattern="\d{1,3}" 
-             title="Code numérique du type de navire (ex : 60, 70, 80)">
-     <datalist id="vesselTypes">
-       <!-- Catégories principales -->
-       <option value="60">60 - Navire à passagers</option>
-       <option value="70">70 - Cargo</option>
-       <option value="80">80 - Pétrolier</option>
-     </datalist>
-     <small class="form-text text-muted">Code numérique du type de navire (ex: 60, 70, 80)</small>
-   </div>
-   <div class="form-group col-md-2">
-     <label>Longueur (m) <span class="text-danger">*</span></label>
-     <input type="number" step="0.1" name="Length" class="form-control" placeholder="300" required
-            min="1" max="1000" title="Entre 1 et 1000 mètres">
-     <small class="form-text text-muted">1 à 1000 mètres</small>
-   </div>
-   <div class="form-group col-md-2">
-     <label>Largeur (m) <span class="text-danger">*</span></label>
-     <input type="number" step="0.1" name="Width" class="form-control" placeholder="48" required
-            min="1" max="200" title="Entre 1 et 200 mètres">
-     <small class="form-text text-muted">1 à 200 mètres</small>
-   </div>
- </div>
- <div class="form-row">
-   <div class="form-group col-md-2">
-     <label>Tirant d'eau (m) <span class="text-danger">*</span></label>
-     <input type="number" step="0.1" name="Draft" class="form-control" placeholder="12.5" required
-            min="0.1" max="100" title="Entre 0.1 et 100 mètres">
-     <small class="form-text text-muted">0.1 à 100 mètres</small>
-   </div>
-   <div class="form-group col-md-4">
-     <label>Type de cargaison <span class="text-danger">*</span></label>
-     <input name="Cargo" class="form-control" placeholder="Ex: 81, 79, 0, 10" required>
-     <small class="form-text text-muted">Nombre entier de 0 à 200 (ex: 81, 79, 0, 10)</small>
-   </div>
-   <div class="form-group col-md-3">
-     <label>Classe d'émetteur <span class="text-danger">*</span></label>
-     <select name="TransceiverClass" class="form-control" style="min-width: 100%; line-height: 1.5; padding: 0.5rem 0.75rem;" required>
-       <option value="">Sélectionnez...</option>
-       <option value="A">A - Professionnel</option>
-       <option value="B">B - Loisir</option>
-     </select>
-   </div>
- </div>
- <button type="submit" class="btn btn-primary">Enregistrer</button>
- <button type="reset" class="btn btn-outline-secondary ml-2" onclick="resetFormValidation(this.form)">Réinitialiser</button>
-</form>
-<hr class="my-5">
-<h2 class="mb-3">Ajouter une position AIS</h2>
-<form id="posForm" novalidate>
-  <div class="form-group">
-    <label for="shipName">Navire (VesselName) <span class="text-danger">*</span></label>
-    <input list="ships" id="shipName" class="form-control" placeholder="Choisir un navire" required 
-           pattern=".{3,}" title="Sélectionnez un navire dans la liste">
-    <datalist id="ships"></datalist>
-    <div class="invalid-feedback">Veuillez sélectionner un navire valide</div>
-  </div>
-  
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label>Horodatage <span class="text-danger">*</span></label>
-      <input type="datetime-local" id="dt" class="form-control" required>
-      <small class="form-text text-muted">Format: AAAA-MM-JJTHH:MM</small>
-      <div class="invalid-feedback">Veuillez entrer une date et heure valides</div>
-    </div>
-    
-    <div class="form-group col-md-3">
-      <label>LAT (Latitude) <span class="text-danger">*</span></label>
-      <input type="number" step="0.00001" id="lat" class="form-control" 
-             placeholder="48.12345" min="-90" max="90" required>
-      <small class="form-text text-muted">Entre -90 et 90°</small>
-      <div class="invalid-feedback">Veuillez entrer une latitude valide (-90 à 90)</div>
-    </div>
-    
-    <div class="form-group col-md-3">
-      <label>LON (Longitude) <span class="text-danger">*</span></label>
-      <input type="number" step="0.00001" id="lon" class="form-control" 
-             placeholder="-1.23456" min="-180" max="180" required>
-      <small class="form-text text-muted">Entre -180 et 180°</small>
-      <div class="invalid-feedback">Veuillez entrer une longitude valide (-180 à 180)</div>
-    </div>
-  </div>
-  
-  <div class="form-row">
-    <div class="form-group col-md-2">
-      <label>SOG (vitesse) <span class="text-danger">*</span></label>
-      <input type="number" step="0.1" id="sog" class="form-control" 
-             placeholder="12.5" min="0" max="50" required>
-      <small class="form-text text-muted">0 à 50 nœuds</small>
-      <div class="invalid-feedback">Veuillez entrer une vitesse valide (0-50 nœuds)</div>
-    </div>
-    
-    <div class="form-group col-md-2">
-      <label>COG (cap) <span class="text-danger">*</span></label>
-      <input type="number" step="0.1" id="cog" class="form-control" 
-             placeholder="45.0" min="0" max="359.9" required>
-      <small class="form-text text-muted">0 à 359.9°</small>
-      <div class="invalid-feedback">Veuillez entrer un cap valide (0-359.9°)</div>
-    </div>
-    
-    <div class="form-group col-md-2">
-      <label>Heading <span class="text-danger">*</span></label>
-      <input type="number" step="0.1" id="heading" class="form-control" 
-             placeholder="45.0" min="0" max="359.9" required>
-      <small class="form-text text-muted">0 à 359.9°</small>
-      <div class="invalid-feedback">Veuillez entrer un cap valide (0-359.9°)</div>
-    </div>
-    
-    <div class="form-group col-md-2">
-      <label>Status AIS <span class="text-danger">*</span></label>
-      <select id="status" class="form-control" required>
-        <option value="0">0 - Sous voile</option>
-        <option value="1">1 - À l'ancre</option>
-        <option value="2">2 - Non à la commande</option>
-        <option value="3">3 - Manœuvrabilité restreinte</option>
-        <option value="4">4 - Contrainte par son tirant d'eau</option>
-        <option value="5">5 - Amarré</option>
-        <option value="6">6 - Échoué</option>
-        <option value="7">7 - En train de pêcher</option>
-        <option value="8">8 - Au moteur</option>
-        <option value="9-15" selected>9-15 - Réservé</option>
-      </select>
-      <small class="form-text text-muted">Type de statut AIS (0-15)</small>
-    </div>
-  </div>
-  
-  <div class="mt-3">
-    <button type="submit" class="btn btn-success">
-      <span class="spinner-border spinner-border-sm d-none" id="posSpinner" role="status" aria-hidden="true"></span>
-      Enregistrer la position
-    </button>
-    <button type="reset" class="btn btn-outline-secondary ml-2">Réinitialiser</button>
-  </div>
-</form>
-<div id="shipMsg" class="mt-3"></div>
-<hr class="my-5">
-<script src="assets/js/ships.js"></script>
-<script>
-// Fonction pour réinitialiser les états de validation
-function resetFormValidation(form) {
-    form.classList.remove('was-validated');
-    const inputs = form.querySelectorAll('.is-valid, .is-invalid');
-    inputs.forEach(input => {
-        input.classList.remove('is-valid', 'is-invalid');
-    });
-}
+    <h2 class="mb-4">Formulaire d'ajout d'un navire</h2>
+    <form id="shipForm">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label>MMSI <span class="text-danger">*</span></label>
+          <input name="MMSI" class="form-control" placeholder="123456789" required pattern="\d{9}"
+            title="Le MMSI doit contenir exactement 9 chiffres">
+          <small class="form-text text-muted">9 chiffres requis</small>
+        </div>
+        <div class="form-group col-md-4">
+          <label>IMO <span class="text-danger">*</span></label>
+          <input name="IMO" class="form-control" placeholder="IMO9060247" required pattern="IMO\d{7}"
+            title="Le numéro IMO doit commencer par 'IMO' suivi de 7 chiffres">
+          <small class="form-text text-muted">Format requis : IMO1234567</small>
+        </div>
+        <div class="form-group col-md-4">
+          <label>CallSign <span class="text-danger">*</span></label>
+          <input name="CallSign" class="form-control" placeholder="FXYZ" required pattern="[A-Z0-9]{3,7}"
+            title="3 à 7 caractères alphanumériques en majuscules">
+          <small class="form-text text-muted">3 à 7 caractères alphanumériques</small>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Nom <span class="text-danger">*</span></label>
+          <input name="VesselName" class="form-control" placeholder="Nom du navire" required pattern=".{3,100}"
+            title="Entre 3 et 100 caractères">
+          <small class="form-text text-muted">3 à 100 caractères</small>
+        </div>
+        <div class="form-group col-md-2">
+          <label>Type de navire <span class="text-danger">*</span></label>
+          <input list="vesselTypes" name="VesselType" class="form-control" placeholder="Code type (ex : 70)" required
+            pattern="\d{1,3}" title="Code numérique du type de navire (ex : 60, 70, 80)">
+          <datalist id="vesselTypes">
+            <!-- Catégories principales -->
+            <option value="60">60 - Navire à passagers</option>
+            <option value="70">70 - Cargo</option>
+            <option value="80">80 - Pétrolier</option>
+          </datalist>
+          <small class="form-text text-muted">Code numérique du type de navire (ex: 60, 70, 80)</small>
+        </div>
+        <div class="form-group col-md-2">
+          <label>Longueur (m) <span class="text-danger">*</span></label>
+          <input type="number" step="0.1" name="Length" class="form-control" placeholder="300" required min="1"
+            max="1000" title="Entre 1 et 1000 mètres">
+          <small class="form-text text-muted">1 à 1000 mètres</small>
+        </div>
+        <div class="form-group col-md-2">
+          <label>Largeur (m) <span class="text-danger">*</span></label>
+          <input type="number" step="0.1" name="Width" class="form-control" placeholder="48" required min="1" max="200"
+            title="Entre 1 et 200 mètres">
+          <small class="form-text text-muted">1 à 200 mètres</small>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-2">
+          <label>Tirant d'eau (m) <span class="text-danger">*</span></label>
+          <input type="number" step="0.1" name="Draft" class="form-control" placeholder="12.5" required min="0.1"
+            max="100" title="Entre 0.1 et 100 mètres">
+          <small class="form-text text-muted">0.1 à 100 mètres</small>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Type de cargaison <span class="text-danger">*</span></label>
+          <input name="Cargo" class="form-control" placeholder="Ex: 81, 79, 0, 10" required>
+          <small class="form-text text-muted">Nombre entier de 0 à 200 (ex: 81, 79, 0, 10)</small>
+        </div>
+        <div class="form-group col-md-3">
+          <label>Classe d'émetteur <span class="text-danger">*</span></label>
+          <select name="TransceiverClass" class="form-control"
+            style="min-width: 100%; line-height: 1.5; padding: 0.5rem 0.75rem;" required>
+            <option value="">Sélectionnez...</option>
+            <option value="A">A - Professionnel</option>
+            <option value="B">B - Loisir</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+      <button type="reset" class="btn btn-outline-secondary ml-2"
+        onclick="resetFormValidation(this.form)">Réinitialiser</button>
+      <div id="shipMessage" class="mt-3"></div>
+    </form>
+    <hr class="my-5">
+    <h2 class="mb-3">Ajouter une position AIS</h2>
+    <form id="posForm" novalidate>
+      <div class="form-group">
+        <label for="shipName">Navire (VesselName) <span class="text-danger">*</span></label>
+        <input list="ships" id="shipName" class="form-control" placeholder="Choisir un navire" required pattern=".{3,}"
+          title="Sélectionnez un navire dans la liste">
+        <datalist id="ships"></datalist>
+        <div class="invalid-feedback">Veuillez sélectionner un navire valide</div>
+      </div>
 
-// Gestionnaire de formulaire d'ajout de navire
-let shipSubmitting=false;
-document.getElementById('shipForm').addEventListener('submit', async function(e){
-    e.preventDefault();
-    
-    // Vérification de la validité du formulaire
-    if (!this.checkValidity()) {
-        e.stopPropagation();
-        this.classList.add('was-validated');
-        return;
-    }
-    
-    // Désactiver le bouton pendant l'envoi
-    const submitBtn = this.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Envoi en cours...';
-    
-    try {
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Horodatage <span class="text-danger">*</span></label>
+          <input type="datetime-local" id="dt" class="form-control" required>
+          <small class="form-text text-muted">Format: AAAA-MM-JJTHH:MM</small>
+          <div class="invalid-feedback">Veuillez entrer une date et heure valides</div>
+        </div>
 
-        
-        const response = await fetch('api/boats.php', {
+        <div class="form-group col-md-3">
+          <label>LAT (Latitude) <span class="text-danger">*</span></label>
+          <input type="number" step="0.00001" id="lat" class="form-control" placeholder="48.12345" min="-90" max="90"
+            required>
+          <small class="form-text text-muted">Entre -90 et 90°</small>
+          <div class="invalid-feedback">Veuillez entrer une latitude valide (-90 à 90)</div>
+        </div>
+
+        <div class="form-group col-md-3">
+          <label>LON (Longitude) <span class="text-danger">*</span></label>
+          <input type="number" step="0.00001" id="lon" class="form-control" placeholder="-1.23456" min="-180" max="180"
+            required>
+          <small class="form-text text-muted">Entre -180 et 180°</small>
+          <div class="invalid-feedback">Veuillez entrer une longitude valide (-180 à 180)</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-2">
+          <label>SOG (vitesse) <span class="text-danger">*</span></label>
+          <input type="number" step="0.1" id="sog" class="form-control" placeholder="12.5" min="0" max="50" required>
+          <small class="form-text text-muted">0 à 50 nœuds</small>
+          <div class="invalid-feedback">Veuillez entrer une vitesse valide (0-50 nœuds)</div>
+        </div>
+
+        <div class="form-group col-md-2">
+          <label>COG (cap) <span class="text-danger">*</span></label>
+          <input type="number" step="0.1" id="cog" class="form-control" placeholder="45.0" min="0" max="359.9" required>
+          <small class="form-text text-muted">0 à 359.9°</small>
+          <div class="invalid-feedback">Veuillez entrer un cap valide (0-359.9°)</div>
+        </div>
+
+        <div class="form-group col-md-2">
+          <label>Heading <span class="text-danger">*</span></label>
+          <input type="number" step="0.1" id="heading" class="form-control" placeholder="45.0" min="0" max="359.9"
+            required>
+          <small class="form-text text-muted">0 à 359.9°</small>
+          <div class="invalid-feedback">Veuillez entrer un cap valide (0-359.9°)</div>
+        </div>
+
+        <div class="form-group col-md-2">
+          <label>Status AIS <span class="text-danger">*</span></label>
+          <select id="status" class="form-control" required>
+            <option value="0">0 - Sous voile</option>
+            <option value="1">1 - À l'ancre</option>
+            <option value="2">2 - Non à la commande</option>
+            <option value="3">3 - Manœuvrabilité restreinte</option>
+            <option value="4">4 - Contrainte par son tirant d'eau</option>
+            <option value="5">5 - Amarré</option>
+            <option value="6">6 - Échoué</option>
+            <option value="7">7 - En train de pêcher</option>
+            <option value="8">8 - Au moteur</option>
+            <option value="9-15" selected>9-15 - Réservé</option>
+          </select>
+          <small class="form-text text-muted">Type de statut AIS (0-15)</small>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <button type="submit" class="btn btn-primary">
+          <span class="spinner-border spinner-border-sm d-none" id="posSpinner" role="status" aria-hidden="true"></span>
+          Enregistrer la position
+        </button>
+        <button type="reset" class="btn btn-outline-secondary ml-2">Réinitialiser</button>
+      </div>
+      <div id="positionMessage" class="mt-3"></div>
+    </form>
+    <hr class="my-5">
+    <script src="assets/js/ships.js"></script>
+    <script>
+      // Fonction pour réinitialiser les états de validation
+      function resetFormValidation(form) {
+        form.classList.remove('was-validated');
+        const inputs = form.querySelectorAll('.is-valid, .is-invalid');
+        inputs.forEach(input => {
+          input.classList.remove('is-valid', 'is-invalid');
+        });
+      }
+
+      // Gestionnaire de formulaire d'ajout de navire
+      let shipSubmitting = false;
+      document.getElementById('shipForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        // Vérification de la validité du formulaire
+        if (!this.checkValidity()) {
+          e.stopPropagation();
+          this.classList.add('was-validated');
+          return;
+        }
+
+        // Désactiver le bouton pendant l'envoi
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Envoi en cours...';
+
+        try {
+          const formData = new FormData(this);
+          const data = Object.fromEntries(formData.entries());
+
+
+          const response = await fetch('api/boats.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            alert('Navire ajouté avec succès !');
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            showShipMessage('Navire ajouté avec succès !', 'success');
             this.reset();
             resetFormValidation(this);
-        } else {
+          } else {
             throw new Error(result.error || 'Erreur lors de l\'ajout du navire');
+          }
+        } catch (error) {
+          console.error('Erreur:', error);
+          showShipMessage('Erreur: ' + (error.message || 'Une erreur est survenue'), 'danger');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+          shipSubmitting = false;
         }
-    } catch (error) {
-        console.error('Erreur:', error);
-        alert('Erreur: ' + (error.message || 'Une erreur est survenue'));
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-        shipSubmitting=false;
-    }
-});
+      });
 
-// Gestion de la validation en temps réel
-const inputs = document.querySelectorAll('#shipForm [required]');
-inputs.forEach(input => {
-    input.addEventListener('input', function() {
-        if (this.checkValidity()) {
+      // Fonction pour afficher les messages du formulaire navire
+      function showShipMessage(message, type = 'info') {
+        const messageDiv = document.getElementById('shipMessage');
+        messageDiv.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+        ${message}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>`;
+
+        // Supprimer automatiquement le message après 5 secondes
+        setTimeout(() => {
+          const alert = messageDiv.querySelector('.alert');
+          if (alert) {
+            alert.classList.remove('show');
+            setTimeout(() => messageDiv.innerHTML = '', 150);
+          }
+        }, 5000);
+      }
+
+      // Gestion de la validation en temps réel
+      const inputs = document.querySelectorAll('#shipForm [required]');
+      inputs.forEach(input => {
+        input.addEventListener('input', function () {
+          if (this.checkValidity()) {
             this.classList.remove('is-invalid');
             this.classList.add('is-valid');
-        } else {
+          } else {
             this.classList.remove('is-valid');
             this.classList.add('is-invalid');
-        }
-    });
-});
+          }
+        });
+      });
 
-// Autocomplétion des navires pour le formulaire position
-fetch('api/ship_names.php')
-    .then(r => r.json())
-    .then(list => {
-        const dl = document.getElementById('ships');
-        list.forEach(s => {
+      // Autocomplétion des navires pour le formulaire position
+      fetch('api/ship_names.php')
+        .then(r => r.json())
+        .then(list => {
+          const dl = document.getElementById('ships');
+          list.forEach(s => {
             const opt = document.createElement('option');
             opt.value = s.name;
             opt.dataset.id = s.id;
             dl.appendChild(opt);
+          });
         });
-    });
 
-// Gestion de la validation en temps réel pour le formulaire de position
-function setupValidation(form) {
-    // Validation à la saisie
-    const inputs = form.querySelectorAll('[required]');
-    const msgElement = document.getElementById('positionMsg');
+      // Gestion de la validation en temps réel pour le formulaire de position
+      function setupValidation(form) {
+        // Validation à la saisie
+        const inputs = form.querySelectorAll('[required]');
+        const msgElement = document.getElementById('positionMsg');
 
-    inputs.forEach(input => {
-        input.addEventListener('input', function() {
-            if (this.checkValidity()) {
-                this.classList.remove('is-invalid');
-                this.classList.add('is-valid');
-            } else {
-                this.classList.remove('is-valid');
-                this.classList.add('is-invalid');
-            }
-        });
-    });
-
-    // Réinitialisation de la validation
-    form.addEventListener('reset', () => {
         inputs.forEach(input => {
-            input.classList.remove('is-valid', 'is-invalid');
+          input.addEventListener('input', function () {
+            if (this.checkValidity()) {
+              this.classList.remove('is-invalid');
+              this.classList.add('is-valid');
+            } else {
+              this.classList.remove('is-valid');
+              this.classList.add('is-invalid');
+            }
+          });
         });
-        if (msgElement) {
+
+        // Réinitialisation de la validation
+        form.addEventListener('reset', () => {
+          inputs.forEach(input => {
+            input.classList.remove('is-valid', 'is-invalid');
+          });
+          if (msgElement) {
             msgElement.innerHTML = '';
-        }
-    });
-}
+          }
+        });
+      }
 
-// Initialisation de la validation
-const posForm = document.getElementById('posForm');
-if (posForm) {
-    setupValidation(posForm);
+      // Fonction pour afficher les messages du formulaire de position
+      function showPositionMessage(message, type = 'info') {
+        const messageDiv = document.getElementById('positionMessage');
+        messageDiv.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+        ${message}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>`;
 
-    // Soumission du formulaire de position
-    posForm.addEventListener('submit', async e => {
-        e.preventDefault();
-        
-        // Vérification de la validité du formulaire
-        if (!posForm.checkValidity()) {
+        // Supprimer automatiquement le message après 5 secondes
+        setTimeout(() => {
+          const alert = messageDiv.querySelector('.alert');
+          if (alert) {
+            alert.classList.remove('show');
+            setTimeout(() => messageDiv.innerHTML = '', 150);
+          }
+        }, 5000);
+      }
+
+      // Initialisation de la validation
+      const posForm = document.getElementById('posForm');
+      if (posForm) {
+        setupValidation(posForm);
+
+        // Soumission du formulaire de position
+        posForm.addEventListener('submit', async e => {
+          e.preventDefault();
+
+          // Vérification de la validité du formulaire
+          if (!posForm.checkValidity()) {
             e.stopPropagation();
             posForm.classList.add('was-validated');
             return;
-        }
-        
-        // Vérification du navire sélectionné
-        const name = document.getElementById('shipName').value.trim();
-        const opt = [...document.querySelectorAll('#ships option')].find(o => o.value === name);
-        
-        if (!opt) {
+          }
+
+          // Vérification du navire sélectionné
+          const name = document.getElementById('shipName').value.trim();
+          const opt = [...document.querySelectorAll('#ships option')].find(o => o.value === name);
+
+          if (!opt) {
             const shipInput = document.getElementById('shipName');
             shipInput.classList.add('is-invalid');
             shipInput.focus();
             return;
-        }
-        
-        // Désactiver le bouton pendant l'envoi
-        const submitBtn = posForm.querySelector('button[type="submit"]');
-        const spinner = document.getElementById('posSpinner');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        if (spinner) spinner.classList.remove('d-none');
-        
-        try {
+          }
+
+          // Désactiver le bouton pendant l'envoi
+          const submitBtn = posForm.querySelector('button[type="submit"]');
+          const spinner = document.getElementById('posSpinner');
+          const originalText = submitBtn.innerHTML;
+          submitBtn.disabled = true;
+          if (spinner) spinner.classList.remove('d-none');
+
+          try {
             const payload = {
-                id_bateau: opt.dataset.id,
-                BaseDateTime: document.getElementById('dt').value,
-                LAT: parseFloat(document.getElementById('lat').value),
-                LON: parseFloat(document.getElementById('lon').value),
-                SOG: parseFloat(document.getElementById('sog').value),
-                COG: parseFloat(document.getElementById('cog').value),
-                Heading: parseFloat(document.getElementById('heading').value),
-                Status: parseInt(document.getElementById('status').value) || 0
+              id_bateau: opt.dataset.id,
+              BaseDateTime: document.getElementById('dt').value,
+              LAT: parseFloat(document.getElementById('lat').value),
+              LON: parseFloat(document.getElementById('lon').value),
+              SOG: parseFloat(document.getElementById('sog').value),
+              COG: parseFloat(document.getElementById('cog').value),
+              Heading: parseFloat(document.getElementById('heading').value),
+              Status: parseInt(document.getElementById('status').value) || 0
             };
-            
+
             const res = await fetch('api/add_position.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
             });
-            
+
             const responseText = await res.text();
             let json;
-            
+
             try {
-                json = JSON.parse(responseText);
+              json = JSON.parse(responseText);
             } catch (e) {
-                throw new Error('Réponse invalide du serveur');
+              throw new Error('Réponse invalide du serveur');
             }
-            
+
             if (res.ok) {
-                alert(`Position ajoutée avec succès`);
-                posForm.reset();
-                posForm.classList.remove('was-validated');
+              showPositionMessage('Position ajoutée avec succès', 'success');
+              posForm.reset();
+              posForm.classList.remove('was-validated');
             } else {
-                throw new Error(json.error || 'Erreur lors de l\'ajout de la position');
+              throw new Error(json.error || 'Erreur lors de l\'ajout de la position');
             }
-        } catch (error) {
+          } catch (error) {
             console.error('Erreur:', error);
-            alert('Erreur: ' + (error.message || 'Une erreur est survenue'));
-        } finally {
+            showPositionMessage('Erreur: ' + (error.message || 'Une erreur est survenue'), 'danger');
+          } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
-        }
-    });
-}
-</script>
+          }
+        });
+      }
+    </script>
   </main>
-
-  
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
-  <!-- Template Footer -->
-  <div id="template-footer">
-    <!-- Le contenu du footer sera chargé dynamiquement -->
-  </div>
-
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-
-  <!-- Template Footer -->
-  <div id="template-footer">
-    <!-- Le contenu du footer sera chargé dynamiquement -->
-  </div>
-
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-  <!-- Scripts communs -->
   <script src="assets/js/config.js"></script>
   <script src="assets/js/loadTemplates.js"></script>
   <script src="assets/js/auth.js"></script>
+  <!-- Template Footer -->
+  <div id="template-footer">
+    <!-- Le contenu du footer sera chargé dynamiquement -->
+  </div>
 </body>
+
 </html>
