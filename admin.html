@@ -351,33 +351,33 @@
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label>Horodatage *</label>
+                    <label>Horodatage <span class="text-danger">*</span></label>
                     <input type="datetime-local" id="modalDateTime" class="form-control" required>
                   </div>
                   <div class="form-group col-md-3">
-                    <label>LAT *</label>
+                    <label>LAT <span class="text-danger">*</span></label>
                     <input type="number" step="0.00001" id="modalLat" class="form-control" placeholder="Latitude" required>
                   </div>
                   <div class="form-group col-md-3">
-                    <label>LON *</label>
+                    <label>LON <span class="text-danger">*</span></label>
                     <input type="number" step="0.00001" id="modalLon" class="form-control" placeholder="Longitude" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-2">
-                    <label>SOG *</label>
+                    <label>SOG <span class="text-danger">*</span></label>
                     <input type="number" step="0.1" id="modalSog" class="form-control" placeholder="SOG (nd)" required>
                   </div>
                   <div class="form-group col-md-2">
-                    <label>COG *</label>
+                    <label>COG <span class="text-danger">*</span></label>
                     <input type="number" step="0.1" id="modalCog" class="form-control" placeholder="COG (°)" required>
                   </div>
                   <div class="form-group col-md-2">
-                    <label>Heading *</label>
+                    <label>Heading <span class="text-danger">*</span></label>
                     <input type="number" step="0.1" id="modalHeading" class="form-control" placeholder="Heading" required>
                   </div>
                   <div class="form-group col-md-3">
-                    <label>Statut AIS *</label>
+                    <label>Statut AIS <span class="text-danger">*</span></label>
                     <select id="modalStatut" class="form-control" style="min-width: 100%; line-height: 1.5; padding: 0.5rem 0.75rem;" required>
                       <option value="0">0 - Sous voile</option>
                       <option value="1">1 - À l'ancre</option>
@@ -641,5 +641,54 @@
 
   <!-- Scripts communs -->
   <script src="assets/js/loadTemplates.js"></script>
+  <script>
+    // Dynamically link labels without a "for" attribute to their first form control
+    // in the same container. Generates a unique id if the control lacks one.
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('label:not([for])').forEach(function (label) {
+        var control = label.parentElement && label.parentElement.querySelector('input, select, textarea');
+        if (control) {
+          if (!control.id) {
+            control.id = 'auto-' + Math.random().toString(36).slice(2, 10);
+          }
+          label.setAttribute('for', control.id);
+        }
+      });
+    });
+  </script>
+
+  <!-- Validation visuelle temps réel pour les formulaires -->
+  <script>
+    function addLiveValidation(form) {
+      if (!form) return;
+      form.querySelectorAll('[required]').forEach(function (input) {
+        if (input.dataset.liveValidated) return;
+        input.dataset.liveValidated = '1';
+        input.addEventListener('input', function () {
+          if (this.checkValidity()) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+          } else {
+            this.classList.remove('is-valid');
+            this.classList.add('is-invalid');
+          }
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Formulaires visibles
+      addLiveValidation(document.getElementById('shipForm'));
+      addLiveValidation(document.getElementById('posForm'));
+
+      // Formulaires dans les modales
+      $('#shipModal').on('shown.bs.modal', function () {
+        addLiveValidation(document.getElementById('shipModalForm'));
+      });
+      $('#posModal').on('shown.bs.modal', function () {
+        addLiveValidation(document.getElementById('posModalForm'));
+      });
+    });
+  </script>
 </body>
 </html>
