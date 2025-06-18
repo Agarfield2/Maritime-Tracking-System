@@ -1,4 +1,5 @@
 /* Styles communs à toutes les pages */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
 /* Styles de base */
 body {
@@ -18,6 +19,20 @@ body {
 /* Styles pour la navigation */
 .navbar {
   margin-bottom: 20px;
+
+  /* Style pour le nom d'utilisateur dans le menu déroulant */
+  .nav-link.dropdown-toggle {
+    color: white !important;
+  }
+  
+  .nav-link.dropdown-toggle:hover,
+  .nav-link.dropdown-toggle:focus {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+  
+  .nav-link.dropdown-toggle span {
+    color: white !important;
+  }
   padding: 0.5rem 1rem;
 }
 

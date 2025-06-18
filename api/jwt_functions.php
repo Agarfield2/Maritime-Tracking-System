@@ -61,22 +61,29 @@ function getCurrentUser() {
 }
 
 // Définir le cookie d'authentification
-function setAuthCookie($userId, $username) {
+function setAuthCookie($userId, $username, $isAdmin = false) {
     $payload = [
         'user_id' => $userId,
-        'username' => $username
+        'username' => $username,
+        'is_admin' => (bool)$isAdmin
     ];
+    
     $jwt = generateJWT($payload);
     
-    // Cookie valide 24h, accessible en HTTP seulement, sécurisé et en mode strict
-    setcookie('auth_token', $jwt, [
-        'expires' => time() + (60 * 60 * 24),
-        'path' => '/',
-        'domain' => '',
-        'secure' => isset($_SERVER['HTTPS']),
-        'httponly' => true,
-        'samesite' => 'Strict'
-    ]);
+    // Définir le cookie avec les options de sécurité
+    $expiry = time() + (60 * 60 * 24 * 30); // 30 jours
+    setcookie(
+        'auth_token',
+        $jwt,
+        [
+            'expires' => $expiry,
+            'path' => '/',
+            'domain' => '',
+            'secure' => isset($_SERVER['HTTPS']),
+            'httponly' => true,
+            'samesite' => 'Strict'
+        ]
+    );
 }
 
 // Supprimer le cookie d'authentification
