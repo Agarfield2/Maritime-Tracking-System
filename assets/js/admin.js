@@ -4,10 +4,40 @@ let filteredBateaux = [];
 let currentPage = 1;
 const rowsPerPage = 10;
 
+// Vérifier l'authentification admin
+async function checkAdminAuth() {
+  try {
+    const response = await fetch('api/admin_auth.php', {
+      credentials: 'same-origin'
+    });
+    
+    if (!response.ok) {
+      // Rediriger vers la page non autorisée si l'utilisateur n'est pas admin
+      window.location.href = 'unauthorized.html';
+      return false;
+    }
+    
+    const data = await response.json();
+    if (!data.authenticated || !data.user.is_admin) {
+      window.location.href = 'unauthorized.html';
+      return false;
+    }
+    
+    return true;
+  } catch (error) {
+    console.error('Erreur lors de la vérification des droits admin:', error);
+    window.location.href = 'unauthorized.html';
+    return false;
+  }
+}
+
 // Chargement initial des bateaux
-document.addEventListener('DOMContentLoaded', () => {
-  chargerBateaux();
-  setupEventListeners();
+document.addEventListener('DOMContentLoaded', async () => {
+  const isAdmin = await checkAdminAuth();
+  if (isAdmin) {
+    chargerBateaux();
+    setupEventListeners();
+  }
 });
 
 // Configuration des écouteurs d'événements

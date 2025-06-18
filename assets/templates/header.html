@@ -1,0 +1,31 @@
+<!-- Barre de navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow" style="border-radius: 20px; margin: 20px 20px 0 20px;">
+  <a class="navbar-brand d-flex align-items-center" href="index.html" style="gap:10px;" id="navbar-logo">
+    <img src="assets/img/cargo.png" alt="Logo AIS" style="height:40px;width:auto;border-radius:12px;box-shadow:0 0 0 2px #000;background:#fff;padding:2px;">
+    <span style="font-weight:bold;letter-spacing:1px;">AIS&nbsp;App</span>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAis" aria-controls="navbarAis" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarAis">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="add_ship.html">Ajouter un navire</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="dashboard.html">Tableau &amp; Carte</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="clusters.html">Clusters</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto" id="auth-section">
+      <!-- Le contenu sera injecté dynamiquement par auth.js -->
+      <li class="nav-item" id="login-link">
+        <a class="nav-link" href="login.html" title="Connexion admin">
+          <img src="assets/img/login.svg" alt="Connexion" style="height:32px;width:auto;vertical-align:middle;">
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

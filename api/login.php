@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json');
+require_once 'jwt_functions.php';
 
 // Vérifier si la requête est de type POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -25,9 +26,12 @@ $valid_username = 'admin';
 $valid_password = 'admin'; // En production, utilisez password_hash() et password_verify()
 
 if ($login === $valid_username && $password === $valid_password) {
-    // Authentification réussie
+    // Authentification réussie - générer un token JWT
+    setAuthCookie(1, 'admin'); // ID utilisateur 1 pour l'admin
+    
     echo json_encode([
-        'success' => true
+        'success' => true,
+        'redirect' => 'admin.html'
     ]);
 } else {
     // Répondre avec un délai pour empêcher les attaques par force brute

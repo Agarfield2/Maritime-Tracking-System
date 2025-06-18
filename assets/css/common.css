@@ -1,0 +1,121 @@
+/* Styles communs à toutes les pages */
+
+/* Styles de base */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+/* Conteneur principal */
+.main-container {
+  flex: 1;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Styles pour la navigation */
+.navbar {
+  margin-bottom: 20px;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-brand {
+  font-weight: 600;
+}
+
+/* Styles pour le pied de page */
+.footer {
+  background-color: #f8f9fa;
+  padding: 2rem 0;
+  margin-top: auto;
+}
+
+.footer h5 {
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.footer a {
+  color: #6c757d;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer a:hover {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+/* Styles pour les cartes */
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Boutons */
+.btn {
+  border-radius: 20px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+/* Formulaire */
+.form-control {
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #dee2e6;
+}
+
+.form-control:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Alertes */
+.alert {
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+/* Animation de chargement */
+.loading {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #0d6efd;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+  
+  .footer {
+    text-align: center;
+  }
+  
+  .footer .col-md-3, 
+  .footer .col-md-6 {
+    margin-bottom: 1.5rem;
+  }
+}
