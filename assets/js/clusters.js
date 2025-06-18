@@ -39,7 +39,16 @@ function clearMarkers() {
 
 // Fonction pour charger et afficher les clusters
 async function loadClusters() {
+    // Bouton calcul clusters
+    const refreshBtn = document.getElementById('refresh-clusters');
+    let originalBtnHTML;
     try {
+        // Désactive le bouton et affiche un spinner
+        if (refreshBtn) {
+            originalBtnHTML = refreshBtn.innerHTML;
+            refreshBtn.disabled = true;
+            refreshBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Calcul en cours...';
+        }
         // Affiche un indicateur de chargement
         const loadingDiv = document.getElementById('loading');
         if (loadingDiv) {
@@ -114,6 +123,11 @@ async function loadClusters() {
         // Cache l'indicateur de chargement
         const loadingDiv = document.getElementById('loading');
         if (loadingDiv) loadingDiv.style.display = 'none';
+        // Réactive le bouton et restaure son texte
+        if (refreshBtn) {
+            refreshBtn.disabled = false;
+            if (originalBtnHTML) refreshBtn.innerHTML = originalBtnHTML;
+        }
     }
 }
 
