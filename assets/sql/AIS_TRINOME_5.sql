@@ -11,14 +11,14 @@ CREATE TABLE bateau(
         id_bateau        Int  Auto_increment  NOT NULL ,
         MMSI             Varchar (9) NOT NULL ,
         IMO              Varchar (7) NOT NULL ,
-        CallSign         Varchar (8) NOT NULL ,
+        CallSign         Varchar (8) ,
         VesselName       Varchar (32) NOT NULL ,
-        VesselType       Integer NOT NULL ,
-        Length           Float NOT NULL ,
-        Width            Float NOT NULL ,
-        Draft            Float NOT NULL ,
-        Cargo            Varchar (4) NOT NULL ,
-        TransceiverClass Varchar (1) NOT NULL
+        VesselType       Integer ,
+        Length           Float ,
+        Width            Float ,
+        Draft            Float ,
+        Cargo            Varchar (4) ,
+        TransceiverClass Varchar (1)
 	,CONSTRAINT bateau_PK PRIMARY KEY (id_bateau)
 )ENGINE=InnoDB;
 
@@ -29,7 +29,7 @@ CREATE TABLE bateau(
 
 CREATE TABLE statut(
         id_statut Int  Auto_increment  NOT NULL ,
-        statut    Integer NOT NULL
+        statut    Integer
 	,CONSTRAINT statut_PK PRIMARY KEY (id_statut)
 )ENGINE=InnoDB;
 
