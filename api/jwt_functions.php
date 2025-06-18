@@ -72,29 +72,36 @@ function setAuthCookie($userId, $username, $isAdmin = false) {
     
     // Définir le cookie avec les options de sécurité
     $expiry = time() + (60 * 60 * 24 * 30); // 30 jours
-    setcookie(
-        'auth_token',
-        $jwt,
-        [
+    if (PHP_VERSION_ID >= 70300) {
+        setcookie('auth_token', $jwt, [
             'expires' => $expiry,
             'path' => '/',
             'domain' => '',
             'secure' => isset($_SERVER['HTTPS']),
             'httponly' => true,
             'samesite' => 'Strict'
-        ]
-    );
+        ]);
+    } else {
+        // Compatibilité avec PHP < 7.3 — SameSite via le path
+        $path = '/; samesite=Strict';
+        setcookie('auth_token', $jwt, $expiry, $path, '', isset($_SERVER['HTTPS']), true);
+    }
 }
 
 // Supprimer le cookie d'authentification
 function removeAuthCookie() {
-    setcookie('auth_token', '', [
-        'expires' => time() - 3600,
-        'path' => '/',
-        'domain' => '',
-        'secure' => isset($_SERVER['HTTPS']),
-        'httponly' => true,
-        'samesite' => 'Strict'
-    ]);
+    if (PHP_VERSION_ID >= 70300) {
+        setcookie('auth_token', '', [
+            'expires' => time() - 3600,
+            'path' => '/',
+            'domain' => '',
+            'secure' => isset($_SERVER['HTTPS']),
+            'httponly' => true,
+            'samesite' => 'Strict'
+        ]);
+    } else {
+        $path = '/; samesite=Strict';
+        setcookie('auth_token', '', time() - 3600, $path, '', isset($_SERVER['HTTPS']), true);
+    }
 }
 ?>
