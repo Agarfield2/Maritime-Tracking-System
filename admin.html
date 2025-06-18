@@ -57,6 +57,11 @@
   
   <div class="admin-container">
     <h2 class="mb-4">Tableau d'administration des données</h2>
+    <div class="btn-group mb-4" role="group">
+      <button type="button" id="tabNavire" class="btn btn-primary">Navires</button>
+      <button type="button" id="tabPosition" class="btn btn-outline-primary">Positions</button>
+    </div>
+    <div id="navireSection">
     <h3 class="mb-4">Ajouter un navire</h3>
     <form id="shipForm" class="mb-4">
       <div class="form-row">
@@ -198,6 +203,114 @@
     </table>
     
     <a href="index.html" class="btn btn-secondary ml-2">Retour à l'accueil</a>
+
+    </div><!-- end navireSection -->
+
+    <!-- Section Positions -->
+    <div id="positionSection" class="d-none">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">Liste des positions</h3>
+        <button class="btn btn-success" id="addPosBtn"><i class="fas fa-plus"></i> Ajouter une position</button>
+      </div>
+<div class="form-group position-relative" style="max-width:400px;">
+  <input type="text" id="posSearchInput" class="form-control" placeholder="Rechercher par nom de navire..." autocomplete="off">
+  <div id="posSearchSuggestions" class="list-group position-absolute w-100" style="z-index:1000"></div>
+</div>
+      <div class="table-responsive">
+        <table class="table table-bordered" id="positionsTable">
+          <thead class="thead-dark">
+            <tr>
+              <th>Navire</th>
+              <th>Date/Heure</th>
+              <th>LAT</th>
+              <th>LON</th>
+              <th>SOG</th>
+              <th>COG</th>
+              <th>Heading</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <nav class="d-flex align-items-center">
+        <ul class="pagination mb-0" id="posPagination"></ul>
+        <span class="ml-2">Aller à la page : <input type="number" id="posPageInput" min="1" style="width:70px" class="form-control d-inline-block" />
+          <button class="btn btn-sm btn-secondary" id="posPageGo">Go</button></span>
+      </nav>
+
+      <!-- Modal Position -->
+      <div class="modal fade" id="posModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <form id="posModalForm" novalidate>
+              <div class="modal-header">
+                <h5 class="modal-title">Ajouter une position</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>Navire <span class="text-danger">*</span></label>
+                  <input list="modalShips" id="modalShipInput" class="form-control" required>
+                  <datalist id="modalShips"></datalist>
+                  <div class="invalid-feedback">Choisissez un navire valide</div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Horodatage *</label>
+                    <input type="datetime-local" id="modalDateTime" class="form-control" required>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label>LAT *</label>
+                    <input type="number" step="0.00001" id="modalLat" class="form-control" required>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label>LON *</label>
+                    <input type="number" step="0.00001" id="modalLon" class="form-control" required>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-2">
+                    <label>SOG *</label>
+                    <input type="number" step="0.1" id="modalSog" class="form-control" required>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label>COG *</label>
+                    <input type="number" step="0.1" id="modalCog" class="form-control" required>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label>Heading *</label>
+                    <input type="number" step="0.1" id="modalHeading" class="form-control" required>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label>Statut AIS *</label>
+                    <select id="modalStatut" class="form-control" required>
+                      <option value="0">0 - Sous voile</option>
+                      <option value="1">1 - À l'ancre</option>
+                      <option value="2">2 - Non à la commande</option>
+                      <option value="3">3 - Manœuvrabilité restreinte</option>
+                      <option value="4">4 - Contrainte par son tirant d'eau</option>
+                      <option value="5">5 - Amarré</option>
+                      <option value="6">6 - Échoué</option>
+                      <option value="7">7 - En train de pêcher</option>
+                      <option value="8">8 - Au moteur</option>
+                      <option value="9">9 - Réservé</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end positionSection -->
   </div>
   <!-- Scripts JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
