@@ -123,7 +123,10 @@ footer.shadow {
   color: #222 !important;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
-
+/* Couleur du texte du nom d'utilisateur dans la navbar */
+.navbar-nav .dropdown-toggle span {
+  color: #000000 !important;
+}
 /* --- Responsive Navbar --- */
 @media (max-width: 991.98px) {
   .navbar.shadow {

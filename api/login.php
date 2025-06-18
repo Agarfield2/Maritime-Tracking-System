@@ -27,11 +27,22 @@ $valid_password = 'admin'; // En production, utilisez password_hash() et passwor
 
 if ($login === $valid_username && $password === $valid_password) {
     // Authentification réussie - générer un token JWT
-    setAuthCookie(1, 'admin'); // ID utilisateur 1 pour l'admin
+    // Créer un payload avec les informations de l'utilisateur
+    $userId = 1;
+    $username = 'admin';
+    $isAdmin = true;
+    
+    // Définir le cookie d'authentification avec les informations utilisateur
+    setAuthCookie($userId, $username, $isAdmin);
     
     echo json_encode([
         'success' => true,
-        'redirect' => 'admin.html'
+        'redirect' => 'admin.html',
+        'user' => [
+            'id' => $userId,
+            'username' => $username,
+            'is_admin' => $isAdmin
+        ]
     ]);
 } else {
     // Répondre avec un délai pour empêcher les attaques par force brute
