@@ -3,45 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clusters de navires</title>
+  <title>Clusters de navires - AIS App</title>
   <link rel="icon" href="assets/img/cargo.png" type="image/png">
+  <!-- CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css' rel='stylesheet' />
   <link rel="stylesheet" href="assets/css/styles.css" />
-  <style>
-    #map{height:80vh}
-    .legend-color{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;}
-  </style>
-  
-  
-
-  
-
-  
-
-  
-
-  
-
   <link rel="stylesheet" href="assets/css/common.css">
+  <style>
+    #map { height: 80vh; }
+    .legend-color { 
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+  </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
-
   <!-- Template Header -->
   <div id="template-header">
     <!-- Le contenu du header sera chargé dynamiquement -->
   </div>
-
-
-  <!-- Template Header -->
-  <div id="template-header">
-    <!-- Le contenu du header sera chargé dynamiquement -->
-  </div>
-
-  <!-- Navigation -->
-  
-
-  
 
   <main class="container-fluid py-4 flex-grow-1">
     <div id="map"></div>
@@ -49,68 +33,23 @@
     <a href="dashboard.html" class="btn btn-secondary mt-3">Retour au tableau</a>
   </main>
 
-  
+  <!-- Template Footer -->
+  <div id="template-footer">
+    <!-- Le contenu du footer sera chargé dynamiquement -->
+  </div>
 
+  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js'></script>
-  <script src="assets/js/clusters.js"></script>
-
-
-  <!-- Template Footer -->
-  <div id="template-footer">
-    <!-- Le contenu du footer sera chargé dynamiquement -->
-  </div>
-
-
-
-  <!-- Scripts communs -->
   
-  
-  
-
-
-
-  <!-- Template Footer -->
-  <div id="template-footer">
-    <!-- Le contenu du footer sera chargé dynamiquement -->
-  </div>
-
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
-  <!-- Scripts communs -->
-  
-  
-  
-
-
   <!-- Scripts communs -->
   <script src="assets/js/config.js"></script>
   <script src="assets/js/loadTemplates.js"></script>
   <script src="assets/js/auth.js"></script>
+  
+  <!-- Script spécifique à la page -->
+  <script src="assets/js/clusters.js"></script>
 </body>
 </html>
