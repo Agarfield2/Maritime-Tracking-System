@@ -199,8 +199,14 @@ async function handleDeletePosition(e){
 }
 
 function handleEditPosition(e){
-  // pour simplicité, non implémenté: à ajouter modal édition
+  const id = e.currentTarget.getAttribute('data-id');
   openPositionModal(id);
+}
+
+function toDatetimeLocal(sqlDateTime){
+  if(!sqlDateTime) return '';
+  // sqlDateTime: 'YYYY-MM-DD HH:MM:SS' or 'YYYY-MM-DD'
+  return sqlDateTime.replace(' ','T').slice(0,16);
 }
 
 function openPositionModal(id=null){
@@ -217,7 +223,7 @@ function openPositionModal(id=null){
       const pos = posData.find(p=>p.id_position==id);
       if(pos){
         document.getElementById('modalShipInput').value = pos.VesselName;
-        document.getElementById('modalDateTime').value = pos.BaseDateTime.replace(' ','T');
+        document.getElementById('modalDateTime').value = toDatetimeLocal(pos.BaseDateTime);
         document.getElementById('modalLat').value = pos.LAT;
         document.getElementById('modalLon').value = pos.LON;
         document.getElementById('modalSog').value = pos.SOG;
@@ -262,9 +268,12 @@ posModalForm && posModalForm.addEventListener('submit',async function(e){
     document.getElementById('modalShipInput').classList.add('is-invalid');
     return;
   }
+  let dtVal=document.getElementById('modalDateTime').value;
+  // si format sans secondes, ajouter :00 pour normaliser
+  if(dtVal && dtVal.length===16){ dtVal += ':00'; }
   const payload={
     id_bateau: opt.dataset.id,
-    BaseDateTime: document.getElementById('modalDateTime').value,
+    BaseDateTime: dtVal,
     LAT: parseFloat(document.getElementById('modalLat').value),
     LON: parseFloat(document.getElementById('modalLon').value),
     SOG: parseFloat(document.getElementById('modalSog').value),

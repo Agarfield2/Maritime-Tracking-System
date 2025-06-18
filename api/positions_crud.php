@@ -4,6 +4,19 @@ header('Content-Type: application/json');
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+// fonction utilitaire pour récupérer/insérer un statut et renvoyer son id
+function resolveStatutId(PDO $pdo, $code){
+    $stmt = $pdo->prepare('SELECT id_statut FROM statut WHERE statut = ? LIMIT 1');
+    $stmt->execute([$code]);
+    $id = $stmt->fetchColumn();
+    if($id){
+        return $id;
+    }
+    $stmt = $pdo->prepare('INSERT INTO statut (statut) VALUES (?)');
+    $stmt->execute([$code]);
+    return $pdo->lastInsertId();
+}
+
 switch ($method) {
     case 'POST':
         // Ajout d'une position
@@ -21,8 +34,10 @@ switch ($method) {
                 exit;
             }
         }
-        try {
+                try {
             $pdo->beginTransaction();
+            // Résoudre id_statut
+            $resolvedStatutId = resolveStatutId($pdo, $data['id_statut']);
             // Insérer dans position_AIS
             $stmt = $pdo->prepare('INSERT INTO position_AIS (BaseDateTime,LAT,LON,SOG,COG,Heading,id_statut) VALUES (?,?,?,?,?,?,?)');
             $stmt->execute([
@@ -32,7 +47,7 @@ switch ($method) {
                 $data['SOG'],
                 $data['COG'],
                 $data['Heading'],
-                $data['id_statut'],
+                $resolvedStatutId,
             ]);
             $posId = $pdo->lastInsertId();
             // Lier au bateau
@@ -58,11 +73,16 @@ switch ($method) {
         $id = (int)$data['id_position'];
         $updates = [];
         $params = [];
+        // résoudre statut si fourni
+        $statutId = null;
+        if(isset($data['id_statut'])){
+            $statutId = resolveStatutId($pdo, $data['id_statut']);
+        }
         $fields = ['BaseDateTime','LAT','LON','SOG','COG','Heading','id_statut'];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
                 $updates[] = "$f = ?";
-                $params[] = $data[$f];
+                $params[] = ($f==='id_statut') ? $statutId : $data[$f];
             }
         }
         if (!empty($updates)) {
@@ -78,6 +98,7 @@ switch ($method) {
             }
         }
         // Gérer éventuel changement de bateau
+        // changement de bateau
         if (isset($data['id_bateau'])) {
             $stmt = $pdo->prepare('UPDATE possede SET id_bateau = ? WHERE id_position = ?');
             try {
