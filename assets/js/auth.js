@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 // Gestionnaire d'erreur pour les requêtes AJAX non authentifiées
 if (typeof $ !== 'undefined') {
-  $(document).ajaxError(function(event, jqXHR) {
+  $(document).on('ajaxError', function(event, jqXHR) {
     if (jqXHR.status === 401) {
       // Non autorisé - rediriger vers la page de connexion
       window.location.href = 'login.html?session_expired=1';

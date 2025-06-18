@@ -1,6 +1,10 @@
 // clusters.js: affiche les clusters sur une carte
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiYWdhcmZpZWxkIiwiYSI6ImNtYnl4aXplMzAzY2Yya3NmcDRmNWV5OHcifQ.sPwU0gRwpupXyXkDIVvoRQ';
+if (typeof mapboxgl !== 'undefined') {
+  mapboxgl.accessToken = 'pk.eyJ1IjoiYWdhcmZpZWxkIiwiYSI6ImNtYnl4aXplMzAzY2Yya3NmcDRmNWV5OHcifQ.sPwU0gRwpupXyXkDIVvoRQ';
+} else {
+  console.warn('Mapbox GL JS n\'est pas chargé, clusters.js ne sera pas exécuté.');
+}
 
 let map;
 const COLORS = ['#e6194b','#3cb44b','#ffe119','#4363d8','#f58231','#911eb4','#46f0f0','#f032e6'];
@@ -14,6 +18,7 @@ async function fetchJSON(url) {
 
 // Fonction pour initialiser la carte
 function initMap() {
+    if (typeof mapboxgl === 'undefined') return;
     if (map) return;
     
     map = new mapboxgl.Map({

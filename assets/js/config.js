@@ -1,4 +1,5 @@
 // Configuration de l'application
+if (typeof window.APP_CONFIG === 'undefined') {
 const APP_CONFIG = {
   // URL de l'API
   API_BASE_URL: 'api/',
@@ -20,3 +21,5 @@ const APP_CONFIG = {
     IMAGES: 'assets/img/'
   }
 };
+window.APP_CONFIG = APP_CONFIG;
+}
