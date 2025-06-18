@@ -44,7 +44,7 @@ CREATE TABLE position_AIS(
         LAT          Double NOT NULL ,
         LON          Double NOT NULL ,
         SOG          Float NOT NULL ,
-        COG          Real NOT NULL ,
+        COG          Float NOT NULL ,
         Heading      Float NOT NULL ,
         id_statut    Int NOT NULL
 	,CONSTRAINT position_AIS_PK PRIMARY KEY (id_position)
