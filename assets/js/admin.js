@@ -45,6 +45,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (isAdmin) {
     chargerBateaux();
     setupEventListeners();
+    // toggle bouton ajout navire
+    const btn=document.getElementById('addShipToggle');
+    const form=document.getElementById('shipForm');
+    btn && form && btn.addEventListener('click',()=>{
+      form.style.display=form.style.display==='none'?'block':'none';
+      btn.classList.toggle('btn-success');
+      btn.classList.toggle('btn-outline-secondary');
+      btn.innerHTML=form.style.display==='none'?'<i class="fas fa-plus"></i> Ajouter un navire':'<i class="fas fa-times"></i> Fermer le formulaire';
+    });
   }
 });
 
@@ -339,7 +348,7 @@ function renderPositions() {
       <td>${p.COG}</td>
       <td>${p.Heading}</td>
       <td>${p.Statut ?? ''}</td>
-      <td>
+      <td class='table-actions'>
         <button class='btn btn-sm btn-outline-primary edit-pos' data-id='${p.id_position}' title='Modifier'><i class='fas fa-edit'></i></button>
         <button class='btn btn-sm btn-outline-danger delete-pos' data-id='${p.id_position}' title='Supprimer'><i class='fas fa-trash'></i></button>
       </td>
@@ -436,9 +445,9 @@ function afficherBateaux() {
         <td>${b.Draft || ''}</td>
         <td>${b.Cargo || ''}</td>
         <td>${b.TransceiverClass || ''}</td>
-        <td>
-          <button class='btn btn-sm btn-warning' onclick='editBateau(${b.MMSI})'>Modifier</button>
-          <button class='btn btn-sm btn-danger' onclick='deleteBateau(${b.MMSI})'>Supprimer</button>
+        <td class='table-actions'>
+          <button class="btn btn-sm btn-outline-primary" onclick='editBateau(${b.MMSI})' title='Modifier'><i class='fas fa-edit'></i></button>
+          <button class="btn btn-sm btn-outline-danger" onclick='deleteBateau(${b.MMSI})' title='Supprimer'><i class='fas fa-trash'></i></button>
         </td>
       </tr>`;
   });

@@ -20,7 +20,9 @@
   <style>
     body {background: linear-gradient(135deg,#e0eafc 0%,#cfdef3 100%);}
     .admin-container {max-width: 1100px; margin: 40px auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 16px rgba(0,0,0,0.08); padding: 32px 28px;}
-    .table-actions button {margin-right: 4px;}
+    .table-actions{white-space:nowrap;}
+    .table-actions button{margin-right:4px;}
+    .pagination{display:inline-flex!important;justify-content:center!important;}
   </style>
   
   
@@ -62,8 +64,8 @@
       <button type="button" id="tabPosition" class="btn btn-outline-primary">Positions</button>
     </div>
     <div id="navireSection">
-    <h3 class="mb-4">Ajouter un navire</h3>
-    <form id="shipForm" class="mb-4">
+    <button class="btn btn-success mb-2 float-right" id="addShipBtn"><i class="fas fa-plus"></i> Ajouter un navire</button>
+    <form id="shipForm" class="mb-4" style="display:none;">
       <div class="form-row">
         <div class="form-group col-md-4">
           <label>MMSI <span class="text-danger">*</span></label>
@@ -143,8 +145,96 @@
       <button type="reset" class="btn btn-outline-secondary ml-2" onclick="resetFormValidation(this.form)">Réinitialiser</button>
     </form>
     <div id="addShipMessage" class="mt-3"></div>
+
+<!-- Modal Ajout Navire -->
+<div class="modal fade" id="shipModal" tabindex="-1" role="dialog" aria-labelledby="shipModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form id="shipModalForm" novalidate>
+        <div class="modal-header">
+          <h5 class="modal-title" id="shipModalLabel">Ajouter un navire</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label>MMSI <span class="text-danger">*</span></label>
+              <input name="MMSI" class="form-control" placeholder="123456789" required pattern="\d{9}" title="Le MMSI doit contenir exactement 9 chiffres">
+              <small class="form-text text-muted">9 chiffres requis</small>
+            </div>
+            <div class="form-group col-md-4">
+              <label>IMO <span class="text-danger">*</span></label>
+              <input name="IMO" class="form-control" placeholder="IMO9060247" required pattern="IMO\d{7}" title="Le numéro IMO doit commencer par 'IMO' suivi de 7 chiffres">
+              <small class="form-text text-muted">Format requis : IMO1234567</small>
+            </div>
+            <div class="form-group col-md-4">
+              <label>CallSign <span class="text-danger">*</span></label>
+              <input name="CallSign" class="form-control" placeholder="FXYZ" required pattern="[A-Z0-9]{3,7}" title="3 à 7 caractères alphanumériques en majuscules">
+              <small class="form-text text-muted">3 à 7 caractères alphanumériques</small>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Nom <span class="text-danger">*</span></label>
+              <input name="VesselName" class="form-control" placeholder="Nom du navire" required pattern=".{3,100}" title="Entre 3 et 100 caractères">
+              <small class="form-text text-muted">3 à 100 caractères</small>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Type de navire <span class="text-danger">*</span></label>
+              <input list="vesselTypesModal" name="VesselType" class="form-control" placeholder="Code type (ex : 70)" required pattern="\d{1,3}" title="Code numérique du type de navire (ex : 60, 70, 80)">
+              <datalist id="vesselTypesModal">
+                <option value="60">60 - Navire à passagers</option>
+                <option value="70">70 - Cargo</option>
+                <option value="80">80 - Pétrolier</option>
+              </datalist>
+              <small class="form-text text-muted">Code numérique du type de navire (ex: 60, 70, 80)</small>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Longueur (m) <span class="text-danger">*</span></label>
+              <input type="number" step="0.1" name="Length" class="form-control" placeholder="300" required min="1" max="1000" title="Entre 1 et 1000 mètres">
+              <small class="form-text text-muted">1 à 1000 mètres</small>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Largeur (m) <span class="text-danger">*</span></label>
+              <input type="number" step="0.1" name="Width" class="form-control" placeholder="48" required min="1" max="200" title="Entre 1 et 200 mètres">
+              <small class="form-text text-muted">1 à 200 mètres</small>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-2">
+              <label>Tirant d'eau (m) <span class="text-danger">*</span></label>
+              <input type="number" step="0.1" name="Draft" class="form-control" placeholder="12.5" required min="0.1" max="100" title="Entre 0.1 et 100 mètres">
+              <small class="form-text text-muted">0.1 à 100 mètres</small>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Type de cargaison <span class="text-danger">*</span></label>
+              <input name="Cargo" class="form-control" placeholder="Ex: 81, 79, 0, 10" required>
+              <small class="form-text text-muted">Nombre entier de 0 à 200 (ex: 81, 79, 0, 10)</small>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Classe d'émetteur <span class="text-danger">*</span></label>
+              <select name="TransceiverClass" class="form-control" style="min-width: 100%; line-height: 1.5; padding: 0.5rem 0.75rem;" required>
+                <option value="">Sélectionnez...</option>
+                <option value="A">A - Professionnel</option>
+                <option value="B">B - Loisir</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Script spécifique pour la modale navire -->
+<script src="assets/js/ship_modal.js"></script>
     
-    <hr class="my-5 border-secondary">
     
     <h3 class="mb-4">Liste des navires</h3>
     <div class="form-group position-relative" style="max-width:400px;">
@@ -183,7 +273,7 @@
         </div>
       </div>
     </div>
-    <table class="table table-bordered table-hover" id="table-bateaux">
+    <table class="table table-bordered table-hover table-striped" id="table-bateaux">
       <thead class="thead-dark">
         <tr>
           <th>MMSI</th>
@@ -196,11 +286,13 @@
           <th>Draft</th>
           <th>Cargo</th>
           <th>Classe</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>
+    <nav class="d-flex align-items-center">
+      <ul class="pagination mb-0 justify-content-center" id="pagination"></ul>
+    </nav>
     
     <a href="index.html" class="btn btn-secondary ml-2">Retour à l'accueil</a>
 
@@ -217,7 +309,7 @@
   <div id="posSearchSuggestions" class="list-group position-absolute w-100" style="z-index:1000"></div>
 </div>
       <div class="table-responsive">
-        <table class="table table-bordered" id="positionsTable">
+        <table class="table table-bordered table-hover table-striped" id="positionsTable">
           <thead class="thead-dark">
             <tr>
               <th>Navire</th>
@@ -253,7 +345,7 @@
               <div class="modal-body">
                 <div class="form-group">
                   <label>Navire <span class="text-danger">*</span></label>
-                  <input list="modalShips" id="modalShipInput" class="form-control" required>
+                  <input list="modalShips" id="modalShipInput" class="form-control" placeholder="Nom du navire..." required>
                   <datalist id="modalShips"></datalist>
                   <div class="invalid-feedback">Choisissez un navire valide</div>
                 </div>
@@ -264,29 +356,29 @@
                   </div>
                   <div class="form-group col-md-3">
                     <label>LAT *</label>
-                    <input type="number" step="0.00001" id="modalLat" class="form-control" required>
+                    <input type="number" step="0.00001" id="modalLat" class="form-control" placeholder="Latitude" required>
                   </div>
                   <div class="form-group col-md-3">
                     <label>LON *</label>
-                    <input type="number" step="0.00001" id="modalLon" class="form-control" required>
+                    <input type="number" step="0.00001" id="modalLon" class="form-control" placeholder="Longitude" required>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-2">
                     <label>SOG *</label>
-                    <input type="number" step="0.1" id="modalSog" class="form-control" required>
+                    <input type="number" step="0.1" id="modalSog" class="form-control" placeholder="SOG (nd)" required>
                   </div>
                   <div class="form-group col-md-2">
                     <label>COG *</label>
-                    <input type="number" step="0.1" id="modalCog" class="form-control" required>
+                    <input type="number" step="0.1" id="modalCog" class="form-control" placeholder="COG (°)" required>
                   </div>
                   <div class="form-group col-md-2">
                     <label>Heading *</label>
-                    <input type="number" step="0.1" id="modalHeading" class="form-control" required>
+                    <input type="number" step="0.1" id="modalHeading" class="form-control" placeholder="Heading" required>
                   </div>
                   <div class="form-group col-md-3">
                     <label>Statut AIS *</label>
-                    <select id="modalStatut" class="form-control" required>
+                    <select id="modalStatut" class="form-control" style="min-width: 100%; line-height: 1.5; padding: 0.5rem 0.75rem;" required>
                       <option value="0">0 - Sous voile</option>
                       <option value="1">1 - À l'ancre</option>
                       <option value="2">2 - Non à la commande</option>

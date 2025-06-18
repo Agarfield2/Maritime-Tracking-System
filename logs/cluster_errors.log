@@ -1,7 +1,7 @@
 '"python3"' n'est pas reconnu en tant que commande interne
 ou externe, un programme ex‚cutable ou un fichier de commandes.
 {
-    "timestamp": "2025-06-18 14:39:13",
+    "timestamp": "2025-06-18 15:34:25",
     "error": "Python script execution failed",
     "exit_code": 1,
     "command": "\"python3\" \"C:\\wamp64\\www\\tpapache\\Projet_web3\\api/../scripts/cluster.py\" 2>\"C:\\wamp64\\www\\tpapache\\Projet_web3\\api/../logs/cluster_errors.log\"",
