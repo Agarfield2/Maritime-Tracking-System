@@ -278,41 +278,6 @@ Projet_web3/
 └── *.html              # Pages web
 ```
 
-```
-Projet_web3/
-├── api/                     # Fichiers backend PHP
-│   ├── admin_auth.php       # Authentification admin
-│   ├── db.php               # Configuration de la base de données
-│   ├── login.php            # Gestion de la connexion
-│   ├── get_vessels.php      # API pour récupérer les navires
-│   ├── update_position.php  # Mise à jour des positions
-│   └── ...
-│
-├── assets/
-│   ├── css/                # Feuilles de style
-│   │   ├── style.css      # Styles principaux
-│   │   └── admin.css      # Styles de l'interface admin
-│   ├── js/                 # Scripts JavaScript
-│   │   ├── main.js       # Script principal
-│   │   ├── map.js        # Gestion de la carte interactive
-│   │   └── admin.js      # Fonctionnalités admin
-│   ├── img/                # Images et icônes
-│   └── sql/                # Scripts SQL
-│       └── AIS_TRINOME_5.sql  # Script de création de la BDD
-│
-├── scripts/
-│   ├── cluster.py         # Script Python pour le clustering
-│   └── requirements.txt    # Dépendances Python
-│
-├── logs/                   # Fichiers de log
-├── documentation/          # Documentation supplémentaire
-├── admin.html              # Interface d'administration
-├── index.html              # Page d'accueil
-├── login.html              # Page de connexion
-├──  README.md               # Ce fichier
-└── ...
-```
-
 ### Description détaillée des dossiers
 - **/api** : Contient tous les endpoints de l'API en PHP
 - **/assets** : Ressources statiques (CSS, JS, images)
