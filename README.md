@@ -12,9 +12,10 @@
    - [2.1. Serveur Web](#21-serveur-web)
    - [2.2. Python](#22-python)
 3. [Installation](#3-installation)
-   - [3.1. Configuration de la base de données](#31-configuration-de-la-base-de-données)
-   - [3.2. Configuration Python](#32-configuration-python)
-   - [3.3. Configuration de l'application web](#33-configuration-de-lapplication-web)
+   - [3.1. Installation sous Apache](#31-installation-sous-apache)
+   - [3.2. Configuration de la base de données](#32-configuration-de-la-base-de-données)
+   - [3.3. Configuration Python](#33-configuration-python)
+   - [3.4. Configuration de l'application web](#34-configuration-de-lapplication-web)
 4. [Accès administrateur](#4-accès-administrateur)
 5. [Structure du projet](#5-structure-du-projet)
 6. [Fonctionnalités](#6-fonctionnalités)
@@ -23,6 +24,10 @@
    - [6.3. Fonctionnalités avancées](#63-fonctionnalités-avancées)
 7. [Dépannage](#7-dépannage)
 8. [Sécurité](#8-sécurité)
+9. [Maintenance](#9-maintenance)
+10. [Développement](#10-développement)
+11. [API](#11-api)
+12. [Équipe de développement](#12-équipe-de-développement)
 
 ## 1. Description
 Ce projet est une application web de suivi maritime qui permet de visualiser et d'analyser les données AIS (Automatic Identification System) des navires. L'application inclut des fonctionnalités d'authentification, de visualisation de cartes, et d'analyse prédictive des routes maritimes.
@@ -35,7 +40,7 @@ Ce projet est une application web de suivi maritime qui permet de visualiser et 
 - Apache 2.4+
 
 ### 2.2. Python
-- Python 3.9
+- Python 3.9.X
 - Bibliothèques Python (installer avec la commande ci-dessous) :
   ```
   # Installation des dépendances principales
@@ -67,7 +72,99 @@ Ce projet est une application web de suivi maritime qui permet de visualiser et 
 
 ## 3. Installation
 
-### 3.1. Configuration de la base de données
+### 3.1. Installation sous Apache
+
+#### Configuration d'Apache
+
+1. **Activer les modules requis** :
+   ```bash
+   # Activer le module de réécriture
+   sudo a2enmod rewrite
+   
+   # Activer les en-têtes pour CORS
+   sudo a2enmod headers
+   
+   # Redémarrer Apache
+   sudo systemctl restart apache2
+   ```
+
+2. **Configurer le Virtual Host** :
+   Créez un fichier de configuration dans `/etc/apache2/sites-available/votre-site.conf` avec le contenu suivant :
+   ```apache
+   <VirtualHost *:80>
+       ServerName votre-domaine.com
+       ServerAdmin webmaster@localhost
+       DocumentRoot /chemin/vers/dossiers
+       
+       <Directory /chemin/vers/dossiers>
+           Options -Indexes +FollowSymLinks
+           AllowOverride All
+           Require all granted
+           
+           # Autoriser le .htaccess
+           <IfModule mod_rewrite.c>
+               RewriteEngine On
+               RewriteBase /
+               
+               # Rediriger vers le frontend pour les routes inconnues
+               RewriteCond %{REQUEST_FILENAME} !-f
+               RewriteCond %{REQUEST_FILENAME} !-d
+               RewriteRule ^(.*)$ /index.html [L]
+           </IfModule>
+           
+           # En-têtes CORS pour l'API
+           <FilesMatch "\.(php)$">
+               Header set Access-Control-Allow-Origin "*"
+               Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+               Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+           </FilesMatch>
+       </Directory>
+       
+       # Journalisation
+       ErrorLog ${APACHE_LOG_DIR}/projet_web3_error.log
+       CustomLog ${APACHE_LOG_DIR}/projet_web3_access.log combined
+   </VirtualHost>
+   ```
+
+3. **Activer le site et redémarrer Apache** :
+   ```bash
+   sudo a2ensite votre-site.conf
+   sudo systemctl restart apache2
+   ```
+
+4. **Vérifier les permissions** :
+   ```bash
+   # Définir le propriétaire correct
+   sudo chown -R www-data:www-data /chemin/vers/dossiers
+   
+   # Définir les permissions
+   sudo find /chemin/vers/dossiers -type d -exec chmod 755 {} \;
+   sudo find /chemin/vers/dossiers -type f -exec chmod 644 {} \;
+   
+   # Rendre les dossiers de log et upload écrivables
+   sudo chmod -R 775 /chemin/vers/dossiers/logs
+   sudo chmod -R 775 /chemin/vers/dossiers/uploads
+   ```
+
+5. **Configuration de PHP** :
+   Assurez-vous que ces paramètres sont correctement définis dans votre `php.ini` :
+   ```ini
+   upload_max_filesize = 20M
+   post_max_size = 20M
+   memory_limit = 256M
+   max_execution_time = 300
+   date.timezone = Europe/Paris
+   ```
+
+6. **Activer le site** :
+   ```bash
+   sudo a2dissite 000-default.conf
+   sudo a2ensite votre-site.conf
+   sudo systemctl restart apache2
+   ```
+
+### 3.2. Configuration de la base de données
+
 1. Créez une base de données MySQL nommée `marine_db`
 2. Importez le fichier SQL initial en utilisant phpMyAdmin ou la ligne de commande :
    - **Méthode 1 (phpMyAdmin)** :
@@ -332,22 +429,95 @@ Le fichier `assets/js/config.js` contient :
 - Chemins des templates
 - Configuration de l'interface utilisateur
 
-## 11. API Documentation
+## 11. Documentation de l'API
 
 ### 11.1. Authentification
 - `POST /api/login.php` : Authentification utilisateur
+  - Paramètres : `username`, `password`
+  - Retourne : JWT token en cas de succès
+
 - `GET /api/check_auth.php` : Vérification de l'authentification
+  - Headers : `Authorization: Bearer <token>`
+  - Retourne : Statut de l'authentification
+
 - `GET /api/logout.php` : Déconnexion
+  - Invalide le token JWT
 
 ### 11.2. Données des navires
 - `GET /api/boats.php` : Liste des navires
-- `GET /api/positions.php` : Positions des navires
-- `POST /api/add_position.php` : Ajouter une position
+  - Paramètres optionnels : `page`, `limit`, `search`
+  - Retourne : Liste paginée des navires avec leurs détails
 
-### 11.3. Prédictions
+- `GET /api/positions.php` : Positions des navires
+  - Paramètres : `id_bateau` (optionnel)
+  - Retourne : Positions historiques d'un navire spécifique ou de tous les navires
+
+- `GET /api/position_pages.php` : Récupération paginée des positions
+  - Paramètres : `page`, `limit`, `id_bateau` (optionnel)
+  - Retourne : Positions paginées avec métadonnées de pagination
+
+- `GET /api/ship_names.php` : Liste des noms de navires pour l'autocomplétion
+  - Paramètres : `term` (recherche)
+  - Retourne : Liste des noms correspondants
+
+### 11.3. Gestion des positions (CRUD)
+- `POST /api/positions_crud.php` : Ajouter une position
+  - Corps (JSON) : `BaseDateTime`, `LAT`, `LON`, `SOG`, `COG`, `Heading`, `id_statut`, `id_bateau`
+  - Retourne : ID de la position créée
+
+- `PUT /api/positions_crud.php` : Mettre à jour une position
+  - Corps (JSON) : `id_position`, champs à mettre à jour (`BaseDateTime`, `LAT`, `LON`, etc.)
+  - Retourne : Statut de la mise à jour
+
+- `DELETE /api/positions_crud.php` : Supprimer une position
+  - Corps (JSON) : `id_position`
+  - Retourne : Statut de la suppression
+
+### 11.4. Prédictions et analyse
 - `GET /api/predict_cluster.php` : Prédire un cluster
+  - Retourne : 3000 Cluster prédit avec les données (récupérer directement dans la base de données)
+
 - `GET /api/predict_route.php` : Prédire une route
+  - Paramètres : `mmsi` (identifiant du navire)
+  - Retourne : Points de la route prédite
+
 - `GET /api/predict_type.php` : Prédire le type de navire
+  - Paramètres : `LAT`, `LON`, `SOG`, `COG`, `Heading`
+  - Retourne : Type de navire prédit avec score de confiance
+
+- `GET /api/predict_horizon.php` : Prédiction à horizon temporel
+  - Paramètres : `mmsi`, `horizon` (en minutes (5-10-15))
+  - Retourne : Position prédite à l'horizon spécifié
+
+### 11.5. Authentification et autorisation
+
+#### Authentification utilisateur
+- `POST /api/login.php` : Connexion utilisateur
+  - Paramètres : `username`, `password`
+  - Retourne : JWT dans un cookie `auth_token`
+  - Durée de validité : 30 jours
+
+- `GET /api/check_auth.php` : Vérification de l'authentification
+  - Vérifie la présence et la validité du JWT dans les cookies
+  - Retourne : `{authenticated: true/false, user: {id, username, is_admin}}`
+
+- `GET /api/logout.php` : Déconnexion
+  - Invalide le cookie d'authentification
+
+#### Vérification des droits administrateur
+- `GET /api/admin_auth.php` : Vérification des droits administrateur
+  - Vérifie que l'utilisateur est authentifié et a les droits administrateur
+  - Nécessite un cookie `auth_token` valide avec `is_admin=true`
+  - Redirige vers la page de connexion si non authentifié
+  - Redirige vers une page d'erreur 403 si non autorisé
+  - Retourne les informations de l'utilisateur administrateur si autorisé
+
+#### Fonctionnement du JWT
+- Le token JWT contient : `{user_id, username, is_admin, exp, iat}`
+- Signé avec une clé secrète côté serveur
+- Stocké dans un cookie HTTP-Only avec les drapeaux Secure et SameSite=Strict
+- Valable 24 heures (renouvellement automatique à chaque requête)
+- Invalidation lors de la déconnexion
 
 ## 12. Dépannage avancé
 
@@ -387,12 +557,54 @@ Les contributions sont les bienvenues ! Pour contribuer :
 - [Charte graphique](documentation/Charte_graphique.pdf)
 
 ### Équipe de développement
-- [Votre nom] - Développeur principal
-- [Collègue] - Développeur backend
-- [Designer] - Design UI/UX
 
-### Remerciements
-- [Bibliothèques tierces](documentation/CREDITS.md)
-- Sources de données
-- Contributeurs
+#### Armand BEHAREL CIR3 - Développeur principal
+- **Gestion de projet** :
+  - Organisation et planification (Gantt)
+  - Coordination de l'équipe
+  - Documentation technique
 
+- **Développement Backend** :
+  - Architecture et conception de l'application
+  - Développement des API client-serveur
+  - Scripts d'import/export Python
+  - Configuration et maintenance des serveurs
+
+- **Développement Frontend** :
+  - Conception et développement de l'interface utilisateur
+  - Tableau de visualisation des données
+  - Système de filtrage avancé
+  - Formulaire d'ajout de données
+  - Page d'administration
+  - Complétion automatique des champs
+
+- **Fonctionnalités avancées** :
+  - Intégration des modèles d'IA (clusters et prédictions)
+  - Visualisation cartographique interactive
+  - Gestion des données en temps réel
+  - Système de gestion des erreurs
+
+#### Xavier FAVE CIR3 - Développeur Frontend & Base de données
+- **Conception** :
+  - Modèle Conceptuel de Données (MCD)
+  - Charte graphique
+  - Documentation des requêtes client-serveur
+
+- **Développement** :
+  - Contribution à la page d'accueil
+  - Mise en forme CSS/bootstrap
+  - Éléments d'interface utilisateur
+  - Design/Style de la section de prédiction (partie 5)
+  - Documentation technique des API
+
+#### Antoine TOURNEUX CIR3 - Développeur Frontend
+- **Conception** :
+  - Maquettes initiales du site
+  - Charte graphique
+
+- **Développement** :
+  - Contribution majeur à la page d'accueil
+  - Idées et début d'implémentation de l'interface admin et login
+  - Mise en forme CSS/bootstrap
+  - Éléments visuels et graphiques
+  - header et footer
