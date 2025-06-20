@@ -566,9 +566,9 @@ Les contributions sont les bienvenues ! Pour contribuer :
 5. Créez une Pull Request
 
 ### Documentation complémentaire
-- [Guide d'installation détaillé](documentation/INSTALL.md)
-- [Guide utilisateur](documentation/USER_GUIDE.md)
-- [Documentation technique](documentation/TECH_DOC.md)
+- [Guide de la répartition](documentation/Gantt_fin_web.pdf)
+- [Maquette](documentation/Maquette)
+- [Documentation Modèle Conceptuel de Données](documentation/MCD.pdf)
 - [Charte graphique](documentation/Charte_graphique.pdf)
 
 ### Équipe de développement
