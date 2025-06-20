@@ -14,7 +14,7 @@
    2.2. [Python](#22-python)
 3. [Installation](#3-installation)  
    3.1. [Configuration Python](#31-Configuration-Python)  
-   3.2. [Configuration de l'application web](#32-Configuration-de-l'application-web)
+   3.2. [Configuration de l'application web](#32-configuration-de-lapplication-web)
 4. [Accès administrateur](#4-accès-administrateur)
 5. [Structure du projet complète](#5-structure-du-projet-complète)
 6. [Fonctionnalités](#6-fonctionnalités)  
