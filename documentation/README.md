@@ -214,7 +214,7 @@ Ce projet est une application web de suivi maritime qui permet de visualiser et 
   - Nom d'utilisateur : `admin`
   - Mot de passe : `admin`
 
-> **Note** : Pour modifier les identifiants administrateur par défaut, modifiez le fichier `api/admin_auth.php` et changez les valeurs dans le tableau `$users`.
+> **Note** : Pour modifier les identifiants administrateur par défaut, modifiez le fichier `api/admin_auth.php` et changez les valeurs dans le tableau `$users`. Nous avons choisi de mettre la visualisation des données complètes dans une autre page que la visualisation de données qui est notre page admin, donc dans la page visualisation des données nous avons choisi de mettre juste le MMSI et le nom du navire et dans la page admin les données au complet.
 
 ## 5. Structure du projet complète
 
