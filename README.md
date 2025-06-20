@@ -37,9 +37,8 @@
 12. [Dépannage avancé](#12-dépannage-avancé)  
     12.1. [Problèmes courants](#121-problèmes-courants)  
     12.2. [Logs](#122-logs)
-13. [Aide et support](#13-aide-et-support)  
-    13.2. [Contribution](#132-contribution)  
-    13.4. [Équipe de développement](#134-équipe-de-développement)
+13. [Aide et support](#13-aide-et-support)   
+    13.1. [Équipe de développement](#131-équipe-de-développement)
 
 ## 1. Description
 Ce projet est une application web de suivi maritime qui permet de visualiser et d'analyser les données AIS (Automatic Identification System) des navires. L'application inclut des fonctionnalités d'authentification, de visualisation de cartes, et d'analyse prédictive des routes maritimes.
