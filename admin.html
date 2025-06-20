@@ -169,14 +169,14 @@
               <small class="form-text text-muted">3 à 100 caractères</small>
             </div>
             <div class="form-group col-md-2">
-              <label>Type de navire <span class="text-danger">*</span></label>
-              <input list="vesselTypesModal" name="VesselType" class="form-control" placeholder="Code type (ex : 70)" required pattern="\d{1,3}" title="Code numérique du type de navire (ex : 60, 70, 80)">
+              <label>Type de navire</label>
+              <input list="vesselTypesModal" name="VesselType" class="form-control" placeholder="Code type (ex : 70)" pattern="\d{1,3}" title="Code numérique du type de navire (ex : 60, 70, 80)">
               <datalist id="vesselTypesModal">
                 <option value="60">60 - Navire à passagers</option>
                 <option value="70">70 - Cargo</option>
                 <option value="80">80 - Pétrolier</option>
               </datalist>
-              <small class="form-text text-muted">Code numérique du type de navire (ex: 60, 70, 80)</small>
+              <small class="form-text text-muted">Code numérique du type de navire (optionnel)</small>
             </div>
             <div class="form-group col-md-2">
               <label>Longueur (m) <span class="text-danger">*</span></label>
