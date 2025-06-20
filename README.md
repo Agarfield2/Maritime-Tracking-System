@@ -36,9 +36,9 @@
     - [12.1. Problèmes courants](#121-problèmes-courants)
     - [12.2. Logs](#122-logs)
 13. [Aide et support](#13-aide-et-support)
-    - [13.1. Support technique](#131-support-technique-1)
-    - [13.2. Contribution](#132-contribution-1)
-    - [13.3. Documentation complémentaire](#133-documentation-complémentaire-1)
+    - [13.1. Support technique](#support-technique)
+    - [13.2. Contribution](#contribution)
+    - [13.3. Documentation complémentaire](#documentation-complémentaire)
     - [13.4. Équipe de développement](#134-équipe-de-développement)
 
 ## 1. Description
