@@ -21,27 +21,24 @@
    - [6.1. Pour les utilisateurs](#61-pour-les-utilisateurs)
    - [6.2. Pour les administrateurs](#62-pour-les-administrateurs)
    - [6.3. Fonctionnalités avancées](#63-fonctionnalités-avancées)
-7. [Sécurité](#7-sécurité)
-8. [Maintenance](#8-maintenance)
-9. [Développement](#9-développement)
-   - [9.1. Structure des dossiers](#91-structure-des-dossiers)
-10. [Documentation de l'API](#10-documentation-de-lapi)
-    - [10.1. Points de terminaison](#101-points-de-terminaison)
-    - [10.2. Gestion des navires](#102-gestion-des-navires)
-    - [10.3. Gestion des positions](#103-gestion-des-positions)
-    - [10.4. Prédictions](#104-prédictions)
-    - [10.5. Authentification et autorisation](#105-authentification-et-autorisation)
-11. [Aide et support](#11-aide-et-support)
-    - [11.1. Support technique](#111-support-technique)
-    - [11.2. Contribution](#112-contribution)
-    - [11.3. Documentation complémentaire](#113-documentation-complémentaire)
+7. [Dépannage](#7-dépannage)
+8. [Sécurité](#8-sécurité)
+9. [Maintenance](#9-maintenance)
+10. [Développement](#10-développement)
+    - [10.1. Structure des dossiers](#101-structure-des-dossiers)
+11. [Documentation de l'API](#11-documentation-de-lapi)
+    - [11.1. Gestion des navires](#111-gestion-des-navires)
+    - [11.2. Gestion des positions](#112-gestion-des-positions)
+    - [11.3. Prédictions et analyse](#113-prédictions-et-analyse)
+    - [11.4. Authentification et autorisation](#114-authentification-et-autorisation)
 12. [Dépannage avancé](#12-dépannage-avancé)
     - [12.1. Problèmes courants](#121-problèmes-courants)
     - [12.2. Logs](#122-logs)
-13. [Équipe de développement](#13-équipe-de-développement)
-    - [13.1. Armand BEHAREL CIR3 - Développeur principal](#131-armand-beharel-cir3---développeur-principal)
-    - [13.2. Xavier FAVE CIR3 - Développeur Frontend & Base de données](#132-xavier-fave-cir3---développeur-frontend--base-de-données)
-    - [13.3. Antoine TOURNEUX CIR3 - Développeur Frontend](#133-antoine-tourneux-cir3---développeur-frontend)
+13. [Aide et support](#13-aide-et-support)
+    - [13.1. Support technique](#131-support-technique)
+    - [13.2. Contribution](#132-contribution)
+    - [13.3. Documentation complémentaire](#133-documentation-complémentaire)
+    - [13.4. Équipe de développement](#134-équipe-de-développement)
 
 ## 1. Description
 Ce projet est une application web de suivi maritime qui permet de visualiser et d'analyser les données AIS (Automatic Identification System) des navires. L'application inclut des fonctionnalités d'authentification, de visualisation de cartes, et d'analyse prédictive des routes maritimes.
@@ -582,7 +579,7 @@ Les contributions sont les bienvenues ! Pour contribuer :
 - [Documentation Modèle Conceptuel de Données](documentation/MCD.pdf)
 - [Charte graphique](documentation/Charte_graphique.pdf)
 
-### Équipe de développement
+### 13.4. Équipe de développement
 
 #### Armand BEHAREL CIR3 - Développeur principal
 - **Gestion de projet** :
