@@ -10,7 +10,7 @@
 CREATE TABLE bateau(
         id_bateau        Int  Auto_increment  NOT NULL ,
         MMSI             Varchar (9) NOT NULL ,
-        IMO              Varchar (7) NOT NULL ,
+        IMO              Varchar (10) NOT NULL ,
         CallSign         Varchar (8) ,
         VesselName       Varchar (32) NOT NULL ,
         VesselType       Integer ,
