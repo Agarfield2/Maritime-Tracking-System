@@ -15,19 +15,33 @@
    - [3.1. Installation sous Apache](#31-installation-sous-apache)
    - [3.2. Configuration de la base de données](#32-configuration-de-la-base-de-données)
    - [3.3. Configuration Python](#33-configuration-python)
-   - [3.4. Configuration de l'application web](#34-configuration-de-lapplication-web)
 4. [Accès administrateur](#4-accès-administrateur)
 5. [Structure du projet](#5-structure-du-projet)
 6. [Fonctionnalités](#6-fonctionnalités)
    - [6.1. Pour les utilisateurs](#61-pour-les-utilisateurs)
    - [6.2. Pour les administrateurs](#62-pour-les-administrateurs)
    - [6.3. Fonctionnalités avancées](#63-fonctionnalités-avancées)
-7. [Dépannage](#7-dépannage)
-8. [Sécurité](#8-sécurité)
-9. [Maintenance](#9-maintenance)
-10. [Développement](#10-développement)
-11. [API](#11-api)
-12. [Équipe de développement](#12-équipe-de-développement)
+7. [Sécurité](#7-sécurité)
+8. [Maintenance](#8-maintenance)
+9. [Développement](#9-développement)
+   - [9.1. Structure des dossiers](#91-structure-des-dossiers)
+10. [API](#10-api)
+    - [10.1. Points de terminaison](#101-points-de-terminaison)
+    - [10.2. Gestion des navires](#102-gestion-des-navires)
+    - [10.3. Gestion des positions](#103-gestion-des-positions)
+    - [10.4. Prédictions](#104-prédictions)
+    - [10.5. Authentification et autorisation](#105-authentification-et-autorisation)
+11. [Dépannage avancé](#11-dépannage-avancé)
+    - [11.1. Problèmes courants](#111-problèmes-courants)
+    - [11.2. Logs](#112-logs)
+12. [Aide et support](#12-aide-et-support)
+    - [12.1. Support technique](#121-support-technique)
+    - [12.2. Contribution](#122-contribution)
+    - [12.3. Documentation complémentaire](#123-documentation-complémentaire)
+13. [Équipe de développement](#13-équipe-de-développement)
+    - [13.1. Armand BEHAREL CIR3 - Développeur principal](#131-armand-beharel-cir3---développeur-principal)
+    - [13.2. Xavier FAVE CIR3 - Développeur Frontend & Base de données](#132-xavier-fave-cir3---développeur-frontend--base-de-données)
+    - [13.3. Antoine TOURNEUX CIR3 - Développeur Frontend](#133-antoine-tourneux-cir3---développeur-frontend)
 
 ## 1. Description
 Ce projet est une application web de suivi maritime qui permet de visualiser et d'analyser les données AIS (Automatic Identification System) des navires. L'application inclut des fonctionnalités d'authentification, de visualisation de cartes, et d'analyse prédictive des routes maritimes.
@@ -546,10 +560,7 @@ Le fichier `assets/js/config.js` contient :
 - `logs/error.log` : Erreurs PHP
 - `logs/cluster_errors.log` : Erreurs des scripts Python
 
-## 13. Licence
-Ce projet est sous licence [MIT](LICENSE).
-
-## 14. Aide et support
+## 13. Aide et support
 
 ### Support technique
 Pour toute question ou problème :
