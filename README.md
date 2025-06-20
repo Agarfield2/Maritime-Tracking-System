@@ -2,7 +2,6 @@
 
 > **Note** : Ce projet nécessite une configuration serveur avec PHP 7.4+ et Python 3.9 pour fonctionner correctement.
 
-[![Licence MIT](https://img.shields.io/badge/Licence-MIT-blue.svg)](LICENSE)
 [![PHP 7.4+](https://img.shields.io/badge/PHP-7.4+-8892BF.svg)](https://php.net/)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9+-3776AB.svg)](https://www.python.org/)
 
