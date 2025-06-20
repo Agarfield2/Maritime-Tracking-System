@@ -23,12 +23,15 @@ switch ($method) {
         $sql = 'INSERT INTO bateau (MMSI, IMO, CallSign, VesselName, VesselType, Length, Width, Draft, Cargo, TransceiverClass) VALUES (?,?,?,?,?,?,?,?,?,?)';
         $stmt = $pdo->prepare($sql);
         try {
+            // Convertir VesselType en null si vide ou non défini
+            $vesselType = !empty($data['VesselType']) ? (int)$data['VesselType'] : null;
+            
             $stmt->execute([
                 $data['MMSI'] ?? null,
                 $data['IMO'] ?? null,
                 $data['CallSign'] ?? null,
                 $data['VesselName'] ?? null,
-                $data['VesselType'] ?? null,
+                $vesselType,
                 $data['Length'] ?? null,
                 $data['Width'] ?? null,
                 $data['Draft'] ?? null,

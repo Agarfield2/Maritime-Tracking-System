@@ -186,16 +186,66 @@ Ce projet est une application web de suivi maritime qui permet de visualiser et 
    $pass = '123456mdp';
    ```
 
-### 3.2. Configuration Python
-1. Installez les dépendances Python requises :
-   ```
-   python3.9 -m pip install -r documentation/requirements.txt
-   ```
+### 3.3. Configuration Python
 
-2. Assurez-vous que le script Python a les permissions d'exécution :
-   ```
-   chmod +x scripts/cluster.py
-   ```
+#### Installation des dépendances Python
+```bash
+# Installation des dépendances requises
+python3.9 -m pip install -r documentation/requirements.txt
+
+# Installation spécifique de mysql-connector-python si nécessaire
+python3.9 -m pip install mysql-connector-python>=8.0.0
+```
+
+#### Configuration des variables d'environnement
+Le script utilise des variables d'environnement pour la connexion à la base de données. Créez un fichier `.env` à la racine du projet avec les informations de connexion :
+
+```ini
+# Configuration de la base de données
+AIS_DB_HOST=localhost
+AIS_DB_USER=bateau
+AIS_DB_PASS=123456mdp
+AIS_DB_NAME=marine_db
+```
+
+#### Utilisation du script d'import CSV
+
+Le script `scripts/import_csv.py` permet d'importer des données AIS depuis un fichier CSV vers la base de données.
+
+**Prérequis** :
+- Avoir configuré la base de données MySQL/MariaDB
+- Avoir installé les dépendances Python requises
+- Avoir un fichier CSV au bon format (export_IA.csv)
+
+**Utilisation** :
+```bash
+# Se placer dans le répertoire du projet
+cd /chemin/vers/Projet_web3
+
+# Lancer l'import
+python3.9 scripts/import_csv.py chemin/vers/export_IA.csv
+```
+
+**Fonctionnalités** :
+- Importe les données dans les tables `statut`, `bateau`, `position_AIS` et `possede`
+- Gère les doublons (ne crée pas de doublons de navires avec le même MMSI)
+- Convertit automatiquement les formats de date et les types de données
+
+**Exemple de sortie** :
+```
+Connexion à la base de données... OK
+Traitement de 1000 lignes...
+- 850 positions importées
+- 45 navires ajoutés
+- 1000 positions liées
+Import terminé avec succès !
+```
+
+#### Configuration des permissions
+Assurez-vous que le script a les permissions d'exécution :
+```bash
+chmod +x scripts/import_csv.py
+```
 
 ### 3.3. Configuration de l'application web
 1. Placez le projet dans le répertoire `www` de WAMP (par défaut : `C:\wamp64\www\`)

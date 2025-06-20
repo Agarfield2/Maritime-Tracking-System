@@ -47,8 +47,8 @@
           <small class="form-text text-muted">3 à 100 caractères</small>
         </div>
         <div class="form-group col-md-2">
-          <label for="VesselType">Type de navire <span class="text-danger">*</span></label>
-          <input list="vesselTypes" id="VesselType" name="VesselType" class="form-control" placeholder="Code type (ex : 70)" required
+          <label for="VesselType">Type de navire</label>
+          <input list="vesselTypes" id="VesselType" name="VesselType" class="form-control" placeholder="Code type (ex : 70)"
             pattern="\d{1,3}" title="Code numérique du type de navire (ex : 60, 70, 80)">
           <datalist id="vesselTypes">
             <!-- Catégories principales -->
@@ -56,7 +56,7 @@
             <option value="70">70 - Cargo</option>
             <option value="80">80 - Pétrolier</option>
           </datalist>
-          <small class="form-text text-muted">Code numérique du type de navire (ex: 60, 70, 80)</small>
+          <small class="form-text text-muted">Code numérique optionnel (ex: 60, 70, 80)</small>
         </div>
         <div class="form-group col-md-2">
           <label for="Length">Longueur (m) <span class="text-danger">*</span></label>
