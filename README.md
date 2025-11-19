@@ -1,53 +1,57 @@
-# Projet Web3 - Système de Suivi Maritime
+# Web3 Project - Maritime Tracking System
 
-> **Note** : Ce projet nécessite une configuration serveur avec PHP 7.4+ et Python 3.9 pour fonctionner correctement.
+> **Note**: This project requires a server setup with PHP 7.4+ and Python 3.9 to function properly.
 
->pour le icones sur github
-[![PHP 7.4+](https://img.shields.io/badge/PHP-7.4+-8892BF.svg)](https://php.net/)
-[![Python 3.9+](https://img.shields.io/badge/Python-3.9+-3776AB.svg)](https://www.python.org/)
+> GitHub badges:
+> [![PHP 7.4+](https://img.shields.io/badge/PHP-7.4+-8892BF.svg)](https://php.net/)
+> [![Python 3.9+](https://img.shields.io/badge/Python-3.9+-3776AB.svg)](https://www.python.org/)
 
-## Table des matières
+## Table of Contents
 
 1. [Description](#1-description)
-2. [Prérequis](#2-prérequis)  
-   2.1. [Serveur Web](#21-serveur-web)  
+2. [Requirements](#2-requirements)
+   2.1. [Web Server](#21-web-server)
    2.2. [Python](#22-python)
-3. [Installation](#3-installation)  
-   3.1. [Configuration Python](#31-Configuration-Python)  
-   3.2. [Configuration de l'application web](#32-configuration-de-lapplication-web)
-4. [Accès administrateur](#4-accès-administrateur)
-5. [Structure du projet complète](#5-structure-du-projet-complète)
-6. [Fonctionnalités](#6-fonctionnalités)  
-   6.1. [Pour les utilisateurs](#61-pour-les-utilisateurs)  
-   6.2. [Pour les administrateurs](#62-pour-les-administrateurs)  
-   6.3. [Fonctionnalités avancées](#63-fonctionnalités-avancées)
-7. [Dépannage](#7-dépannage)
-8. [Sécurité](#8-sécurité)
+3. [Installation](#3-installation)
+   3.1. [Python Configuration](#31-python-configuration)
+   3.2. [Web Application Setup](#32-web-application-setup)
+4. [Admin Access](#4-admin-access)
+5. [Full Project Structure](#5-full-project-structure)
+6. [Features](#6-features)
+   6.1. [For Users](#61-for-users)
+   6.2. [For Admins](#62-for-admins)
+   6.3. [Advanced Features](#63-advanced-features)
+7. [Troubleshooting](#7-troubleshooting)
+8. [Security](#8-security)
 9. [Maintenance](#9-maintenance)
-10. [Développement](#10-développement)  
-    10.1. [Structure des dossiers](#101-structure-des-dossiers)
-11. [Documentation de l'API](#11-documentation-de-lapi)  
-12. [Dépannage avancé](#12-dépannage-avancé)  
-    12.1. [Problèmes courants](#121-problèmes-courants)  
+10. [Development](#10-development)
+    10.1. [Folder Structure](#101-folder-structure)
+11. [API Documentation](#11-api-documentation)
+12. [Advanced Troubleshooting](#12-advanced-troubleshooting)
+    12.1. [Common Issues](#121-common-issues)
     12.2. [Logs](#122-logs)
-13. [Aide et support](#13-aide-et-support)   
-    13.1. [Équipe de développement](#131-équipe-de-développement)
+13. [Help & Support](#13-help-support)
+    13.1. [Development Team](#131-development-team)
 
 ## 1. Description
-Ce projet est une application web de suivi maritime qui permet de visualiser et d'analyser les données AIS (Automatic Identification System) des navires. L'application inclut des fonctionnalités d'authentification, de visualisation de cartes, et d'analyse prédictive des routes maritimes.
 
-## 2. Prérequis
+This project is a web-based maritime tracking application that allows visualization and analysis of AIS (Automatic Identification System) vessel data. The application includes authentication features, map visualization, and predictive route analysis.
 
-### 2.1. Serveur Web
-- WAMP (Windows) ou LAMP (Linux) avec PHP 7.4+
-- MySQL 5.7+ ou MariaDB 10.3+
-- Apache 2.4+
+## 2. Requirements
+
+### 2.1. Web Server
+
+* WAMP (Windows) or LAMP (Linux) with PHP 7.4+
+* MySQL 5.7+ or MariaDB 10.3+
+* Apache 2.4+
 
 ### 2.2. Python
-- Python 3.9.X
-- Bibliothèques Python (installer avec la commande ci-dessous) :
+
+* Python 3.9.X
+* Python libraries (install with the command below):
+
   ```
-  # Installation des dépendances principales
+  # Install main dependencies
   python3.9 -m pip install --upgrade --force-reinstall \
     "tensorflow>=2.8.0" \
     "numpy>=1.26.4" \
@@ -56,8 +60,8 @@ Ce projet est une application web de suivi maritime qui permet de visualiser et 
     "joblib>=1.1.0" \
     "mysql-connector-python>=8.0.0" \
     "SQLAlchemy>=1.4.0"
-  
-  # Dépendances optionnelles pour des fonctionnalités avancées
+
+  # Optional dependencies for advanced features
   python3.9 -m pip install \
     "matplotlib" \
     "folium" \
@@ -69,27 +73,31 @@ Ce projet est une application web de suivi maritime qui permet de visualiser et 
     "requests>=2.26.0"
   ```
 
-  Ou en utilisant le fichier requirements.txt :
+  Or using the `requirements.txt` file:
+
   ```
   python3.9 -m pip install -r documentation/requirements.txt
   ```
 
-### 3. Configuration de la base de données
+### 3. Database Setup
 
-1. Créez une base de données MySQL nommée `etuXXXX`
-2. Importez le fichier SQL initial en utilisant phpMyAdmin ou la ligne de commande :
-   - **Méthode 1 (phpMyAdmin)** :
-     1. Connectez-vous à phpMyAdmin ('adresse http://etuXXXX.projets.isen-ouest.info/phpmyadmin)
-     2. Sélectionnez la base de données `etuXXXX`
-     3. Allez dans l'onglet "Importer"
-     4. Sélectionnez le fichier `assets/sql/AIS_TRINOME_5.sql`
-     5. Cliquez sur "Exécuter"
-   
-   - **Méthode 2 (ligne de commande)** :
+1. Create a MySQL database named `etuXXXX`
+2. Import the initial SQL file using phpMyAdmin or the command line:
+
+   * **Method 1 (phpMyAdmin)**:
+
+     1. Log in to phpMyAdmin ('[http://etuXXXX.projets.isen-ouest.info/phpmyadmin](http://etuXXXX.projets.isen-ouest.info/phpmyadmin)')
+     2. Select the `etuXXXX` database
+     3. Go to the "Import" tab
+     4. Select `assets/sql/AIS_TRINOME_5.sql`
+     5. Click "Go"
+   * **Method 2 (Command line)**:
+
      ```
      mysql -u root -p marine_db < assets/sql/AIS_TRINOME_5.sql
      ```
-3. Configurez les accès dans `api/db.php` :
+3. Configure access in `api/db.php`:
+
    ```php
    $host = 'localhost';
    $db   = 'etuXXXX';
@@ -97,296 +105,333 @@ Ce projet est une application web de suivi maritime qui permet de visualiser et 
    $pass = 'mdp_etu';
    ```
 
-### 3.1. Configuration Python
+### 3.1. Python Configuration
 
-#### Configuration des variables d'environnement
-Le script utilise des variables d'environnement pour la connexion à la base de données. Créez un fichier `.env` à la racine du projet avec les informations de connexion :
+#### Environment Variables
+
+The script uses environment variables for database connection. Create a `.env` file at the project root:
 
 ```ini
-# Configuration de la base de données
+# Database configuration
 AIS_DB_HOST=localhost
 AIS_DB_USER=etuXXXX
 AIS_DB_PASS=mdp_etu
 AIS_DB_NAME=etuXXXX
 ```
 
-#### Utilisation du script d'import CSV
+#### CSV Import Script
 
-Le script `scripts/import_csv.py` permet d'importer des données AIS depuis un fichier CSV vers la base de données.
+The `scripts/import_csv.py` script imports AIS data from a CSV file into the database.
 
-**Prérequis** :
-- Avoir configuré la base de données MySQL/MariaDB
-- Avoir installé les dépendances Python requises
-- Avoir un fichier CSV au bon format (export_IA.csv)
+**Requirements**:
 
-**Utilisation** :
+* Database configured
+* Python dependencies installed
+* CSV file in the correct format (`export_IA.csv`)
+
+**Usage**:
+
 ```bash
-# Se placer dans le répertoire du projet
-cd /chemin/vers/Projet_web3
+# Navigate to project directory
+cd /path/to/Projet_web3
 
-# Lancer l'import
-python3.9 scripts/import_csv.py chemin/vers/export_IA.csv
+# Run import
+python3.9 scripts/import_csv.py path/to/export_IA.csv
 ```
 
-**Fonctionnalités** :
-- Importe les données dans les tables `statut`, `bateau`, `position_AIS` et `possede`
-- Gère les doublons (ne crée pas de doublons de navires avec le même MMSI)
-- Convertit automatiquement les formats de date et les types de données
+**Features**:
 
-### 3.2. Configuration de l'application web
-1. Placez le projet dans le répertoire `www` de WAMP (par défaut : `C:\wamp64\www\`)
-2. Assurez-vous que le serveur web a les permissions nécessaires pour écrire dans les dossiers de logs
-3. Configurez la base de données en important le fichier SQL :
+* Imports data into `statut`, `bateau`, `position_AIS`, and `possede` tables
+* Avoids duplicates (same MMSI)
+* Automatically converts date and data types
+
+### 3.2. Web Application Setup
+
+1. Place the project in WAMP's `www` directory (default: `C:\wamp64\www\`)
+2. Ensure web server has write permissions for log folders
+3. Import SQL database:
+
    ```sql
    mysql -u root -p etuXXXX < assets/sql/AIS_TRINOME_5.sql
    ```
-4. Configurez les paramètres de connexion dans `api/db.php`
-5. Pour la production, modifiez la clé secrète JWT dans `api/jwt_functions.php`
-6. Vérifiez les configurations dans `assets/js/config.js` si nécessaire
+4. Configure credentials in `api/db.php`
+5. For production, update JWT secret key in `api/jwt_functions.php`
+6. Check configuration in `assets/js/config.js` if needed
 
-## 4. Accès administrateur
-- **URL de connexion** : `/login.html`
-- **Identifiants par défaut** :
-  - Nom d'utilisateur : `admin`
-  - Mot de passe : `admin`
+## 4. Admin Access
 
-> **Note** : Pour modifier les identifiants administrateur par défaut, modifiez le fichier `api/admin_auth.php` et changez les valeurs dans le tableau `$users`. Nous avons choisi de mettre la visualisation des données complètes dans une autre page que la visualisation de données qui est notre page admin, donc dans la page visualisation des données nous avons choisi de mettre juste le MMSI et le nom du navire et dans la page admin les données au complet.
+* **Login URL**: `/login.html`
+* **Default credentials**:
 
-## 5. Structure du projet complète
+  * Username: `admin`
+  * Password: `admin`
 
-Voici la structure complète du projet avec une description de chaque composant :
+> **Note**: To change default admin credentials, edit `api/admin_auth.php` and update the `$users` array. Full data visualization is available on the admin page, while the regular data view only shows MMSI and vessel name.
+
+## 5. Full Project Structure
 
 ```
 Projet_web3/
-├── api/                     # API PHP
-│   ├── add_position.php     # Ajout de position
-│   ├── admin_auth.php       # Authentification admin
-│   ├── boats.php            # Gestion des navires
-│   ├── check_auth.php       # Vérification auth
-│   ├── db.php               # Configuration BDD
-│   ├── jwt_functions.php    # Gestion des tokens JWT
-│   ├── login.php            # Connexion
-│   ├── logout.php           # Déconnexion
-│   ├── position_pages.php   # Pagination positions
-│   ├── positions.php        # Gestion positions
-│   ├── positions_crud.php   # CRUD positions
-│   ├── predict_*.php       # Endpoints de prédiction
-│   └── session_config.php   # Configuration sessions
+├── api/                     
+│   ├── add_position.php     
+│   ├── admin_auth.php       
+│   ├── boats.php            
+│   ├── check_auth.php       
+│   ├── db.php               
+│   ├── jwt_functions.php    
+│   ├── login.php            
+│   ├── logout.php           
+│   ├── position_pages.php   
+│   ├── positions.php        
+│   ├── positions_crud.php   
+│   ├── predict_*.php        
+│   └── session_config.php   
 │
-├── assets/                # Ressources statiques
-│   ├── css/                # Feuilles de style
-│   │   ├── auth.css       # Style authentification
-│   │   ├── common.css     # Styles communs
-│   │   └── styles.css     # Styles principaux
+├── assets/                
+│   ├── css/                
+│   │   ├── auth.css       
+│   │   ├── common.css     
+│   │   └── styles.css     
 │   │
-│   ├── img/             # Images et icônes
-│   │   ├── cargo.png     # Icône cargo
-│   │   ├── connexion.png # Image connexion
+│   ├── img/             
+│   │   ├── cargo.png     
+│   │   ├── connexion.png 
 │   │   └── ...
 │   │
-│   ├── js/              # Scripts JavaScript
-│   │   ├── admin.js     # Fonctions admin
-│   │   ├── auth.js      # Authentification
-│   │   ├── clusters.js  # Gestion clusters
-│   │   ├── config.js    # Configuration
-│   │   ├── map.js       # Carte interactive
+│   ├── js/              
+│   │   ├── admin.js     
+│   │   ├── auth.js      
+│   │   ├── clusters.js  
+│   │   ├── config.js    
+│   │   ├── map.js       
 │   │   └── ...
 │   │
-│   └── sql/             # Scripts SQL
-│       └── AIS_TRINOME_5.sql  # Structure BDD
+│   └── sql/             
+│       └── AIS_TRINOME_5.sql  
 │
-├── documentation/       # Documentation
-│   ├── requirements.txt  # Dépendances Python
+├── documentation/       
+│   ├── requirements.txt  
 │   └── Charte_graphique.pdf
 │
-├── scripts/            # Scripts Python
-│   ├── clustering_results/  # Résultats clustering
-│   ├── models/           # Modèles d'IA
-│   ├── models_predict/   # Modèles de prédiction
-│   ├── cluster.py        # Clustering
-│   ├── horizons.py       # Prédiction horizons
-│   ├── import_csv.py     # Import données
-│   ├── route.py          # Calcul d'itinéraires
-│   └── type.py           # Classification types
+├── scripts/            
+│   ├── clustering_results/  
+│   ├── models/           
+│   ├── models_predict/   
+│   ├── cluster.py        
+│   ├── horizons.py       
+│   ├── import_csv.py     
+│   ├── route.py          
+│   └── type.py           
 │
-├── logs/               # Fichiers de log
-├── utils/               # Utilitaires
-└── *.html              # Pages web
+├── logs/               
+├── utils/               
+└── *.html              
 ```
 
-### Description détaillée des dossiers
-- **/api** : Contient tous les endpoints de l'API en PHP
-- **/assets** : Ressources statiques (CSS, JS, images)
-- **/scripts** : Scripts Python pour le traitement des données
-- **/logs** : Fichiers de log de l'application
-- **/documentation** : Documentation technique supplémentaire
+### Folder Descriptions
 
-## Fonctionnalités
+* **/api** : PHP API endpoints
+* **/assets** : Static resources (CSS, JS, images)
+* **/scripts** : Python data processing scripts
+* **/logs** : Application logs
+* **/documentation** : Technical documentation
 
-### 6.1. Pour les utilisateurs
-- Visualisation des navires sur une carte interactive
-- Recherche de navires par nom ou MMSI
-- Affichage des détails du navire au clic
+## 6. Features
 
-### 6.2. Pour les administrateurs
-- Tableau de bord complet
-- Modifaction, ajout, suppression de données.
+### 6.1. For Users
 
-### 6.3. Fonctionnalités avancées
-- Prédiction des trajectoires (5,10 et 15 min)
-- Visualisation des clusters de navigation
-- Prédiction du type
+* Interactive map vessel visualization
+* Search vessels by name or MMSI
+* Click to view vessel details
 
+### 6.2. For Admins
 
-## 7. Dépannage
+* Full dashboard
+* Modify, add, delete data
 
-### Problèmes de connexion à la base de données
-- Vérifiez que le service MySQL est en cours d'exécution
-- Vérifiez les identifiants dans `api/db.php`
-- Assurez-vous que l'utilisateur a les droits nécessaires sur la base de données
+### 6.3. Advanced Features
 
-### Problèmes avec Python
-- Vérifiez que Python 3.9 est bien installé
-- Assurez-vous que toutes les dépendances sont installées avec les bonnes versions
-- Vérifiez les logs d'erreur dans `logs/cluster_errors.log`
+* Trajectory prediction (5, 10, 15 min)
+* Navigation cluster visualization
+* Type prediction
 
-## 8. Sécurité
-- Changez les mots de passe par défaut (base de données et accès administrateur)
-- Ne laissez pas les identifiants en clair dans le code en production
-- Mettez à jour régulièrement les dépendances
-- Utilisez HTTPS en production
-- Restreignez les accès aux dossiers sensibles (comme `/api/`)
-- Configurez correctement les en-têtes de sécurité HTTP
-- Limitez les tentatives de connexion échouées
+## 7. Troubleshooting
+
+### Database Connection Issues
+
+* Ensure MySQL service is running
+* Check credentials in `api/db.php`
+* Ensure user has correct database privileges
+
+### Python Issues
+
+* Verify Python 3.9 installation
+* Ensure all dependencies are installed
+* Check logs in `logs/cluster_errors.log`
+
+## 8. Security
+
+* Change default passwords (database & admin)
+* Do not leave credentials in code in production
+* Regularly update dependencies
+* Use HTTPS in production
+* Restrict access to sensitive folders (`/api/`)
+* Configure HTTP security headers
+* Limit failed login attempts
 
 ## 9. Maintenance
 
-### 9.1. Sauvegarde des données
-- Sauvegardez régulièrement la base de données MySQL
-- Conservez une copie des modèles d'IA dans `scripts/models/`
-- Archivez les logs importants du dossier `logs/`
+### 9.1. Data Backup
 
-### 9.2. Mise à jour
-1. Sauvegardez la base de données
-2. Mettez à jour les dépendances PHP avec Composer (si utilisé)
-3. Mettez à jour les dépendances Python :
+* Regularly back up MySQL database
+* Keep AI models in `scripts/models/`
+* Archive important logs in `logs/`
+
+### 9.2. Updates
+
+1. Backup database
+2. Update PHP dependencies via Composer (if used)
+3. Update Python dependencies:
+
    ```
    python3.9 -m pip install --upgrade -r scripts/requirements.txt
    ```
-4. Testez les fonctionnalités critiques après mise à jour
+4. Test critical functionalities
 
-## 10. Développement
+## 10. Development
 
-### 10.1. Structure des dossiers
-- `/api/` : Points d'entrée de l'API PHP
-- `/assets/` : Fichiers statiques (CSS, JS, images)
-- `/scripts/` : Scripts Python pour le traitement des données
-  - `/clustering_results/` : Modèles et résultats de clustering
-  - `/models/` : Modèles d'IA
-  - `/models_predict/` : Modèles de prédiction
-- `/logs/` : Fichiers de journalisation
-- `/utils/` : Utilitaires divers
+### 10.1. Folder Structure
 
-### 10.2. Configuration avancée
+* `/api/` : PHP API endpoints
+* `/assets/` : Static files (CSS, JS, images)
+* `/scripts/` : Python data processing
 
-### Configuration JWT
-Le fichier `api/jwt_functions.php` contient les paramètres d'authentification :
-- Clé secrète pour la signature des tokens
-- Durée de validité des tokens (24h par défaut)
-- Configuration des cookies de session
+  * `/clustering_results/` : Clustering results
+  * `/models/` : AI models
+  * `/models_predict/` : Prediction models
+* `/logs/` : Log files
+* `/utils/` : Utilities
 
-### Configuration JavaScript
-Le fichier `assets/js/config.js` contient :
-- URLs des endpoints API
-- Chemins des templates
-- Configuration de l'interface utilisateur
+### 10.2. Advanced Configuration
 
-## 11. Documentation de l'API
+#### JWT Configuration
 
-#### Vérification des droits administrateur
-- `GET /api/admin_auth.php` : Vérification des droits administrateur
-  - Vérifie que l'utilisateur est authentifié et a les droits administrateur
-  - Nécessite un cookie `auth_token` valide
-  - Redirige vers la page de connexion si non authentifié
-  - Redirige vers une page d'erreur 403 si non autorisé
-  - Retourne les informations de l'utilisateur administrateur si autorisé
+`api/jwt_functions.php` contains:
 
-#### Fonctionnement du JWT
-- Le token JWT contient : `{user_id, username, is_admin, exp, iat}`
-- Signé avec une clé secrète côté serveur
-- Stocké dans un cookie HTTP-Only avec les drapeaux Secure et SameSite=Strict
-- Valable 24 heures (renouvellement automatique à chaque requête)
-- Invalidation lors de la déconnexion
+* Secret key for token signing
+* Token validity (default 24h)
+* Session cookie configuration
 
-## 12. Dépannage avancé
+#### JavaScript Configuration
 
-### 12.1. Problèmes courants
-- **Erreur de connexion à la base de données** : Vérifiez les identifiants dans `api/db.php`
-- **Problèmes de permissions** : Assurez-vous que le serveur web a les droits d'écriture sur `logs/`
-- **Erreurs Python** : Vérifiez les logs dans `logs/cluster_errors.log`
+`assets/js/config.js` contains:
+
+* API endpoint URLs
+* Template paths
+* UI configuration
+
+## 11. API Documentation
+
+#### Admin Rights Check
+
+* `GET /api/admin_auth.php` : Verify admin rights
+
+  * Checks authentication and admin privileges
+  * Requires valid `auth_token` cookie
+  * Redirects to login if not authenticated
+  * Redirects to 403 error page if unauthorized
+  * Returns admin info if allowed
+
+#### JWT Details
+
+* JWT token contains `{user_id, username, is_admin, exp, iat}`
+* Signed server-side
+* Stored in HTTP-Only cookie with Secure & SameSite=Strict flags
+* Valid 24h, auto-renewed on requests
+* Invalidated on logout
+
+## 12. Advanced Troubleshooting
+
+### 12.1. Common Issues
+
+* Database connection errors: check `api/db.php`
+* Permission issues: web server must write to `logs/`
+* Python errors: check `logs/cluster_errors.log`
 
 ### 12.2. Logs
-- `logs/access.log` : Accès à l'application
-- `logs/error.log` : Erreurs PHP
-- `logs/cluster_errors.log` : Erreurs des scripts Python
 
-## 13. Aide et support
+* `logs/access.log` : app access
+* `logs/error.log` : PHP errors
+* `logs/cluster_errors.log` : Python script errors
 
-### Support technique
-Pour toute question ou problème :
-1. Consultez la section [Dépannage](#7-dépannage)
-2. Vérifiez les fichiers de log dans `logs/`
-3. Ouvrez une issue sur le dépôt du projet
+## 13. Help & Support
 
-### 13.1 Équipe de développement
+### Technical Support
 
-#### Armand BEHAREL CIR3 - Développeur principal
-- **Gestion de projet** :
-  - Organisation et planification (Gantt)
-  - Coordination de l'équipe
-  - Documentation technique
+1. Check [Troubleshooting](#7-troubleshooting)
+2. Review logs in `logs/`
+3. Open an issue on the project repository
 
-- **Développement Backend** :
-  - Architecture et conception de l'application
-  - Développement des API client-serveur
-  - Scripts d'import/export Python
-  - Configuration et maintenance des serveurs
+### 13.1. Development Team
 
-- **Développement Frontend** :
-  - Conception et développement de l'interface utilisateur
-  - Tableau de visualisation des données
-  - Système de filtrage avancé
-  - Formulaire d'ajout de données
-  - Page d'administration
-  - Complétion automatique des champs
+#### Armand BEHAREL CIR3 - Lead Developer
 
-- **Fonctionnalités avancées** :
-  - Intégration des modèles d'IA (clusters et prédictions)
-  - Visualisation cartographique interactive
-  - Gestion des données en temps réel
-  - Système de gestion des erreurs
+* **Project Management**:
 
-#### Xavier FAVE CIR3 - Développeur Frontend & Base de données
-- **Conception** :
-  - Modèle Conceptuel de Données (MCD)
-  - Charte graphique
-  - Documentation des requêtes client-serveur
+  * Planning (Gantt charts)
+  * Team coordination
+  * Technical documentation
 
-- **Développement** :
-  - Contribution à la page d'accueil
-  - Mise en forme CSS/bootstrap
-  - Éléments d'interface utilisateur
-  - Design/Style de la section de prédiction (partie 5)
-  - Documentation technique des API
+* **Backend Development**:
 
-#### Antoine TOURNEUX CIR3 - Développeur Frontend
-- **Conception** :
-  - Maquettes initiales du site
-  - Charte graphique
+  * Application architecture
+  * Client-server API development
+  * Python import/export scripts
+  * Server configuration & maintenance
 
-- **Développement** :
-  - Contribution majeur à la page d'accueil
-  - Idées et début d'implémentation de l'interface admin et login
-  - Mise en forme CSS/bootstrap
-  - Éléments visuels et graphiques
-  - header et footer
+* **Frontend Development**:
+
+  * UI design & development
+  * Data visualization dashboard
+  * Advanced filtering
+  * Data entry forms
+  * Admin page
+  * Auto-complete fields
+
+* **Advanced Features**:
+
+  * AI model integration (clusters & predictions)
+  * Interactive map visualization
+  * Real-time data management
+  * Error handling system
+
+#### Xavier FAVE CIR3 - Frontend & Database Developer
+
+* **Design**:
+
+  * Conceptual Data Model (CDM)
+  * Graphic charter
+  * Client-server query documentation
+
+* **Development**:
+
+  * Homepage contributions
+  * CSS/bootstrap styling
+  * UI elements
+  * Prediction section design
+  * API documentation
+
+#### Antoine TOURNEUX CIR3 - Frontend Developer
+
+* **Design**:
+
+  * Initial website mockups
+  * Graphic charter
+
+* **Development**:
+
+  * Major homepage contributions
+  * Admin & login interface initial implementation
+  * CSS/bootstrap styling
+  * Visual & graphical elements
+  * Header & footer
